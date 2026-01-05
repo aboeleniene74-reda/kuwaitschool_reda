@@ -194,3 +194,51 @@ export const sessionBookings = mysqlTable("session_bookings", {
 
 export type SessionBooking = typeof sessionBookings.$inferSelect;
 export type InsertSessionBooking = typeof sessionBookings.$inferInsert;
+
+/**
+ * جدول تقييمات الموقع العامة
+ */
+export const siteRatings = mysqlTable("site_ratings", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").references(() => users.id, { onDelete: "set null" }),
+  rating: int("rating").notNull(), // 1-5 نجوم
+  comment: text("comment"),
+  visitorName: varchar("visitorName", { length: 255 }), // للزوار بدون تسجيل
+  visitorEmail: varchar("visitorEmail", { length: 320 }),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type SiteRating = typeof siteRatings.$inferSelect;
+export type InsertSiteRating = typeof siteRatings.$inferInsert;
+
+/**
+ * جدول تقييمات الحصص
+ */
+export const sessionRatings = mysqlTable("session_ratings", {
+  id: int("id").autoincrement().primaryKey(),
+  sessionId: int("sessionId").notNull().references(() => sessions.id, { onDelete: "cascade" }),
+  userId: int("userId").references(() => users.id, { onDelete: "set null" }),
+  rating: int("rating").notNull(), // 1-5 نجوم
+  review: text("review"), // مراجعة مفصلة
+  studentName: varchar("studentName", { length: 255 }), // للطلاب بدون تسجيل
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type SessionRating = typeof sessionRatings.$inferSelect;
+export type InsertSessionRating = typeof sessionRatings.$inferInsert;
+
+/**
+ * جدول التعليقات المباشرة أثناء الحصة
+ */
+export const liveComments = mysqlTable("live_comments", {
+  id: int("id").autoincrement().primaryKey(),
+  sessionId: int("sessionId").notNull().references(() => sessions.id, { onDelete: "cascade" }),
+  userId: int("userId").references(() => users.id, { onDelete: "set null" }),
+  comment: text("comment").notNull(),
+  studentName: varchar("studentName", { length: 255 }), // للطلاب بدون تسجيل
+  isRead: mysqlEnum("isRead", ["yes", "no"]).default("no").notNull(), // هل قرأه المعلم
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type LiveComment = typeof liveComments.$inferSelect;
+export type InsertLiveComment = typeof liveComments.$inferInsert;

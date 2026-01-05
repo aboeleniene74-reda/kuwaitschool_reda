@@ -471,6 +471,98 @@ export const appRouter = router({
         return { success: true };
       }),
   }),
+
+  // ============= Site Ratings Router =============
+  siteRatings: router({
+    create: publicProcedure
+      .input(z.object({
+        rating: z.number().min(1).max(5),
+        comment: z.string().optional(),
+        visitorName: z.string().optional(),
+        visitorEmail: z.string().email().optional(),
+      }))
+      .mutation(async ({ input, ctx }) => {
+        await db.createSiteRating({
+          ...input,
+          userId: ctx.user?.id,
+        });
+        return { success: true };
+      }),
+
+    list: protectedProcedure.query(async () => {
+      return await db.getAllSiteRatings();
+    }),
+
+    average: publicProcedure.query(async () => {
+      return await db.getAverageSiteRating();
+    }),
+  }),
+
+  // ============= Session Ratings Router =============
+  sessionRatings: router({
+    create: publicProcedure
+      .input(z.object({
+        sessionId: z.number(),
+        rating: z.number().min(1).max(5),
+        review: z.string().optional(),
+        studentName: z.string().optional(),
+      }))
+      .mutation(async ({ input, ctx }) => {
+        await db.createSessionRating({
+          ...input,
+          userId: ctx.user?.id,
+        });
+        return { success: true };
+      }),
+
+    getBySession: publicProcedure
+      .input(z.object({ sessionId: z.number() }))
+      .query(async ({ input }) => {
+        return await db.getSessionRatings(input.sessionId);
+      }),
+
+    average: publicProcedure
+      .input(z.object({ sessionId: z.number() }))
+      .query(async ({ input }) => {
+        return await db.getAverageSessionRating(input.sessionId);
+      }),
+  }),
+
+  // ============= Live Comments Router =============
+  liveComments: router({
+    create: publicProcedure
+      .input(z.object({
+        sessionId: z.number(),
+        comment: z.string(),
+        studentName: z.string().optional(),
+      }))
+      .mutation(async ({ input, ctx }) => {
+        await db.createLiveComment({
+          ...input,
+          userId: ctx.user?.id,
+        });
+        return { success: true };
+      }),
+
+    getBySession: publicProcedure
+      .input(z.object({ sessionId: z.number() }))
+      .query(async ({ input }) => {
+        return await db.getSessionLiveComments(input.sessionId);
+      }),
+
+    markAsRead: protectedProcedure
+      .input(z.object({ commentId: z.number() }))
+      .mutation(async ({ input }: { input: { commentId: number } }) => {
+        await db.markCommentAsRead(input.commentId);
+        return { success: true };
+      }),
+
+    unreadCount: protectedProcedure
+      .input(z.object({ sessionId: z.number() }))
+      .query(async ({ input }: { input: { sessionId: number } }) => {
+        return await db.getUnreadCommentsCount(input.sessionId);
+      }),
+  }),
 });
 
 export type AppRouter = typeof appRouter;

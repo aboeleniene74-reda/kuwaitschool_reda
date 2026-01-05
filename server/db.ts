@@ -12,6 +12,9 @@ import {
   comments,
   sessions,
   sessionBookings,
+  siteRatings,
+  sessionRatings,
+  liveComments,
   InsertGrade,
   InsertSubject,
   InsertNotebook,
@@ -20,7 +23,10 @@ import {
   InsertStatistic,
   InsertComment,
   InsertSession,
-  InsertSessionBooking
+  InsertSessionBooking,
+  InsertSiteRating,
+  InsertSessionRating,
+  InsertLiveComment
 } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
@@ -515,4 +521,121 @@ export async function cancelBooking(id: number) {
   await db.update(sessionBookings)
     .set({ status: "cancelled" })
     .where(eq(sessionBookings.id, id));
+}
+
+
+// ==================== Site Ratings ====================
+
+export async function createSiteRating(rating: InsertSiteRating) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  const [result] = await db.insert(siteRatings).values(rating);
+  return result;
+}
+
+export async function getAllSiteRatings() {
+  const db = await getDb();
+  if (!db) return [];
+  
+  return await db.select().from(siteRatings).orderBy(desc(siteRatings.createdAt));
+}
+
+export async function getAverageSiteRating() {
+  const db = await getDb();
+  if (!db) return { average: 0, count: 0 };
+  
+  const ratings = await db.select().from(siteRatings);
+  if (ratings.length === 0) return { average: 0, count: 0 };
+  
+  const sum = ratings.reduce((acc, r) => acc + r.rating, 0);
+  return {
+    average: sum / ratings.length,
+    count: ratings.length
+  };
+}
+
+// ==================== Session Ratings ====================
+
+export async function createSessionRating(rating: InsertSessionRating) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  const [result] = await db.insert(sessionRatings).values(rating);
+  return result;
+}
+
+export async function getSessionRatings(sessionId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  return await db
+    .select()
+    .from(sessionRatings)
+    .where(eq(sessionRatings.sessionId, sessionId))
+    .orderBy(desc(sessionRatings.createdAt));
+}
+
+export async function getAverageSessionRating(sessionId: number) {
+  const db = await getDb();
+  if (!db) return { average: 0, count: 0 };
+  
+  const ratings = await db
+    .select()
+    .from(sessionRatings)
+    .where(eq(sessionRatings.sessionId, sessionId));
+    
+  if (ratings.length === 0) return { average: 0, count: 0 };
+  
+  const sum = ratings.reduce((acc, r) => acc + r.rating, 0);
+  return {
+    average: sum / ratings.length,
+    count: ratings.length
+  };
+}
+
+// ==================== Live Comments ====================
+
+export async function createLiveComment(comment: InsertLiveComment) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  const [result] = await db.insert(liveComments).values(comment);
+  return result;
+}
+
+export async function getSessionLiveComments(sessionId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  return await db
+    .select()
+    .from(liveComments)
+    .where(eq(liveComments.sessionId, sessionId))
+    .orderBy(liveComments.createdAt);
+}
+
+export async function markCommentAsRead(commentId: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  await db
+    .update(liveComments)
+    .set({ isRead: "yes" })
+    .where(eq(liveComments.id, commentId));
+}
+
+export async function getUnreadCommentsCount(sessionId: number) {
+  const db = await getDb();
+  if (!db) return 0;
+  
+  const comments = await db
+    .select()
+    .from(liveComments)
+    .where(and(
+      eq(liveComments.sessionId, sessionId),
+      eq(liveComments.isRead, "no")
+    ));
+    
+  return comments.length;
 }
