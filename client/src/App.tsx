@@ -17,14 +17,16 @@ import AdminSessionNew from "./pages/AdminSessionNew";
 import Sessions from "./pages/Sessions";
 import SessionPage from "./pages/SessionPage";
 import CategoryContentPage from "./pages/CategoryContentPage";
+import SemesterPage from "./pages/SemesterPage";
 
 function Router() {
   return (
     <Switch>
       <Route path={"/"} component={Home} />
       <Route path={"/grade/:id"} component={GradePage} />
-      <Route path={"/subject/:id"} component={SubjectPage} />
-      <Route path={"/subject/:subjectId/semester/:semesterId/category/:categoryId"} component={CategoryContentPage} />
+      <Route path={"/grade/:gradeId/semester/:semesterId"} component={SemesterPage} />
+      <Route path={"/grade/:gradeId/semester/:semesterId/subject/:subjectId"} component={SubjectPage} />
+      <Route path={"/grade/:gradeId/semester/:semesterId/subject/:subjectId/category/:categoryId"} component={CategoryContentPage} />
           <Route path="/admin" component={AdminDashboard} />
       <Route path="/admin/notebooks" component={AdminNotebooks} />
       <Route path="/admin/notebooks/new" component={AdminNotebookNew} />

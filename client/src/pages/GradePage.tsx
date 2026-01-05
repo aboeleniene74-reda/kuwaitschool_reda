@@ -2,7 +2,7 @@ import { useAuth } from "@/_core/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { trpc } from "@/lib/trpc";
-import { ArrowRight, BookOpen, GraduationCap, LogIn, User } from "lucide-react";
+import { ArrowRight, Calendar, GraduationCap, LogIn, User } from "lucide-react";
 import { getLoginUrl } from "@/const";
 import { Link, useParams } from "wouter";
 
@@ -12,7 +12,7 @@ export default function GradePage() {
   const gradeId = parseInt(params.id || "0");
 
   const { data: grade } = trpc.grades.getById.useQuery({ id: gradeId });
-  const { data: subjects } = trpc.subjects.listByGrade.useQuery({ gradeId });
+  const { data: semesters } = trpc.semesters.list.useQuery();
 
   if (!grade) {
     return (
@@ -91,43 +91,34 @@ export default function GradePage() {
           )}
         </div>
 
-        {/* Subjects Grid */}
-        <div className="max-w-5xl mx-auto">
-          <h3 className="text-3xl font-bold mb-8 text-center">المواد الدراسية</h3>
+        {/* Semesters Grid */}
+        <div className="max-w-4xl mx-auto">
+          <h3 className="text-3xl font-bold mb-8 text-center">الفصول الدراسية</h3>
           
-          {!subjects || subjects.length === 0 ? (
+          {!semesters || semesters.length === 0 ? (
             <div className="text-center py-12">
-              <BookOpen className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
-              <h3 className="text-2xl font-semibold mb-2">لا توجد مواد متاحة حالياً</h3>
-              <p className="text-muted-foreground">سيتم إضافة المواد قريباً</p>
+              <Calendar className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
+              <h3 className="text-2xl font-semibold mb-2">لا توجد فصول متاحة حالياً</h3>
+              <p className="text-muted-foreground">سيتم إضافة الفصول قريباً</p>
             </div>
           ) : (
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {subjects.map((subject) => (
-                <Link key={subject.id} href={`/subject/${subject.id}`}>
-                  <Card className="border-2 hover:border-primary/50 transition-all cursor-pointer group h-full">
-                    <CardHeader className="text-center pb-4">
-                      <div
-                        className="w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform"
-                        style={{
-                          backgroundColor: subject.color
-                            ? `color-mix(in oklch, ${subject.color}, transparent 85%)`
-                            : "oklch(0.48 0.18 250 / 0.15)",
-                        }}
-                      >
-                        <BookOpen
-                          className="w-10 h-10"
-                          style={{ color: subject.color || "oklch(0.48 0.18 250)" }}
-                        />
+            <div className="grid md:grid-cols-2 gap-8">
+              {semesters.map((semester) => (
+                <Link key={semester.id} href={`/grade/${gradeId}/semester/${semester.id}`}>
+                  <Card className="border-2 hover:border-primary/50 transition-all cursor-pointer group h-full hover:shadow-xl">
+                    <CardHeader className="text-center pb-6">
+                      <div className="w-24 h-24 bg-gradient-to-br from-primary/20 to-accent/20 rounded-3xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform">
+                        <Calendar className="w-12 h-12 text-primary" />
                       </div>
-                      <CardTitle className="text-2xl">{subject.name}</CardTitle>
-                      {subject.description && (
-                        <CardDescription className="text-base">{subject.description}</CardDescription>
+                      <CardTitle className="text-3xl mb-2">{semester.name}</CardTitle>
+                      {semester.nameEn && (
+                        <CardDescription className="text-lg">{semester.nameEn}</CardDescription>
                       )}
                     </CardHeader>
-                    <CardContent>
-                      <Button className="w-full" variant="outline">
-                        عرض المذكرات
+                    <CardContent className="text-center">
+                      <Button className="w-full" size="lg">
+                        <ArrowRight className="ml-2 w-5 h-5" />
+                        عرض المواد الدراسية
                       </Button>
                     </CardContent>
                   </Card>

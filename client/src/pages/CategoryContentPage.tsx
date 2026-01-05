@@ -11,10 +11,12 @@ import { toast } from "sonner";
 export default function CategoryContentPage() {
   const { user, loading } = useAuth();
   const params = useParams();
-  const subjectId = parseInt(params.subjectId || "0");
+  const gradeId = parseInt(params.gradeId || "0");
   const semesterId = parseInt(params.semesterId || "0");
+  const subjectId = parseInt(params.subjectId || "0");
   const categoryId = parseInt(params.categoryId || "0");
 
+  const { data: grade } = trpc.grades.getById.useQuery({ id: gradeId });
   const { data: subject } = trpc.subjects.getById.useQuery({ id: subjectId });
   const { data: semester } = trpc.semesters.list.useQuery();
   const { data: category } = trpc.contentCategories.list.useQuery();
@@ -36,7 +38,7 @@ export default function CategoryContentPage() {
     toast.success("جاري معالجة الطلب...");
   };
 
-  if (!subject || !currentSemester || !currentCategory) {
+  if (!grade || !subject || !currentSemester || !currentCategory) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
@@ -99,11 +101,17 @@ export default function CategoryContentPage() {
             <span className="hover:text-foreground cursor-pointer">الرئيسية</span>
           </Link>
           <span>/</span>
-          <Link href={`/subject/${subjectId}`}>
-            <span className="hover:text-foreground cursor-pointer">{subject.name}</span>
+          <Link href={`/grade/${gradeId}`}>
+            <span className="hover:text-foreground cursor-pointer">{grade.name}</span>
           </Link>
           <span>/</span>
-          <span className="text-foreground font-medium">{currentSemester.name}</span>
+          <Link href={`/grade/${gradeId}/semester/${semesterId}`}>
+            <span className="hover:text-foreground cursor-pointer">{currentSemester.name}</span>
+          </Link>
+          <span>/</span>
+          <Link href={`/grade/${gradeId}/semester/${semesterId}/subject/${subjectId}`}>
+            <span className="hover:text-foreground cursor-pointer">{subject.name}</span>
+          </Link>
           <span>/</span>
           <span className="text-foreground font-medium">{currentCategory.name}</span>
         </div>
@@ -181,12 +189,12 @@ export default function CategoryContentPage() {
                 <p className="text-muted-foreground mb-6">
                   سيتم إضافة المذكرات والمحتوى التعليمي قريباً
                 </p>
-                <Link href={`/subject/${subjectId}`}>
-                  <Button variant="outline">
-                    <ArrowRight className="ml-2 w-5 h-5" />
-                    العودة للمادة
-                  </Button>
-                </Link>
+              <Link href={`/grade/${gradeId}/semester/${semesterId}/subject/${subjectId}`}>
+                <Button variant="outline">
+                  <ArrowRight className="ml-2 w-5 h-5" />
+                  العودة للمادة
+                </Button>
+              </Link>
               </CardContent>
             </Card>
           )}
@@ -194,7 +202,7 @@ export default function CategoryContentPage() {
 
         {/* Back Button */}
         <div className="text-center">
-          <Link href={`/subject/${subjectId}`}>
+          <Link href={`/grade/${gradeId}/semester/${semesterId}/subject/${subjectId}`}>
             <Button variant="outline" size="lg">
               <ArrowRight className="ml-2 w-5 h-5" />
               العودة للمادة

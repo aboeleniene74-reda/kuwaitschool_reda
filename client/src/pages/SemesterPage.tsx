@@ -1,27 +1,24 @@
 import { useAuth } from "@/_core/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { trpc } from "@/lib/trpc";
-import { ArrowRight, BookOpen, GraduationCap, LogIn, User, FileText } from "lucide-react";
+import { ArrowRight, BookOpen, GraduationCap, LogIn, User } from "lucide-react";
 import { getLoginUrl } from "@/const";
 import { Link, useParams } from "wouter";
 
-export default function SubjectPage() {
+export default function SemesterPage() {
   const { user, loading } = useAuth();
   const params = useParams();
   const gradeId = parseInt(params.gradeId || "0");
   const semesterId = parseInt(params.semesterId || "0");
-  const subjectId = parseInt(params.subjectId || "0");
 
   const { data: grade } = trpc.grades.getById.useQuery({ id: gradeId });
-  const { data: semesters } = trpc.semesters.list.useQuery();
-  const { data: subject } = trpc.subjects.getById.useQuery({ id: subjectId });
-  const { data: categories } = trpc.contentCategories.list.useQuery();
+  const { data: semester } = trpc.semesters.list.useQuery();
+  const { data: subjects } = trpc.subjects.listByGrade.useQuery({ gradeId });
 
-  const currentSemester = semesters?.find(s => s.id === semesterId);
+  const currentSemester = semester?.find(s => s.id === semesterId);
 
-  if (!grade || !currentSemester || !subject) {
+  if (!grade || !currentSemester) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
@@ -79,84 +76,68 @@ export default function SubjectPage() {
       {/* Content */}
       <section className="container py-16">
         {/* Breadcrumb */}
-        <div className="flex items-center gap-2 text-sm text-muted-foreground mb-8">
+        <div className="mb-8 flex items-center gap-2 text-sm text-muted-foreground">
           <Link href="/">
-            <span className="hover:text-foreground cursor-pointer">الرئيسية</span>
+            <span className="hover:text-primary cursor-pointer">الرئيسية</span>
           </Link>
           <span>/</span>
           <Link href={`/grade/${gradeId}`}>
-            <span className="hover:text-foreground cursor-pointer">{grade.name}</span>
+            <span className="hover:text-primary cursor-pointer">{grade.name}</span>
           </Link>
           <span>/</span>
-          <Link href={`/grade/${gradeId}/semester/${semesterId}`}>
-            <span className="hover:text-foreground cursor-pointer">{currentSemester.name}</span>
-          </Link>
-          <span>/</span>
-          <span className="text-foreground font-medium">{subject.name}</span>
+          <span className="text-foreground">{currentSemester.name}</span>
         </div>
 
-        {/* Subject Header */}
-        <div className="text-center max-w-3xl mx-auto mb-12">
-          <div
-            className="w-24 h-24 rounded-3xl flex items-center justify-center mx-auto mb-6"
-            style={{
-              backgroundColor: subject.color
-                ? `color-mix(in oklch, ${subject.color}, transparent 85%)`
-                : "oklch(0.48 0.18 250 / 0.15)",
-            }}
-          >
-            <BookOpen
-              className="w-12 h-12"
-              style={{ color: subject.color || "oklch(0.48 0.18 250)" }}
-            />
+        {/* Semester Header */}
+        <div className="text-center max-w-3xl mx-auto mb-16">
+          <div className="w-24 h-24 bg-primary/10 rounded-3xl flex items-center justify-center mx-auto mb-6">
+            <GraduationCap className="w-12 h-12 text-primary" />
           </div>
-          <h1 className="text-4xl md:text-5xl font-bold mb-2">{subject.name}</h1>
-          <p className="text-lg text-muted-foreground mb-2">
-            {grade.name} - {currentSemester.name}
-          </p>
-          {subject.description && (
-            <p className="text-muted-foreground">{subject.description}</p>
+          <h2 className="text-5xl font-bold mb-2">{grade.name}</h2>
+          <h3 className="text-3xl font-semibold text-primary mb-4">{currentSemester.name}</h3>
+          {currentSemester.nameEn && (
+            <p className="text-lg text-muted-foreground">{currentSemester.nameEn}</p>
           )}
         </div>
 
-        {/* Categories Grid */}
-        <div className="max-w-6xl mx-auto">
-          <h3 className="text-3xl font-bold mb-8 text-center">أقسام المحتوى</h3>
+        {/* Subjects Grid */}
+        <div className="max-w-5xl mx-auto">
+          <h3 className="text-3xl font-bold mb-8 text-center">المواد الدراسية</h3>
           
-          {!categories || categories.length === 0 ? (
+          {!subjects || subjects.length === 0 ? (
             <div className="text-center py-12">
-              <FileText className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
-              <h3 className="text-2xl font-semibold mb-2">لا توجد أقسام متاحة حالياً</h3>
-              <p className="text-muted-foreground">سيتم إضافة الأقسام قريباً</p>
+              <BookOpen className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
+              <h3 className="text-2xl font-semibold mb-2">لا توجد مواد متاحة حالياً</h3>
+              <p className="text-muted-foreground">سيتم إضافة المواد قريباً</p>
             </div>
           ) : (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {categories.map((category) => (
-                <Link
-                  key={category.id}
-                  href={`/grade/${gradeId}/semester/${semesterId}/subject/${subjectId}/category/${category.id}`}
-                >
-                  <Card className="border-2 hover:border-primary/50 transition-all cursor-pointer group h-full hover:shadow-lg">
-                    <CardHeader>
-                      <div className="flex items-start justify-between mb-2">
-                        <CardTitle className="text-xl">{category.name}</CardTitle>
-                        <Badge variant="secondary" className="mr-2">
-                          {category.order}
-                        </Badge>
+              {subjects.map((subject) => (
+                <Link key={subject.id} href={`/grade/${gradeId}/semester/${semesterId}/subject/${subject.id}`}>
+                  <Card className="border-2 hover:border-primary/50 transition-all cursor-pointer group h-full">
+                    <CardHeader className="text-center pb-4">
+                      <div
+                        className="w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform"
+                        style={{
+                          backgroundColor: subject.color
+                            ? `color-mix(in oklch, ${subject.color}, transparent 85%)`
+                            : "oklch(0.48 0.18 250 / 0.15)",
+                        }}
+                      >
+                        <BookOpen
+                          className="w-10 h-10"
+                          style={{ color: subject.color || "oklch(0.48 0.18 250)" }}
+                        />
                       </div>
-                      {category.nameEn && (
-                        <CardDescription className="text-sm">{category.nameEn}</CardDescription>
-                      )}
-                      {category.description && (
-                        <CardDescription className="text-sm mt-2">
-                          {category.description}
-                        </CardDescription>
+                      <CardTitle className="text-2xl">{subject.name}</CardTitle>
+                      {subject.description && (
+                        <CardDescription className="text-base">{subject.description}</CardDescription>
                       )}
                     </CardHeader>
                     <CardContent>
                       <Button className="w-full" variant="outline">
                         <ArrowRight className="ml-2 w-5 h-5" />
-                        عرض المحتوى
+                        عرض الأقسام
                       </Button>
                     </CardContent>
                   </Card>
@@ -168,10 +149,10 @@ export default function SubjectPage() {
 
         {/* Back Button */}
         <div className="text-center mt-12">
-          <Link href={`/grade/${gradeId}/semester/${semesterId}`}>
+          <Link href={`/grade/${gradeId}`}>
             <Button variant="outline" size="lg">
               <ArrowRight className="ml-2 w-5 h-5" />
-              العودة للمواد
+              العودة للفصول
             </Button>
           </Link>
         </div>
