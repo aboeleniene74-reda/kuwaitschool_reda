@@ -10,6 +10,8 @@ import SubjectPage from "./pages/SubjectPage";
 import AdminDashboard from "./pages/AdminDashboard";
 import AdminNotebooks from "./pages/AdminNotebooks";
 import AdminNotebookNew from "./pages/AdminNotebookNew";
+import AdminStatistics from "./pages/AdminStatistics";
+import AdminComments from "./pages/AdminComments";
 
 function Router() {
   return (
@@ -17,9 +19,11 @@ function Router() {
       <Route path={"/"} component={Home} />
       <Route path={"/grade/:id"} component={GradePage} />
       <Route path={"/subject/:id"} component={SubjectPage} />
-      <Route path={"/admin"} component={AdminDashboard} />
-      <Route path={"/admin/notebooks"} component={AdminNotebooks} />
-      <Route path={"/admin/notebooks/new"} component={AdminNotebookNew} />
+          <Route path="/admin" component={AdminDashboard} />
+      <Route path="/admin/notebooks" component={AdminNotebooks} />
+      <Route path="/admin/notebooks/new" component={AdminNotebookNew} />
+      <Route path="/admin/statistics" component={AdminStatistics} />
+      <Route path="/admin/comments" component={AdminComments} />
       <Route path={"/404"} component={NotFound} />
       <Route component={NotFound} />
     </Switch>

@@ -8,11 +8,15 @@ import {
   notebooks, 
   purchases, 
   reviews,
+  statistics,
+  comments,
   InsertGrade,
   InsertSubject,
   InsertNotebook,
   InsertPurchase,
-  InsertReview
+  InsertReview,
+  InsertStatistic,
+  InsertComment
 } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
@@ -246,4 +250,156 @@ export async function getNotebookReviews(notebookId: number) {
     .from(reviews)
     .where(eq(reviews.notebookId, notebookId))
     .orderBy(desc(reviews.createdAt));
+}
+
+// ============= Statistics Functions =============
+
+export async function trackStatistic(stat: InsertStatistic) {
+  const db = await getDb();
+  if (!db) return;
+  
+  try {
+    await db.insert(statistics).values(stat);
+  } catch (error) {
+    console.error("[Database] Failed to track statistic:", error);
+  }
+}
+
+export async function getNotebookStats(notebookId: number) {
+  const db = await getDb();
+  if (!db) return { views: 0, downloads: 0 };
+  
+  try {
+    const stats = await db
+      .select()
+      .from(statistics)
+      .where(and(
+        eq(statistics.notebookId, notebookId)
+      ));
+    
+    const views = stats.filter(s => s.type === "view").length;
+    const downloads = stats.filter(s => s.type === "download").length;
+    
+    return { views, downloads };
+  } catch (error) {
+    console.error("[Database] Failed to get notebook stats:", error);
+    return { views: 0, downloads: 0 };
+  }
+}
+
+export async function getTotalVisits() {
+  const db = await getDb();
+  if (!db) return 0;
+  
+  try {
+    const visits = await db
+      .select()
+      .from(statistics)
+      .where(eq(statistics.type, "visit"));
+    
+    return visits.length;
+  } catch (error) {
+    console.error("[Database] Failed to get total visits:", error);
+    return 0;
+  }
+}
+
+export async function getAllNotebooksStats() {
+  const db = await getDb();
+  if (!db) return [];
+  
+  try {
+    const allNotebooks = await db.select().from(notebooks);
+    const statsPromises = allNotebooks.map(async (notebook) => {
+      const stats = await getNotebookStats(notebook.id);
+      return {
+        notebookId: notebook.id,
+        title: notebook.title,
+        ...stats
+      };
+    });
+    
+    return await Promise.all(statsPromises);
+  } catch (error) {
+    console.error("[Database] Failed to get all notebooks stats:", error);
+    return [];
+  }
+}
+
+// ============= Comments Functions =============
+
+export async function createComment(comment: InsertComment) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  try {
+    await db.insert(comments).values(comment);
+  } catch (error) {
+    console.error("[Database] Failed to create comment:", error);
+    throw error;
+  }
+}
+
+export async function getNotebookComments(notebookId: number, includeUnapproved = false) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  try {
+    const conditions = [eq(comments.notebookId, notebookId)];
+    if (!includeUnapproved) {
+      conditions.push(eq(comments.isApproved, true));
+    }
+    
+    return await db
+      .select()
+      .from(comments)
+      .where(and(...conditions))
+      .orderBy(desc(comments.createdAt));
+  } catch (error) {
+    console.error("[Database] Failed to get comments:", error);
+    return [];
+  }
+}
+
+export async function approveComment(commentId: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  try {
+    await db
+      .update(comments)
+      .set({ isApproved: true })
+      .where(eq(comments.id, commentId));
+  } catch (error) {
+    console.error("[Database] Failed to approve comment:", error);
+    throw error;
+  }
+}
+
+export async function deleteComment(commentId: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  try {
+    await db.delete(comments).where(eq(comments.id, commentId));
+  } catch (error) {
+    console.error("[Database] Failed to delete comment:", error);
+    throw error;
+  }
+}
+
+export async function getAllPendingComments() {
+  const db = await getDb();
+  if (!db) return [];
+  
+  try {
+    return await db
+      .select()
+      .from(comments)
+      .where(eq(comments.isApproved, false))
+      .orderBy(desc(comments.createdAt));
+  } catch (error) {
+    console.error("[Database] Failed to get pending comments:", error);
+    return [];
+  }
 }

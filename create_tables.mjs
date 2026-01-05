@@ -1,97 +1,47 @@
+import { drizzle } from "drizzle-orm/mysql2";
 import mysql from "mysql2/promise";
 
 const connection = await mysql.createConnection(process.env.DATABASE_URL);
+const db = drizzle(connection);
 
-console.log("إنشاء الجداول الجديدة...");
+try {
+  // Create statistics table
+  await connection.execute(`
+    CREATE TABLE IF NOT EXISTS statistics (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      notebookId INT NULL,
+      type ENUM('visit', 'view', 'download') NOT NULL,
+      userId INT NULL,
+      ipAddress VARCHAR(45) NULL,
+      userAgent TEXT NULL,
+      createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+      FOREIGN KEY (notebookId) REFERENCES notebooks(id) ON DELETE CASCADE,
+      FOREIGN KEY (userId) REFERENCES users(id) ON DELETE SET NULL
+    )
+  `);
+  console.log("✓ Created statistics table");
 
-// جدول grades
-await connection.query(`
-  CREATE TABLE IF NOT EXISTS \`grades\` (
-    \`id\` int AUTO_INCREMENT PRIMARY KEY,
-    \`name\` varchar(100) NOT NULL,
-    \`nameEn\` varchar(100) NOT NULL,
-    \`order\` int NOT NULL,
-    \`description\` text,
-    \`createdAt\` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    \`updatedAt\` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-  )
-`);
-console.log("✓ تم إنشاء جدول grades");
+  // Create comments table
+  await connection.execute(`
+    CREATE TABLE IF NOT EXISTS comments (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      notebookId INT NOT NULL,
+      userId INT NULL,
+      authorName VARCHAR(100) NULL,
+      authorEmail VARCHAR(320) NULL,
+      content TEXT NOT NULL,
+      isApproved BOOLEAN DEFAULT FALSE NOT NULL,
+      createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+      updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL,
+      FOREIGN KEY (notebookId) REFERENCES notebooks(id) ON DELETE CASCADE,
+      FOREIGN KEY (userId) REFERENCES users(id) ON DELETE SET NULL
+    )
+  `);
+  console.log("✓ Created comments table");
 
-// جدول subjects
-await connection.query(`
-  CREATE TABLE IF NOT EXISTS \`subjects\` (
-    \`id\` int AUTO_INCREMENT PRIMARY KEY,
-    \`gradeId\` int NOT NULL,
-    \`name\` varchar(100) NOT NULL,
-    \`nameEn\` varchar(100) NOT NULL,
-    \`icon\` varchar(50),
-    \`color\` varchar(50) DEFAULT 'oklch(0.48 0.18 250)',
-    \`description\` text,
-    \`createdAt\` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    \`updatedAt\` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (\`gradeId\`) REFERENCES \`grades\`(\`id\`)
-  )
-`);
-console.log("✓ تم إنشاء جدول subjects");
-
-// جدول notebooks
-await connection.query(`
-  CREATE TABLE IF NOT EXISTS \`notebooks\` (
-    \`id\` int AUTO_INCREMENT PRIMARY KEY,
-    \`subjectId\` int NOT NULL,
-    \`teacherId\` int,
-    \`title\` varchar(255) NOT NULL,
-    \`description\` text,
-    \`price\` decimal(10,2) NOT NULL,
-    \`pages\` int,
-    \`fileUrl\` text,
-    \`previewUrl\` text,
-    \`coverImageUrl\` text,
-    \`isPublished\` boolean NOT NULL DEFAULT false,
-    \`isFeatured\` boolean NOT NULL DEFAULT false,
-    \`salesCount\` int NOT NULL DEFAULT 0,
-    \`rating\` decimal(3,2),
-    \`createdAt\` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    \`updatedAt\` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (\`subjectId\`) REFERENCES \`subjects\`(\`id\`),
-    FOREIGN KEY (\`teacherId\`) REFERENCES \`users\`(\`id\`)
-  )
-`);
-console.log("✓ تم إنشاء جدول notebooks");
-
-// جدول purchases
-await connection.query(`
-  CREATE TABLE IF NOT EXISTS \`purchases\` (
-    \`id\` int AUTO_INCREMENT PRIMARY KEY,
-    \`userId\` int NOT NULL,
-    \`notebookId\` int NOT NULL,
-    \`price\` decimal(10,2) NOT NULL,
-    \`paymentMethod\` varchar(50),
-    \`transactionId\` varchar(255),
-    \`status\` enum('pending', 'completed', 'failed', 'refunded') NOT NULL DEFAULT 'pending',
-    \`purchasedAt\` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (\`userId\`) REFERENCES \`users\`(\`id\`),
-    FOREIGN KEY (\`notebookId\`) REFERENCES \`notebooks\`(\`id\`)
-  )
-`);
-console.log("✓ تم إنشاء جدول purchases");
-
-// جدول reviews
-await connection.query(`
-  CREATE TABLE IF NOT EXISTS \`reviews\` (
-    \`id\` int AUTO_INCREMENT PRIMARY KEY,
-    \`userId\` int NOT NULL,
-    \`notebookId\` int NOT NULL,
-    \`rating\` int NOT NULL,
-    \`comment\` text,
-    \`createdAt\` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    \`updatedAt\` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (\`userId\`) REFERENCES \`users\`(\`id\`),
-    FOREIGN KEY (\`notebookId\`) REFERENCES \`notebooks\`(\`id\`)
-  )
-`);
-console.log("✓ تم إنشاء جدول reviews");
-
-console.log("✅ تم إنشاء جميع الجداول بنجاح!");
-await connection.end();
+  console.log("\n✅ All tables created successfully!");
+} catch (error) {
+  console.error("❌ Error:", error.message);
+} finally {
+  await connection.end();
+}

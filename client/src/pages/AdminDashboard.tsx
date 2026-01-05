@@ -10,7 +10,9 @@ import {
   ShoppingCart,
   Plus,
   LayoutDashboard,
-  Settings
+  Settings,
+  BarChart3,
+  MessageSquare
 } from "lucide-react";
 import { Link, useLocation } from "wouter";
 import { getLoginUrl } from "@/const";
@@ -120,6 +122,24 @@ export default function AdminDashboard() {
                   >
                     <FileText className="ml-2 w-5 h-5" />
                     إدارة المذكرات
+                  </Button>
+                </Link>
+                <Link href="/admin/statistics">
+                  <Button
+                    variant={location === "/admin/statistics" ? "default" : "ghost"}
+                    className="w-full justify-start"
+                  >
+                    <BarChart3 className="ml-2 w-5 h-5" />
+                    الإحصائيات
+                  </Button>
+                </Link>
+                <Link href="/admin/comments">
+                  <Button
+                    variant={location === "/admin/comments" ? "default" : "ghost"}
+                    className="w-full justify-start"
+                  >
+                    <MessageSquare className="ml-2 w-5 h-5" />
+                    إدارة التعليقات
                   </Button>
                 </Link>
                 <Link href="/">

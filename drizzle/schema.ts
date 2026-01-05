@@ -114,3 +114,39 @@ export const reviews = mysqlTable("reviews", {
 
 export type Review = typeof reviews.$inferSelect;
 export type InsertReview = typeof reviews.$inferInsert;
+
+/**
+ * جدول الإحصائيات
+ * تتبع الزيارات والمشاهدات والتحميلات
+ */
+export const statistics = mysqlTable("statistics", {
+  id: int("id").autoincrement().primaryKey(),
+  notebookId: int("notebookId").references(() => notebooks.id), // null للزيارات العامة
+  type: mysqlEnum("type", ["visit", "view", "download"]).notNull(),
+  userId: int("userId").references(() => users.id), // null للزوار غير المسجلين
+  ipAddress: varchar("ipAddress", { length: 45 }), // لتتبع الزوار الفريدين
+  userAgent: text("userAgent"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type Statistic = typeof statistics.$inferSelect;
+export type InsertStatistic = typeof statistics.$inferInsert;
+
+/**
+ * جدول التعليقات
+ * تعليقات الزوار على المذكرات
+ */
+export const comments = mysqlTable("comments", {
+  id: int("id").autoincrement().primaryKey(),
+  notebookId: int("notebookId").notNull().references(() => notebooks.id),
+  userId: int("userId").references(() => users.id), // null للزوار غير المسجلين
+  authorName: varchar("authorName", { length: 100 }), // اسم الزائر إذا لم يكن مسجلاً
+  authorEmail: varchar("authorEmail", { length: 320 }), // بريد اختياري
+  content: text("content").notNull(),
+  isApproved: boolean("isApproved").default(false).notNull(), // موافقة الأدمن
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type Comment = typeof comments.$inferSelect;
+export type InsertComment = typeof comments.$inferInsert;

@@ -205,6 +205,131 @@ export const appRouter = router({
         return { success: true };
       }),
   }),
+
+  // ============= Statistics (الإحصائيات) =============
+  statistics: router({
+    trackVisit: publicProcedure
+      .input(z.object({
+        ipAddress: z.string().optional(),
+        userAgent: z.string().optional(),
+      }))
+      .mutation(async ({ input, ctx }) => {
+        await db.trackStatistic({
+          type: "visit",
+          userId: ctx.user?.id,
+          ipAddress: input.ipAddress,
+          userAgent: input.userAgent,
+        });
+        return { success: true };
+      }),
+      
+    trackView: publicProcedure
+      .input(z.object({
+        notebookId: z.number(),
+        ipAddress: z.string().optional(),
+      }))
+      .mutation(async ({ input, ctx }) => {
+        await db.trackStatistic({
+          type: "view",
+          notebookId: input.notebookId,
+          userId: ctx.user?.id,
+          ipAddress: input.ipAddress,
+        });
+        return { success: true };
+      }),
+      
+    trackDownload: publicProcedure
+      .input(z.object({
+        notebookId: z.number(),
+        ipAddress: z.string().optional(),
+      }))
+      .mutation(async ({ input, ctx }) => {
+        await db.trackStatistic({
+          type: "download",
+          notebookId: input.notebookId,
+          userId: ctx.user?.id,
+          ipAddress: input.ipAddress,
+        });
+        return { success: true };
+      }),
+      
+    getNotebookStats: publicProcedure
+      .input(z.object({ notebookId: z.number() }))
+      .query(async ({ input }) => {
+        return await db.getNotebookStats(input.notebookId);
+      }),
+      
+    getTotalVisits: publicProcedure.query(async () => {
+      return await db.getTotalVisits();
+    }),
+      
+    getAllStats: protectedProcedure.query(async ({ ctx }) => {
+      if (ctx.user?.role !== 'admin') {
+        throw new TRPCError({ code: 'FORBIDDEN', message: 'غير مصرح' });
+      }
+      const [visits, notebooksStats] = await Promise.all([
+        db.getTotalVisits(),
+        db.getAllNotebooksStats(),
+      ]);
+      return {
+        totalVisits: visits,
+        notebooks: notebooksStats,
+      };
+    }),
+  }),
+
+  // ============= Comments (التعليقات) =============
+  comments: router({
+    listByNotebook: publicProcedure
+      .input(z.object({ notebookId: z.number() }))
+      .query(async ({ input }) => {
+        return await db.getNotebookComments(input.notebookId, false);
+      }),
+      
+    create: publicProcedure
+      .input(z.object({
+        notebookId: z.number(),
+        content: z.string().min(1),
+        authorName: z.string().optional(),
+        authorEmail: z.string().email().optional(),
+      }))
+      .mutation(async ({ input, ctx }) => {
+        await db.createComment({
+          ...input,
+          userId: ctx.user?.id,
+          authorName: ctx.user ? ctx.user.name || undefined : input.authorName,
+          authorEmail: ctx.user ? ctx.user.email || undefined : input.authorEmail,
+        });
+        return { success: true };
+      }),
+      
+    listPending: protectedProcedure.query(async ({ ctx }) => {
+      if (ctx.user?.role !== 'admin') {
+        throw new TRPCError({ code: 'FORBIDDEN', message: 'غير مصرح' });
+      }
+      return await db.getAllPendingComments();
+    }),
+      
+    approve: protectedProcedure
+      .input(z.object({ commentId: z.number() }))
+      .mutation(async ({ input, ctx }) => {
+        if (ctx.user?.role !== 'admin') {
+          throw new TRPCError({ code: 'FORBIDDEN', message: 'غير مصرح' });
+        }
+        await db.approveComment(input.commentId);
+        return { success: true };
+      }),
+      
+    delete: protectedProcedure
+      .input(z.object({ commentId: z.number() }))
+      .mutation(async ({ input, ctx }) => {
+        if (ctx.user?.role !== 'admin') {
+          throw new TRPCError({ code: 'FORBIDDEN', message: 'غير مصرح' });
+        }
+        await db.deleteComment(input.commentId);
+        return { success: true };
+      }),
+  }),
 });
 
 export type AppRouter = typeof appRouter;
