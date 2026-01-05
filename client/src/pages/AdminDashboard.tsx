@@ -12,7 +12,8 @@ import {
   LayoutDashboard,
   Settings,
   BarChart3,
-  MessageSquare
+  MessageSquare,
+  Video
 } from "lucide-react";
 import { Link, useLocation } from "wouter";
 import { getLoginUrl } from "@/const";
@@ -140,6 +141,15 @@ export default function AdminDashboard() {
                   >
                     <MessageSquare className="ml-2 w-5 h-5" />
                     إدارة التعليقات
+                  </Button>
+                </Link>
+                <Link href="/admin/sessions">
+                  <Button
+                    variant={location === "/admin/sessions" ? "default" : "ghost"}
+                    className="w-full justify-start"
+                  >
+                    <Video className="ml-2 w-5 h-5" />
+                    إدارة الحصص
                   </Button>
                 </Link>
                 <Link href="/">

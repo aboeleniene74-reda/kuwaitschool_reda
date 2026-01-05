@@ -330,6 +330,147 @@ export const appRouter = router({
         return { success: true };
       }),
   }),
+
+  // ============= Sessions Router =============
+  sessions: router({
+    list: publicProcedure.query(async () => {
+      return await db.getUpcomingSessions();
+    }),
+
+    getBySlug: publicProcedure
+      .input(z.object({ slug: z.string() }))
+      .query(async ({ input }) => {
+        const session = await db.getSessionBySlug(input.slug);
+        if (!session) {
+          throw new TRPCError({ code: 'NOT_FOUND', message: 'الحصة غير موجودة' });
+        }
+        const bookingCount = await db.getBookingCount(session.id);
+        return { ...session, bookingCount };
+      }),
+
+    listAll: protectedProcedure.query(async ({ ctx }) => {
+      if (ctx.user?.role !== 'admin') {
+        throw new TRPCError({ code: 'FORBIDDEN', message: 'غير مصرح' });
+      }
+      return await db.getAllSessions();
+    }),
+
+    create: protectedProcedure
+      .input(z.object({
+        title: z.string().min(1),
+        description: z.string().optional(),
+        sessionDate: z.date(),
+        duration: z.number().min(15),
+        meetingLink: z.string().url(),
+        maxStudents: z.number().optional(),
+        price: z.string().optional(),
+        subjectId: z.number().optional(),
+        gradeId: z.number().optional(),
+      }))
+      .mutation(async ({ input, ctx }) => {
+        if (ctx.user?.role !== 'admin') {
+          throw new TRPCError({ code: 'FORBIDDEN', message: 'غير مصرح' });
+        }
+        
+        // Generate unique slug
+        const uniqueSlug = `session-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+        
+        await db.createSession({
+          ...input,
+          teacherId: ctx.user.id,
+          uniqueSlug,
+          sessionDate: input.sessionDate,
+        });
+        return { success: true, slug: uniqueSlug };
+      }),
+
+    update: protectedProcedure
+      .input(z.object({
+        id: z.number(),
+        title: z.string().optional(),
+        description: z.string().optional(),
+        sessionDate: z.date().optional(),
+        duration: z.number().optional(),
+        meetingLink: z.string().url().optional(),
+        maxStudents: z.number().optional(),
+        price: z.string().optional(),
+        status: z.enum(['scheduled', 'live', 'completed', 'cancelled']).optional(),
+      }))
+      .mutation(async ({ input, ctx }) => {
+        if (ctx.user?.role !== 'admin') {
+          throw new TRPCError({ code: 'FORBIDDEN', message: 'غير مصرح' });
+        }
+        const { id, ...data } = input;
+        await db.updateSession(id, data);
+        return { success: true };
+      }),
+
+    delete: protectedProcedure
+      .input(z.object({ id: z.number() }))
+      .mutation(async ({ input, ctx }) => {
+        if (ctx.user?.role !== 'admin') {
+          throw new TRPCError({ code: 'FORBIDDEN', message: 'غير مصرح' });
+        }
+        await db.deleteSession(input.id);
+        return { success: true };
+      }),
+
+    getBookings: protectedProcedure
+      .input(z.object({ sessionId: z.number() }))
+      .query(async ({ input, ctx }) => {
+        if (ctx.user?.role !== 'admin') {
+          throw new TRPCError({ code: 'FORBIDDEN', message: 'غير مصرح' });
+        }
+        return await db.getBookingsBySession(input.sessionId);
+      }),
+  }),
+
+  // ============= Session Bookings Router =============
+  bookings: router({
+    create: publicProcedure
+      .input(z.object({
+        sessionId: z.number(),
+        studentName: z.string().optional(),
+        studentEmail: z.string().email().optional(),
+        studentPhone: z.string().optional(),
+      }))
+      .mutation(async ({ input, ctx }) => {
+        // Check if session is full
+        const session = await db.getSessionById(input.sessionId);
+        if (!session) {
+          throw new TRPCError({ code: 'NOT_FOUND', message: 'الحصة غير موجودة' });
+        }
+        
+        if (session.maxStudents) {
+          const bookingCount = await db.getBookingCount(input.sessionId);
+          if (bookingCount >= session.maxStudents) {
+            throw new TRPCError({ code: 'BAD_REQUEST', message: 'الحصة مكتملة' });
+          }
+        }
+        
+        await db.createBooking({
+          ...input,
+          userId: ctx.user?.id,
+          studentName: ctx.user ? ctx.user.name || undefined : input.studentName,
+          studentEmail: ctx.user ? ctx.user.email || undefined : input.studentEmail,
+        });
+        return { success: true };
+      }),
+
+    myBookings: protectedProcedure.query(async ({ ctx }) => {
+      if (!ctx.user) {
+        throw new TRPCError({ code: 'UNAUTHORIZED', message: 'يجب تسجيل الدخول' });
+      }
+      return await db.getBookingsByUser(ctx.user.id);
+    }),
+
+    cancel: protectedProcedure
+      .input(z.object({ bookingId: z.number() }))
+      .mutation(async ({ input }) => {
+        await db.cancelBooking(input.bookingId);
+        return { success: true };
+      }),
+  }),
 });
 
 export type AppRouter = typeof appRouter;

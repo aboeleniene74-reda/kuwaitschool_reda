@@ -12,6 +12,10 @@ import AdminNotebooks from "./pages/AdminNotebooks";
 import AdminNotebookNew from "./pages/AdminNotebookNew";
 import AdminStatistics from "./pages/AdminStatistics";
 import AdminComments from "./pages/AdminComments";
+import AdminSessions from "./pages/AdminSessions";
+import AdminSessionNew from "./pages/AdminSessionNew";
+import Sessions from "./pages/Sessions";
+import SessionPage from "./pages/SessionPage";
 
 function Router() {
   return (
@@ -24,6 +28,10 @@ function Router() {
       <Route path="/admin/notebooks/new" component={AdminNotebookNew} />
       <Route path="/admin/statistics" component={AdminStatistics} />
       <Route path="/admin/comments" component={AdminComments} />
+      <Route path="/admin/sessions" component={AdminSessions} />
+      <Route path="/admin/sessions/new" component={AdminSessionNew} />
+      <Route path="/sessions" component={Sessions} />
+      <Route path="/session/:slug" component={SessionPage} />
       <Route path={"/404"} component={NotFound} />
       <Route component={NotFound} />
     </Switch>

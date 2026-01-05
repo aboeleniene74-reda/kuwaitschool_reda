@@ -2,7 +2,7 @@ import { useAuth } from "@/_core/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { trpc } from "@/lib/trpc";
-import { BookOpen, GraduationCap, LogIn, User, Phone } from "lucide-react";
+import { BookOpen, GraduationCap, LogIn, User, Phone, Video } from "lucide-react";
 import { getLoginUrl } from "@/const";
 import { Link } from "wouter";
 
@@ -26,6 +26,12 @@ export default function Home() {
           </div>
 
           <div className="flex items-center gap-3">
+            <Link href="/sessions">
+              <Button variant="ghost" size="sm" className="gap-2">
+                <Video className="w-4 h-4" />
+                الحصص
+              </Button>
+            </Link>
             {loading ? (
               <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
             ) : user ? (

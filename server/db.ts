@@ -10,13 +10,17 @@ import {
   reviews,
   statistics,
   comments,
+  sessions,
+  sessionBookings,
   InsertGrade,
   InsertSubject,
   InsertNotebook,
   InsertPurchase,
   InsertReview,
   InsertStatistic,
-  InsertComment
+  InsertComment,
+  InsertSession,
+  InsertSessionBooking
 } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
@@ -402,4 +406,113 @@ export async function getAllPendingComments() {
     console.error("[Database] Failed to get pending comments:", error);
     return [];
   }
+}
+
+
+// ============= Session Functions =============
+
+export async function createSession(session: InsertSession) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  await db.insert(sessions).values(session);
+}
+
+export async function getAllSessions() {
+  const db = await getDb();
+  if (!db) return [];
+  
+  return await db.select().from(sessions).orderBy(desc(sessions.sessionDate));
+}
+
+export async function getSessionBySlug(slug: string) {
+  const db = await getDb();
+  if (!db) return undefined;
+  
+  const result = await db.select().from(sessions).where(eq(sessions.uniqueSlug, slug)).limit(1);
+  return result.length > 0 ? result[0] : undefined;
+}
+
+export async function getSessionById(id: number) {
+  const db = await getDb();
+  if (!db) return undefined;
+  
+  const result = await db.select().from(sessions).where(eq(sessions.id, id)).limit(1);
+  return result.length > 0 ? result[0] : undefined;
+}
+
+export async function updateSession(id: number, data: Partial<InsertSession>) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  await db.update(sessions).set(data).where(eq(sessions.id, id));
+}
+
+export async function deleteSession(id: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  await db.delete(sessions).where(eq(sessions.id, id));
+}
+
+export async function getUpcomingSessions() {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const now = new Date();
+  return await db.select().from(sessions)
+    .where(and(
+      eq(sessions.isPublished, true),
+      eq(sessions.status, "scheduled")
+    ))
+    .orderBy(sessions.sessionDate);
+}
+
+// ============= Session Booking Functions =============
+
+export async function createBooking(booking: InsertSessionBooking) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  await db.insert(sessionBookings).values(booking);
+}
+
+export async function getBookingsBySession(sessionId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  return await db.select().from(sessionBookings)
+    .where(eq(sessionBookings.sessionId, sessionId))
+    .orderBy(desc(sessionBookings.bookedAt));
+}
+
+export async function getBookingsByUser(userId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  return await db.select().from(sessionBookings)
+    .where(eq(sessionBookings.userId, userId))
+    .orderBy(desc(sessionBookings.bookedAt));
+}
+
+export async function getBookingCount(sessionId: number) {
+  const db = await getDb();
+  if (!db) return 0;
+  
+  const result = await db.select().from(sessionBookings)
+    .where(and(
+      eq(sessionBookings.sessionId, sessionId),
+      eq(sessionBookings.status, "confirmed")
+    ));
+  
+  return result.length;
+}
+
+export async function cancelBooking(id: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  await db.update(sessionBookings)
+    .set({ status: "cancelled" })
+    .where(eq(sessionBookings.id, id));
 }

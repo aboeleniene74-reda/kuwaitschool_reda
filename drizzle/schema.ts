@@ -150,3 +150,47 @@ export const comments = mysqlTable("comments", {
 
 export type Comment = typeof comments.$inferSelect;
 export type InsertComment = typeof comments.$inferInsert;
+
+/**
+ * جدول الحصص الدراسية أونلاين
+ * الحصص المعلن عنها للطلاب
+ */
+export const sessions = mysqlTable("sessions", {
+  id: int("id").autoincrement().primaryKey(),
+  teacherId: int("teacherId").notNull().references(() => users.id),
+  subjectId: int("subjectId").references(() => subjects.id), // المادة (اختياري)
+  gradeId: int("gradeId").references(() => grades.id), // الصف (اختياري)
+  title: varchar("title", { length: 255 }).notNull(), // عنوان الحصة
+  description: text("description"), // وصف الحصة
+  sessionDate: timestamp("sessionDate").notNull(), // تاريخ ووقت الحصة
+  duration: int("duration").notNull(), // مدة الحصة بالدقائق
+  meetingLink: text("meetingLink").notNull(), // رابط Zoom/Google Meet/إلخ
+  maxStudents: int("maxStudents"), // الحد الأقصى للطلاب (null = غير محدود)
+  price: decimal("price", { precision: 10, scale: 2 }).default("0.00").notNull(), // السعر (0 = مجاني)
+  isPublished: boolean("isPublished").default(true).notNull(),
+  uniqueSlug: varchar("uniqueSlug", { length: 100 }).notNull().unique(), // معرف فريد للرابط
+  status: mysqlEnum("status", ["scheduled", "live", "completed", "cancelled"]).default("scheduled").notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type Session = typeof sessions.$inferSelect;
+export type InsertSession = typeof sessions.$inferInsert;
+
+/**
+ * جدول حجوزات الحصص
+ * الطلاب المسجلين في كل حصة
+ */
+export const sessionBookings = mysqlTable("session_bookings", {
+  id: int("id").autoincrement().primaryKey(),
+  sessionId: int("sessionId").notNull().references(() => sessions.id),
+  userId: int("userId").references(() => users.id), // null للحجوزات بدون تسجيل
+  studentName: varchar("studentName", { length: 100 }), // اسم الطالب إذا لم يكن مسجلاً
+  studentEmail: varchar("studentEmail", { length: 320 }), // بريد الطالب
+  studentPhone: varchar("studentPhone", { length: 20 }), // هاتف الطالب
+  status: mysqlEnum("status", ["confirmed", "cancelled", "attended"]).default("confirmed").notNull(),
+  bookedAt: timestamp("bookedAt").defaultNow().notNull(),
+});
+
+export type SessionBooking = typeof sessionBookings.$inferSelect;
+export type InsertSessionBooking = typeof sessionBookings.$inferInsert;
