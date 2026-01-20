@@ -30,6 +30,21 @@ export default function CategoryContentPage() {
   const currentSemester = semester?.find(s => s.id === semesterId);
   const currentCategory = category?.find(c => c.id === categoryId);
 
+  const handleDownload = (notebook: any) => {
+    if (!user && parseFloat(notebook.price) > 0) {
+      toast.error("يجب تسجيل الدخول أولاً");
+      return;
+    }
+    
+    if (notebook.fileUrl) {
+      // فتح الملف في تبويب جديد
+      window.open(notebook.fileUrl, '_blank');
+      toast.success("جاري تحميل الملف...");
+    } else {
+      toast.error("رابط التحميل غير متوفر");
+    }
+  };
+
   const handlePurchase = (notebookId: number) => {
     if (!user) {
       toast.error("يجب تسجيل الدخول أولاً");
@@ -163,8 +178,8 @@ export default function CategoryContentPage() {
                 <CardFooter>
                   <Button
                     className="w-full"
-                    onClick={() => handlePurchase(notebook.id)}
-                    disabled={!user}
+                    onClick={() => parseFloat(notebook.price) === 0 ? handleDownload(notebook) : handlePurchase(notebook.id)}
+                    disabled={parseFloat(notebook.price) > 0 && !user}
                   >
                     {parseFloat(notebook.price) === 0 ? (
                       <>
