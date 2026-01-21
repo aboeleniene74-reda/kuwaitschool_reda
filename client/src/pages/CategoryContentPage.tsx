@@ -7,9 +7,12 @@ import { ArrowRight, BookOpen, GraduationCap, LogIn, User, Star, ShoppingCart, D
 import { getLoginUrl } from "@/const";
 import { Link, useParams } from "wouter";
 import { toast } from "sonner";
+import { PDFViewer } from "@/components/PDFViewer";
+import { useState } from "react";
 
 export default function CategoryContentPage() {
   const { user, loading } = useAuth();
+  const [previewNotebook, setPreviewNotebook] = useState<any>(null);
   const params = useParams();
   const gradeId = parseInt(params.gradeId || "0");
   const semesterId = parseInt(params.semesterId || "0");
@@ -32,8 +35,8 @@ export default function CategoryContentPage() {
 
   const handlePreview = (notebook: any) => {
     if (notebook.fileUrl) {
-      // فتح الملف للمعاينة في نفس النافذة
-      window.location.href = notebook.fileUrl;
+      // فتح قارئ PDF المدمج
+      setPreviewNotebook(notebook);
     } else {
       toast.error("رابط المعاينة غير متوفر");
     }
@@ -250,6 +253,15 @@ export default function CategoryContentPage() {
           </Link>
         </div>
       </section>
+
+      {/* PDF Viewer Modal */}
+      {previewNotebook && (
+        <PDFViewer
+          fileUrl={previewNotebook.fileUrl}
+          title={previewNotebook.title}
+          onClose={() => setPreviewNotebook(null)}
+        />
+      )}
     </div>
   );
 }

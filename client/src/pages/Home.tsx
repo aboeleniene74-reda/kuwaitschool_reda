@@ -27,6 +27,11 @@ export default function Home() {
           </div>
 
           <div className="flex items-center gap-3">
+            <Link href="/about">
+              <Button variant="ghost" size="sm">
+                من نحن
+              </Button>
+            </Link>
             <Link href="/sessions">
               <Button variant="ghost" size="sm" className="gap-2">
                 <Video className="w-4 h-4" />

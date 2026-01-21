@@ -18,11 +18,13 @@ import Sessions from "./pages/Sessions";
 import SessionPage from "./pages/SessionPage";
 import CategoryContentPage from "./pages/CategoryContentPage";
 import SemesterPage from "./pages/SemesterPage";
+import AboutPage from "./pages/AboutPage";
 
 function Router() {
   return (
     <Switch>
       <Route path={"/"} component={Home} />
+      <Route path={"/about"} component={AboutPage} />
       <Route path={"/grade/:id"} component={GradePage} />
       <Route path={"/grade/:gradeId/semester/:semesterId"} component={SemesterPage} />
       <Route path={"/grade/:gradeId/semester/:semesterId/subject/:subjectId"} component={SubjectPage} />
