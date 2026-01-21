@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { trpc } from "@/lib/trpc";
-import { ArrowRight, BookOpen, GraduationCap, LogIn, User, Star, ShoppingCart, Download, Eye } from "lucide-react";
+import { ArrowRight, BookOpen, GraduationCap, LogIn, User, Star, ShoppingCart, Download, Eye, MessageCircle, Phone } from "lucide-react";
 import { getLoginUrl } from "@/const";
 import { Link, useParams } from "wouter";
 import { toast } from "sonner";
@@ -54,9 +54,16 @@ export default function CategoryContentPage() {
     }
   };
 
-  const handlePurchase = (notebook: any) => {
+  const handleCall = (notebook: any) => {
     // فتح تطبيق الهاتف للاتصال برقم المالك
     window.location.href = 'tel:99457080';
+  };
+
+  const handleWhatsApp = (notebook: any) => {
+    // فتح واتساب مع رسالة جاهزة
+    const message = `مرحبا، أريد شراء مذكرة: ${notebook.title}`;
+    const whatsappUrl = `https://wa.me/96599457080?text=${encodeURIComponent(message)}`;
+    window.open(whatsappUrl, '_blank');
   };
 
   if (!grade || !subject || !currentSemester || !currentCategory) {
@@ -181,35 +188,47 @@ export default function CategoryContentPage() {
                     </span>
                   </div>
                 </CardContent>
-                <CardFooter className="flex gap-2">
+                <CardFooter className="flex flex-col gap-2">
                   {/* زر المعاينة */}
                   <Button
                     variant="outline"
-                    className="flex-1"
+                    className="w-full"
                     onClick={() => handlePreview(notebook)}
                     disabled={!notebook.fileUrl}
                   >
                     <Eye className="ml-2 w-5 h-5" />
-                    معاينة
+                    معاينة المذكرة
                   </Button>
                   
-                  {/* زر التحميل/الشراء */}
-                  <Button
-                    className="flex-1"
-                    onClick={() => parseFloat(notebook.price) === 0 ? handleDownload(notebook) : handlePurchase(notebook)}
-                  >
-                    {parseFloat(notebook.price) === 0 ? (
-                      <>
-                        <Download className="ml-2 w-5 h-5" />
-                        تحميل
-                      </>
-                    ) : (
-                      <>
-                        <ShoppingCart className="ml-2 w-5 h-5" />
-                        شراء الآن
-                      </>
-                    )}
-                  </Button>
+                  {parseFloat(notebook.price) === 0 ? (
+                    /* زر التحميل للمذكرات المجانية */
+                    <Button
+                      className="w-full"
+                      onClick={() => handleDownload(notebook)}
+                    >
+                      <Download className="ml-2 w-5 h-5" />
+                      تحميل مجاني
+                    </Button>
+                  ) : (
+                    /* أزرار الشراء للمذكرات المدفوعة */
+                    <div className="flex gap-2 w-full">
+                      <Button
+                        variant="outline"
+                        className="flex-1"
+                        onClick={() => handleCall(notebook)}
+                      >
+                        <Phone className="ml-2 w-5 h-5" />
+                        اتصال
+                      </Button>
+                      <Button
+                        className="flex-1 bg-green-600 hover:bg-green-700"
+                        onClick={() => handleWhatsApp(notebook)}
+                      >
+                        <MessageCircle className="ml-2 w-5 h-5" />
+                        واتساب
+                      </Button>
+                    </div>
+                  )}
                 </CardFooter>
               </Card>
             ))
