@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { trpc } from "@/lib/trpc";
-import { ArrowRight, BookOpen, GraduationCap, LogIn, User, Star, ShoppingCart, Download } from "lucide-react";
+import { ArrowRight, BookOpen, GraduationCap, LogIn, User, Star, ShoppingCart, Download, Eye } from "lucide-react";
 import { getLoginUrl } from "@/const";
 import { Link, useParams } from "wouter";
 import { toast } from "sonner";
@@ -30,6 +30,15 @@ export default function CategoryContentPage() {
   const currentSemester = semester?.find(s => s.id === semesterId);
   const currentCategory = category?.find(c => c.id === categoryId);
 
+  const handlePreview = (notebook: any) => {
+    if (notebook.fileUrl) {
+      // فتح الملف للمعاينة في نفس النافذة
+      window.location.href = notebook.fileUrl;
+    } else {
+      toast.error("رابط المعاينة غير متوفر");
+    }
+  };
+
   const handleDownload = (notebook: any) => {
     if (!user && parseFloat(notebook.price) > 0) {
       toast.error("يجب تسجيل الدخول أولاً");
@@ -45,12 +54,9 @@ export default function CategoryContentPage() {
     }
   };
 
-  const handlePurchase = (notebookId: number) => {
-    if (!user) {
-      toast.error("يجب تسجيل الدخول أولاً");
-      return;
-    }
-    toast.success("جاري معالجة الطلب...");
+  const handlePurchase = (notebook: any) => {
+    // فتح تطبيق الهاتف للاتصال برقم المالك
+    window.location.href = 'tel:99457080';
   };
 
   if (!grade || !subject || !currentSemester || !currentCategory) {
@@ -175,11 +181,22 @@ export default function CategoryContentPage() {
                     </span>
                   </div>
                 </CardContent>
-                <CardFooter>
+                <CardFooter className="flex gap-2">
+                  {/* زر المعاينة */}
                   <Button
-                    className="w-full"
-                    onClick={() => parseFloat(notebook.price) === 0 ? handleDownload(notebook) : handlePurchase(notebook.id)}
-                    disabled={parseFloat(notebook.price) > 0 && !user}
+                    variant="outline"
+                    className="flex-1"
+                    onClick={() => handlePreview(notebook)}
+                    disabled={!notebook.fileUrl}
+                  >
+                    <Eye className="ml-2 w-5 h-5" />
+                    معاينة
+                  </Button>
+                  
+                  {/* زر التحميل/الشراء */}
+                  <Button
+                    className="flex-1"
+                    onClick={() => parseFloat(notebook.price) === 0 ? handleDownload(notebook) : handlePurchase(notebook)}
                   >
                     {parseFloat(notebook.price) === 0 ? (
                       <>
