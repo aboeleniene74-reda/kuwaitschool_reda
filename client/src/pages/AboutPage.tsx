@@ -1,8 +1,14 @@
 import { BookOpen, Users, Award, Phone, MessageCircle } from "lucide-react";
+import { useEffect } from "react";
+import { updateSEO, pageSEO } from "@/lib/seo";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 
 export default function AboutPage() {
+  useEffect(() => {
+    updateSEO(pageSEO.about);
+  }, []);
+
   const handleCall = () => {
     window.location.href = "tel:99457080";
   };

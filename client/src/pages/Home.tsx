@@ -6,10 +6,17 @@ import { BookOpen, GraduationCap, LogIn, User, Phone, Video } from "lucide-react
 import { getLoginUrl } from "@/const";
 import { Link } from "wouter";
 import { SiteRatingForm } from "@/components/SiteRatingForm";
+import { SearchBox } from "@/components/SearchBox";
+import { useEffect } from "react";
+import { updateSEO, defaultSEO } from "@/lib/seo";
 
 export default function Home() {
   const { user, loading } = useAuth();
   const { data: grades } = trpc.grades.list.useQuery();
+
+  useEffect(() => {
+    updateSEO(defaultSEO);
+  }, []);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-primary/5 to-accent/10">
@@ -72,9 +79,12 @@ export default function Home() {
           <h2 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-l from-primary to-accent bg-clip-text text-transparent">
             مذكرات علمية شاملة
           </h2>
-          <p className="text-xl text-muted-foreground leading-relaxed">
+          <p className="text-xl text-muted-foreground leading-relaxed mb-8">
             أفضل المذكرات الدراسية في الكيمياء والأحياء والفيزياء والجيولوجيا للمرحلة الثانوية بالكويت
           </p>
+          
+          {/* Search Box */}
+          <SearchBox />
         </div>
 
         {/* Grades Grid */}
@@ -228,8 +238,23 @@ export default function Home() {
 
       {/* Footer */}
       <footer className="border-t py-8">
-        <div className="container text-center text-muted-foreground">
-          <p>© 2024 علوم ثانوي - جميع الحقوق محفوظة</p>
+        <div className="container">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+            <p className="text-muted-foreground">© 2024 علوم ثانوي - جميع الحقوق محفوظة</p>
+            <div className="flex items-center gap-4">
+              <Link href="/privacy">
+                <Button variant="link" className="text-muted-foreground hover:text-primary">
+                  سياسة الخصوصية
+                </Button>
+              </Link>
+              <span className="text-muted-foreground">|</span>
+              <Link href="/terms">
+                <Button variant="link" className="text-muted-foreground hover:text-primary">
+                  شروط الاستخدام
+                </Button>
+              </Link>
+            </div>
+          </div>
         </div>
       </footer>
     </div>

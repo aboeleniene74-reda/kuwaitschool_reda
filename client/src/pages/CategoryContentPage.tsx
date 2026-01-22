@@ -8,6 +8,7 @@ import { getLoginUrl } from "@/const";
 import { Link, useParams } from "wouter";
 import { toast } from "sonner";
 import { PDFViewer } from "@/components/PDFViewer";
+import { NotebookRating } from "@/components/NotebookRating";
 import { useState } from "react";
 
 export default function CategoryContentPage() {
@@ -242,6 +243,13 @@ export default function CategoryContentPage() {
             </Card>
           )}
         </div>
+
+        {/* Ratings Section */}
+        {notebooks && notebooks.length > 0 && notebooks[0] && (
+          <div className="max-w-3xl mx-auto mb-12">
+            <NotebookRating notebookId={notebooks[0].id} />
+          </div>
+        )}
 
         {/* Back Button */}
         <div className="text-center">

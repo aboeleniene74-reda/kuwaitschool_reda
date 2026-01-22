@@ -139,10 +139,11 @@ export type InsertPurchase = typeof purchases.$inferInsert;
  */
 export const reviews = mysqlTable("reviews", {
   id: int("id").autoincrement().primaryKey(),
-  userId: int("userId").notNull().references(() => users.id),
+  userId: int("userId").references(() => users.id), // اختياري للزوار غير المسجلين
   notebookId: int("notebookId").notNull().references(() => notebooks.id),
   rating: int("rating").notNull(), // من 1 إلى 5
   comment: text("comment"),
+  visitorName: varchar("visitorName", { length: 100 }), // اسم الزائر إذا لم يكن مسجلاً
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
 });
@@ -277,3 +278,22 @@ export const liveComments = mysqlTable("live_comments", {
 
 export type LiveComment = typeof liveComments.$inferSelect;
 export type InsertLiveComment = typeof liveComments.$inferInsert;
+
+/**
+ * جدول الإعلانات
+ * البانرات الإعلانية في الصفحة الرئيسية
+ */
+export const announcements = mysqlTable("announcements", {
+  id: int("id").autoincrement().primaryKey(),
+  title: varchar("title", { length: 255 }).notNull(),
+  message: text("message").notNull(),
+  type: mysqlEnum("type", ["info", "success", "warning", "error"]).default("info").notNull(),
+  isActive: boolean("isActive").default(true).notNull(),
+  startDate: timestamp("startDate"),
+  endDate: timestamp("endDate"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type Announcement = typeof announcements.$inferSelect;
+export type InsertAnnouncement = typeof announcements.$inferInsert;

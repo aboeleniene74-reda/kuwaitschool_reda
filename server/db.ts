@@ -1,4 +1,4 @@
-import { eq, and, desc } from "drizzle-orm";
+import { eq, and, desc, or, like, sql } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
 import { 
   InsertUser, 
@@ -17,6 +17,7 @@ import {
   liveComments,
   semesters,
   contentCategories,
+  announcements,
   InsertGrade,
   InsertSubject,
   InsertNotebook,
@@ -30,7 +31,8 @@ import {
   InsertSessionRating,
   InsertLiveComment,
   InsertSemester,
-  InsertContentCategory
+  InsertContentCategory,
+  InsertAnnouncement
 } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
@@ -264,6 +266,24 @@ export async function getNotebookReviews(notebookId: number) {
     .from(reviews)
     .where(eq(reviews.notebookId, notebookId))
     .orderBy(desc(reviews.createdAt));
+}
+
+export async function getNotebookRatingStats(notebookId: number) {
+  const db = await getDb();
+  if (!db) return { average: 0, count: 0 };
+  
+  const ratings = await db
+    .select()
+    .from(reviews)
+    .where(eq(reviews.notebookId, notebookId));
+  
+  if (ratings.length === 0) return { average: 0, count: 0 };
+  
+  const sum = ratings.reduce((acc, r) => acc + r.rating, 0);
+  return {
+    average: Number((sum / ratings.length).toFixed(1)),
+    count: ratings.length
+  };
 }
 
 // ============= Statistics Functions =============
@@ -709,4 +729,162 @@ export async function getNotebooksByFilters(subjectId: number, semesterId: numbe
       eq(notebooks.isPublished, true)
     ))
     .orderBy(desc(notebooks.isFeatured), desc(notebooks.createdAt));
+}
+
+// Search notebooks by keyword
+export async function searchNotebooks(searchQuery: string, filters?: {
+  gradeId?: number;
+  subjectId?: number;
+  semesterId?: number;
+}) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const searchTerm = `%${searchQuery}%`;
+  let conditions: any[] = [
+    eq(notebooks.isPublished, true),
+    or(
+      like(notebooks.title, searchTerm),
+      like(notebooks.description, searchTerm)
+    )
+  ];
+  
+  if (filters?.gradeId) {
+    conditions.push(eq(notebooks.gradeId, filters.gradeId));
+  }
+  if (filters?.subjectId) {
+    conditions.push(eq(notebooks.subjectId, filters.subjectId));
+  }
+  if (filters?.semesterId) {
+    conditions.push(eq(notebooks.semesterId, filters.semesterId));
+  }
+  
+  return await db
+    .select()
+    .from(notebooks)
+    .where(and(...conditions))
+    .orderBy(desc(notebooks.isFeatured), desc(notebooks.createdAt));
+}
+
+// ============= Announcements Functions =============
+
+export async function createAnnouncement(announcement: InsertAnnouncement) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  const [result] = await db.insert(announcements).values(announcement);
+  return result;
+}
+
+export async function getAllAnnouncements() {
+  const db = await getDb();
+  if (!db) return [];
+  
+  return await db.select().from(announcements).orderBy(desc(announcements.createdAt));
+}
+
+export async function getActiveAnnouncements() {
+  const db = await getDb();
+  if (!db) return [];
+  
+  return await db
+    .select()
+    .from(announcements)
+    .where(eq(announcements.isActive, true))
+    .orderBy(desc(announcements.createdAt));
+}
+
+export async function updateAnnouncement(id: number, data: Partial<InsertAnnouncement>) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  await db.update(announcements).set(data).where(eq(announcements.id, id));
+}
+
+export async function deleteAnnouncement(id: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  await db.delete(announcements).where(eq(announcements.id, id));
+}
+
+// ============= Advanced Statistics Functions =============
+
+export async function getDetailedStatistics() {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  // إحصائيات الزيارات
+  const totalVisits = await db
+    .select({ count: sql<number>`count(*)` })
+    .from(statistics)
+    .where(eq(statistics.type, "visit"));
+  
+  // إحصائيات المشاهدات
+  const totalViews = await db
+    .select({ count: sql<number>`count(*)` })
+    .from(statistics)
+    .where(eq(statistics.type, "view"));
+  
+  // أكثر المذكرات مشاهدة
+  const topNotebooks = await db
+    .select({
+      notebookId: statistics.notebookId,
+      views: sql<number>`count(*)`,
+    })
+    .from(statistics)
+    .where(eq(statistics.type, "view"))
+    .groupBy(statistics.notebookId)
+    .orderBy(desc(sql`count(*)`))
+    .limit(10);
+  
+  // إحصائيات التقييمات
+  const totalReviews = await db
+    .select({ count: sql<number>`count(*)` })
+    .from(reviews);
+  
+  const avgRating = await db
+    .select({ avg: sql<number>`avg(rating)` })
+    .from(reviews);
+  
+  return {
+    totalVisits: Number(totalVisits[0]?.count || 0),
+    totalViews: Number(totalViews[0]?.count || 0),
+    totalReviews: Number(totalReviews[0]?.count || 0),
+    averageRating: Number(avgRating[0]?.avg || 0).toFixed(1),
+    topNotebooks,
+  };
+}
+
+export async function getAllUsers() {
+  const db = await getDb();
+  if (!db) return [];
+  
+  return await db.select().from(users).orderBy(desc(users.createdAt));
+}
+
+export async function getUserActivity(userId: number) {
+  const db = await getDb();
+  if (!db) return { views: [], reviews: [] };
+  
+  const views = await db
+    .select()
+    .from(statistics)
+    .where(and(
+      eq(statistics.userId, userId),
+      eq(statistics.type, "view")
+    ))
+    .orderBy(desc(statistics.createdAt))
+    .limit(50);
+  
+  const userReviews = await db
+    .select()
+    .from(reviews)
+    .where(eq(reviews.userId, userId))
+    .orderBy(desc(reviews.createdAt));
+  
+  return {
+    views,
+    reviews: userReviews,
+  };
 }

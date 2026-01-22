@@ -179,6 +179,52 @@ export const appRouter = router({
         });
         return { success: true };
       }),
+
+    // البحث في المذكرات
+    search: publicProcedure
+      .input(z.object({
+        query: z.string(),
+        gradeId: z.number().optional(),
+        subjectId: z.number().optional(),
+        semesterId: z.number().optional(),
+      }))
+      .query(async ({ input }) => {
+        return await db.searchNotebooks(input.query, {
+          gradeId: input.gradeId,
+          subjectId: input.subjectId,
+          semesterId: input.semesterId,
+        });
+      }),
+
+    // تقييم المذكرات
+    addReview: publicProcedure
+      .input(z.object({
+        notebookId: z.number(),
+        rating: z.number().min(1).max(5),
+        comment: z.string().optional(),
+        userId: z.number().optional(),
+      }))
+      .mutation(async ({ input, ctx }) => {
+        await db.createReview({
+          notebookId: input.notebookId,
+          rating: input.rating,
+          comment: input.comment || null,
+          userId: ctx.user?.id || input.userId,
+        });
+        return { success: true };
+      }),
+
+    getReviews: publicProcedure
+      .input(z.object({ notebookId: z.number() }))
+      .query(async ({ input }) => {
+        return await db.getNotebookReviews(input.notebookId);
+      }),
+
+    getRatingStats: publicProcedure
+      .input(z.object({ notebookId: z.number() }))
+      .query(async ({ input }) => {
+        return await db.getNotebookRatingStats(input.notebookId);
+      }),
   }),
 
   // ============= Purchases (المشتريات) =============
