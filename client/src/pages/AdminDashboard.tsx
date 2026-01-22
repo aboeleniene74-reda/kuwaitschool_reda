@@ -116,6 +116,15 @@ export default function AdminDashboard() {
                     لوحة التحكم
                   </Button>
                 </Link>
+                <Link href="/admin/dashboard">
+                  <Button
+                    variant={location.startsWith("/admin/dashboard") ? "default" : "ghost"}
+                    className="w-full justify-start"
+                  >
+                    <Settings className="ml-2 w-5 h-5" />
+                    لوحة القيادة الجديدة
+                  </Button>
+                </Link>
                 <Link href="/admin/notebooks">
                   <Button
                     variant={location === "/admin/notebooks" ? "default" : "ghost"}

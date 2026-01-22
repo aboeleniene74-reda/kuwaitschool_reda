@@ -47,6 +47,123 @@ export const appRouter = router({
         totalPurchases: Number(purchases[0]?.count || 0),
       };
     }),
+    
+    // إحصائيات متقدمة
+    getDetailedStats: protectedProcedure.query(async ({ ctx }) => {
+      if (ctx.user?.role !== 'admin') {
+        throw new TRPCError({ code: 'FORBIDDEN' });
+      }
+      return await db.getDetailedStatistics();
+    }),
+    
+    // إدارة المستخدمين
+    getAllUsers: protectedProcedure.query(async ({ ctx }) => {
+      if (ctx.user?.role !== 'admin') {
+        throw new TRPCError({ code: 'FORBIDDEN' });
+      }
+      return await db.getAllUsers();
+    }),
+    
+    getUserActivity: protectedProcedure
+      .input(z.object({ userId: z.number() }))
+      .query(async ({ ctx, input }) => {
+        if (ctx.user?.role !== 'admin') {
+          throw new TRPCError({ code: 'FORBIDDEN' });
+        }
+        return await db.getUserActivity(input.userId);
+      }),
+    
+    // إدارة الإعلانات
+    getAllAnnouncements: protectedProcedure.query(async ({ ctx }) => {
+      if (ctx.user?.role !== 'admin') {
+        throw new TRPCError({ code: 'FORBIDDEN' });
+      }
+      return await db.getAllAnnouncements();
+    }),
+    
+    createAnnouncement: protectedProcedure
+      .input(z.object({
+        title: z.string(),
+        message: z.string(),
+        type: z.enum(['info', 'success', 'warning', 'error']).default('info'),
+        isActive: z.boolean().default(true),
+        startDate: z.date().optional(),
+        endDate: z.date().optional(),
+      }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user?.role !== 'admin') {
+          throw new TRPCError({ code: 'FORBIDDEN' });
+        }
+        return await db.createAnnouncement(input);
+      }),
+    
+    updateAnnouncement: protectedProcedure
+      .input(z.object({
+        id: z.number(),
+        data: z.object({
+          title: z.string().optional(),
+          message: z.string().optional(),
+          type: z.enum(['info', 'success', 'warning', 'error']).optional(),
+          isActive: z.boolean().optional(),
+          startDate: z.date().optional(),
+          endDate: z.date().optional(),
+        }),
+      }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user?.role !== 'admin') {
+          throw new TRPCError({ code: 'FORBIDDEN' });
+        }
+        await db.updateAnnouncement(input.id, input.data);
+        return { success: true };
+      }),
+    
+    deleteAnnouncement: protectedProcedure
+      .input(z.object({ id: z.number() }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user?.role !== 'admin') {
+          throw new TRPCError({ code: 'FORBIDDEN' });
+        }
+        await db.deleteAnnouncement(input.id);
+        return { success: true };
+      }),
+    
+    // إدارة إعدادات الموقع
+    getAllSettings: protectedProcedure.query(async ({ ctx }) => {
+      if (ctx.user?.role !== 'admin') {
+        throw new TRPCError({ code: 'FORBIDDEN' });
+      }
+      return await db.getAllSettings();
+    }),
+    
+    getSettingsByCategory: protectedProcedure
+      .input(z.object({ category: z.string() }))
+      .query(async ({ ctx, input }) => {
+        if (ctx.user?.role !== 'admin') {
+          throw new TRPCError({ code: 'FORBIDDEN' });
+        }
+        return await db.getSettingsByCategory(input.category);
+      }),
+    
+    updateSetting: protectedProcedure
+      .input(z.object({
+        key: z.string(),
+        value: z.string(),
+      }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user?.role !== 'admin') {
+          throw new TRPCError({ code: 'FORBIDDEN' });
+        }
+        await db.updateSetting(input.key, input.value);
+        return { success: true };
+      }),
+    
+    initializeSettings: protectedProcedure.mutation(async ({ ctx }) => {
+      if (ctx.user?.role !== 'admin') {
+        throw new TRPCError({ code: 'FORBIDDEN' });
+      }
+      await db.initializeDefaultSettings();
+      return { success: true };
+    }),
   }),
   system: systemRouter,
   
@@ -626,6 +743,13 @@ export const appRouter = router({
       .query(async ({ input }) => {
         return await db.getContentCategoryById(input.id);
       }),
+  }),
+
+  // ============= Announcements Router (Public) =============
+  announcements: router({
+    getActive: publicProcedure.query(async () => {
+      return await db.getActiveAnnouncements();
+    }),
   }),
 
   // ============= Live Comments Router =============

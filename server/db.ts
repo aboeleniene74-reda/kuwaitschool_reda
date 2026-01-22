@@ -18,6 +18,7 @@ import {
   semesters,
   contentCategories,
   announcements,
+  siteSettings,
   InsertGrade,
   InsertSubject,
   InsertNotebook,
@@ -32,7 +33,8 @@ import {
   InsertLiveComment,
   InsertSemester,
   InsertContentCategory,
-  InsertAnnouncement
+  InsertAnnouncement,
+  InsertSiteSetting
 } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
@@ -887,4 +889,138 @@ export async function getUserActivity(userId: number) {
     views,
     reviews: userReviews,
   };
+}
+
+
+// ============= Site Settings Functions =============
+
+export async function getAllSettings() {
+  const db = await getDb();
+  if (!db) return [];
+  
+  return await db.select().from(siteSettings).orderBy(siteSettings.category, siteSettings.key);
+}
+
+export async function getSettingsByCategory(category: string) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  return await db.select().from(siteSettings).where(eq(siteSettings.category, category));
+}
+
+export async function getSettingByKey(key: string) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const results = await db.select().from(siteSettings).where(eq(siteSettings.key, key)).limit(1);
+  return results[0] || null;
+}
+
+export async function upsertSetting(setting: InsertSiteSetting) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  const existing = await getSettingByKey(setting.key);
+  
+  if (existing) {
+    await db.update(siteSettings)
+      .set({ value: setting.value, updatedAt: new Date() })
+      .where(eq(siteSettings.key, setting.key));
+  } else {
+    await db.insert(siteSettings).values(setting);
+  }
+}
+
+export async function updateSetting(key: string, value: string) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  await db.update(siteSettings)
+    .set({ value, updatedAt: new Date() })
+    .where(eq(siteSettings.key, key));
+}
+
+export async function initializeDefaultSettings() {
+  const db = await getDb();
+  if (!db) return;
+  
+  const defaults: InsertSiteSetting[] = [
+    // General Settings
+    {
+      key: "site_title",
+      value: "علوم ثانوي",
+      type: "text",
+      label: "عنوان الموقع",
+      description: "العنوان الذي يظهر في المتصفح",
+      category: "general",
+    },
+    {
+      key: "site_description",
+      value: "مذكرات علمية شاملة للمرحلة الثانوية بالكويت",
+      type: "textarea",
+      label: "وصف الموقع",
+      description: "الوصف المختصر للموقع",
+      category: "general",
+    },
+    {
+      key: "hero_title",
+      value: "مذكرات علمية شاملة",
+      type: "text",
+      label: "عنوان الصفحة الرئيسية",
+      category: "general",
+    },
+    {
+      key: "hero_subtitle",
+      value: "أفضل المذكرات الدراسية في الكيمياء والأحياء والفيزياء والجيولوجيا للمرحلة الثانوية بالكويت",
+      type: "textarea",
+      label: "نص الترحيب",
+      category: "general",
+    },
+    
+    // Contact Settings
+    {
+      key: "contact_name",
+      value: "فارس العلوم",
+      type: "text",
+      label: "اسم المعلم",
+      category: "contact",
+    },
+    {
+      key: "contact_phone",
+      value: "99457080",
+      type: "text",
+      label: "رقم الهاتف",
+      category: "contact",
+    },
+    {
+      key: "contact_whatsapp",
+      value: "96599457080",
+      type: "text",
+      label: "رقم واتساب (مع كود الدولة)",
+      category: "contact",
+    },
+    
+    // About Page Content
+    {
+      key: "about_intro",
+      value: "**منصة جيولوجيا ثانوي الكويت** هي منصة تعليمية متخصصة تهدف إلى توفير محتوى تعليمي عالي الجودة لطلاب المرحلة الثانوية في دولة الكويت، مع التركيز بشكل خاص على مادة **الجيولوجيا** للصفوف العاشر والحادي عشر والثاني عشر.",
+      type: "textarea",
+      label: "نبذة عن المنصة",
+      category: "about",
+    },
+    {
+      key: "about_vision",
+      value: "نؤمن بأن **التعليم الجيد** هو حق لكل طالب، ونسعى لتوفير مواد تعليمية عالية الجودة تساعد الطلاب على تحقيق التفوق الأكاديمي في مادة الجيولوجيا.",
+      type: "textarea",
+      label: "رؤيتنا",
+      category: "about",
+    },
+  ];
+  
+  for (const setting of defaults) {
+    const existing = await getSettingByKey(setting.key);
+    if (!existing) {
+      await db.insert(siteSettings).values(setting);
+    }
+  }
 }

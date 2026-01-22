@@ -21,6 +21,8 @@ import SemesterPage from "./pages/SemesterPage";
 import AboutPage from "./pages/AboutPage";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsOfService from "./pages/TermsOfService";
+import AdminDashboardNew from "./pages/AdminDashboardNew";
+import AdminContentManagement from "./pages/AdminContentManagement";
 
 function Router() {
   return (
@@ -34,6 +36,8 @@ function Router() {
       <Route path={"/grade/:gradeId/semester/:semesterId/subject/:subjectId"} component={SubjectPage} />
       <Route path={"/grade/:gradeId/semester/:semesterId/subject/:subjectId/category/:categoryId"} component={CategoryContentPage} />
           <Route path="/admin" component={AdminDashboard} />
+      <Route path="/admin/dashboard" component={AdminDashboardNew} />
+      <Route path="/admin/dashboard/content" component={AdminContentManagement} />
       <Route path="/admin/notebooks" component={AdminNotebooks} />
       <Route path="/admin/notebooks/new" component={AdminNotebookNew} />
       <Route path="/admin/statistics" component={AdminStatistics} />
