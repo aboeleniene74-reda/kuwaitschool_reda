@@ -7,6 +7,7 @@ import { getLoginUrl } from "@/const";
 import { Link } from "wouter";
 import { SiteRatingForm } from "@/components/SiteRatingForm";
 import { SearchBox } from "@/components/SearchBox";
+import NotificationsDropdown from "@/components/NotificationsDropdown";
 import { useEffect } from "react";
 import { updateSEO, defaultSEO } from "@/lib/seo";
 
@@ -49,6 +50,7 @@ export default function Home() {
               <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
             ) : user ? (
               <div className="flex items-center gap-3">
+                <NotificationsDropdown />
                 {user.role === 'admin' && (
                   <Link href="/admin">
                     <Button variant="outline" size="sm">

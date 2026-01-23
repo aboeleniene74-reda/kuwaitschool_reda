@@ -23,6 +23,7 @@ import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsOfService from "./pages/TermsOfService";
 import AdminDashboardNew from "./pages/AdminDashboardNew";
 import AdminContentManagement from "./pages/AdminContentManagement";
+import AdminNotificationsManagement from "./pages/AdminNotificationsManagement";
 
 function Router() {
   return (
@@ -38,6 +39,7 @@ function Router() {
           <Route path="/admin" component={AdminDashboard} />
       <Route path="/admin/dashboard" component={AdminDashboardNew} />
       <Route path="/admin/dashboard/content" component={AdminContentManagement} />
+      <Route path="/admin/dashboard/notifications" component={AdminNotificationsManagement} />
       <Route path="/admin/notebooks" component={AdminNotebooks} />
       <Route path="/admin/notebooks/new" component={AdminNotebookNew} />
       <Route path="/admin/statistics" component={AdminStatistics} />

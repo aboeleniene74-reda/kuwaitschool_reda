@@ -1,4 +1,4 @@
-import { eq, and, desc, or, like, sql } from "drizzle-orm";
+import { eq, and, desc, or, like, sql, isNull } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
 import { 
   InsertUser, 
@@ -19,6 +19,7 @@ import {
   contentCategories,
   announcements,
   siteSettings,
+  notifications,
   InsertGrade,
   InsertSubject,
   InsertNotebook,
@@ -34,7 +35,8 @@ import {
   InsertSemester,
   InsertContentCategory,
   InsertAnnouncement,
-  InsertSiteSetting
+  InsertSiteSetting,
+  InsertNotification
 } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
@@ -1023,4 +1025,122 @@ export async function initializeDefaultSettings() {
       await db.insert(siteSettings).values(setting);
     }
   }
+}
+
+
+// ============= Notifications Functions =============
+
+export async function createNotification(notification: InsertNotification) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  const result = await db.insert(notifications).values(notification);
+  return result;
+}
+
+export async function getUserNotifications(userId: number, limit: number = 20) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  // جلب الإشعارات الخاصة بالمستخدم أو الإشعارات العامة (userId = null)
+  return await db.select()
+    .from(notifications)
+    .where(
+      or(
+        eq(notifications.userId, userId),
+        isNull(notifications.userId)
+      )
+    )
+    .orderBy(desc(notifications.createdAt))
+    .limit(limit);
+}
+
+export async function getUnreadNotificationsCount(userId: number) {
+  const db = await getDb();
+  if (!db) return 0;
+  
+  const result = await db.select({ count: sql<number>`count(*)` })
+    .from(notifications)
+    .where(
+      and(
+        or(
+          eq(notifications.userId, userId),
+          isNull(notifications.userId)
+        ),
+        eq(notifications.isRead, false)
+      )
+    );
+  
+  return Number(result[0]?.count || 0);
+}
+
+export async function markNotificationAsRead(notificationId: number, userId: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  await db.update(notifications)
+    .set({ isRead: true, readAt: new Date() })
+    .where(
+      and(
+        eq(notifications.id, notificationId),
+        or(
+          eq(notifications.userId, userId),
+          isNull(notifications.userId)
+        )
+      )
+    );
+}
+
+export async function markAllNotificationsAsRead(userId: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  await db.update(notifications)
+    .set({ isRead: true, readAt: new Date() })
+    .where(
+      and(
+        or(
+          eq(notifications.userId, userId),
+          isNull(notifications.userId)
+        ),
+        eq(notifications.isRead, false)
+      )
+    );
+}
+
+export async function deleteNotification(notificationId: number, userId: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  await db.delete(notifications)
+    .where(
+      and(
+        eq(notifications.id, notificationId),
+        or(
+          eq(notifications.userId, userId),
+          isNull(notifications.userId)
+        )
+      )
+    );
+}
+
+export async function getAllNotificationsForAdmin() {
+  const db = await getDb();
+  if (!db) return [];
+  
+  return await db.select()
+    .from(notifications)
+    .orderBy(desc(notifications.createdAt))
+    .limit(100);
+}
+
+export async function broadcastNotification(notification: Omit<InsertNotification, 'userId'>) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  // إرسال إشعار لجميع المستخدمين (userId = null)
+  await db.insert(notifications).values({
+    ...notification,
+    userId: null,
+  });
 }

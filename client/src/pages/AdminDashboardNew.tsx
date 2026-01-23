@@ -10,7 +10,8 @@ import {
   TrendingUp,
   Activity,
   Megaphone,
-  Settings
+  Settings,
+  Bell
 } from "lucide-react";
 import { Link, useLocation } from "wouter";
 import { getLoginUrl } from "@/const";
@@ -148,17 +149,17 @@ export default function AdminDashboardNew() {
             </Card>
           </Link>
 
-          <Link href="/admin/dashboard/announcements">
+          <Link href="/admin/dashboard/notifications">
             <Card className="hover:shadow-lg transition-shadow cursor-pointer border-2 hover:border-primary">
               <CardHeader>
                 <CardTitle className="flex items-center gap-3">
                   <div className="p-3 bg-green-100 rounded-lg">
-                    <Megaphone className="h-6 w-6 text-green-600" />
+                    <Bell className="h-6 w-6 text-green-600" />
                   </div>
-                  إدارة الإعلانات
+                  إدارة الإشعارات
                 </CardTitle>
                 <CardDescription>
-                  إنشاء وتعديل الإعلانات في الموقع
+                  إرسال إشعارات للمستخدمين
                 </CardDescription>
               </CardHeader>
             </Card>

@@ -752,6 +752,66 @@ export const appRouter = router({
     }),
   }),
 
+  // ============= Notifications Router =============
+  notifications: router({
+    // جلب إشعارات المستخدم
+    getMyNotifications: protectedProcedure
+      .input(z.object({ limit: z.number().optional().default(20) }))
+      .query(async ({ ctx, input }) => {
+        return await db.getUserNotifications(ctx.user.id, input.limit);
+      }),
+    
+    // عدد الإشعارات غير المقروءة
+    getUnreadCount: protectedProcedure.query(async ({ ctx }) => {
+      return await db.getUnreadNotificationsCount(ctx.user.id);
+    }),
+    
+    // تحديد إشعار كمقروء
+    markAsRead: protectedProcedure
+      .input(z.object({ id: z.number() }))
+      .mutation(async ({ ctx, input }) => {
+        await db.markNotificationAsRead(input.id, ctx.user.id);
+        return { success: true };
+      }),
+    
+    // تحديد جميع الإشعارات كمقروءة
+    markAllAsRead: protectedProcedure.mutation(async ({ ctx }) => {
+      await db.markAllNotificationsAsRead(ctx.user.id);
+      return { success: true };
+    }),
+    
+    // حذف إشعار
+    delete: protectedProcedure
+      .input(z.object({ id: z.number() }))
+      .mutation(async ({ ctx, input }) => {
+        await db.deleteNotification(input.id, ctx.user.id);
+        return { success: true };
+      }),
+    
+    // إدارة الإشعارات (أدمن فقط)
+    broadcast: protectedProcedure
+      .input(z.object({
+        title: z.string(),
+        message: z.string(),
+        type: z.enum(['info', 'success', 'warning', 'error', 'notebook', 'session']).default('info'),
+        link: z.string().optional(),
+      }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user.role !== 'admin') {
+          throw new TRPCError({ code: 'FORBIDDEN' });
+        }
+        await db.broadcastNotification(input);
+        return { success: true };
+      }),
+    
+    getAll: protectedProcedure.query(async ({ ctx }) => {
+      if (ctx.user.role !== 'admin') {
+        throw new TRPCError({ code: 'FORBIDDEN' });
+      }
+      return await db.getAllNotificationsForAdmin();
+    }),
+  }),
+
   // ============= Live Comments Router =============
   liveComments: router({
     create: publicProcedure
