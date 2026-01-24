@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { trpc } from "@/lib/trpc";
-import { ArrowRight, BookOpen, GraduationCap, LogIn, User, Star, ShoppingCart, Download, Eye, MessageCircle, Phone } from "lucide-react";
+import { ArrowRight, BookOpen, GraduationCap, LogIn, User, Star, ShoppingCart, Eye, MessageCircle, Phone } from "lucide-react";
 import { getLoginUrl } from "@/const";
 import { Link, useParams } from "wouter";
 import { toast } from "sonner";
@@ -43,20 +43,7 @@ export default function CategoryContentPage() {
     }
   };
 
-  const handleDownload = (notebook: any) => {
-    if (!user && parseFloat(notebook.price) > 0) {
-      toast.error("يجب تسجيل الدخول أولاً");
-      return;
-    }
-    
-    if (notebook.fileUrl) {
-      // فتح الملف في تبويب جديد
-      window.open(notebook.fileUrl, '_blank');
-      toast.success("جاري تحميل الملف...");
-    } else {
-      toast.error("رابط التحميل غير متوفر");
-    }
-  };
+
 
   const handleCall = (notebook: any) => {
     // فتح تطبيق الهاتف للاتصال برقم المالك
