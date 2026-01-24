@@ -35,8 +35,8 @@ export default function CategoryContentPage() {
   const currentCategory = category?.find(c => c.id === categoryId);
 
   const handlePreview = (notebook: any) => {
-    if (notebook.fileUrl) {
-      // فتح قارئ PDF المدمج
+    // استخدام previewUrl إذا كان متوفراً، وإلا fileUrl
+    if (notebook.previewUrl || notebook.fileUrl) {
       setPreviewNotebook(notebook);
     } else {
       toast.error("رابط المعاينة غير متوفر");
@@ -252,7 +252,7 @@ export default function CategoryContentPage() {
       {/* PDF Viewer Modal */}
       {previewNotebook && (
         <PDFViewer
-          fileUrl={previewNotebook.fileUrl}
+          fileUrl={previewNotebook.previewUrl || previewNotebook.fileUrl}
           title={previewNotebook.title}
           onClose={() => setPreviewNotebook(null)}
         />

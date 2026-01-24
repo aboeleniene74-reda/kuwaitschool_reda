@@ -40,6 +40,7 @@ export default function AdminNotebookNew() {
     isFeatured: false,
   });
   const [pdfFile, setPdfFile] = useState<File | null>(null);
+  const [previewFile, setPreviewFile] = useState<File | null>(null);
   const [coverImage, setCoverImage] = useState<File | null>(null);
   const [uploading, setUploading] = useState(false);
 
@@ -80,10 +81,11 @@ export default function AdminNotebookNew() {
 
     setUploading(true);
     let fileUrl: string | undefined;
+    let previewUrl: string | undefined;
     let coverImageUrl: string | undefined;
 
     try {
-      // رفع ملف PDF
+      // رفع ملف PDF الكامل
       if (pdfFile) {
         const pdfBase64 = await fileToBase64(pdfFile);
         const pdfResult = await uploadFileMutation.mutateAsync({
@@ -92,6 +94,17 @@ export default function AdminNotebookNew() {
           contentType: pdfFile.type,
         });
         fileUrl = pdfResult.url;
+      }
+
+      // رفع نسخة المعاينة (أول صفحتين)
+      if (previewFile) {
+        const previewBase64 = await fileToBase64(previewFile);
+        const previewResult = await uploadFileMutation.mutateAsync({
+          file: previewBase64,
+          fileName: previewFile.name,
+          contentType: previewFile.type,
+        });
+        previewUrl = previewResult.url;
       }
 
       // رفع صورة الغلاف
@@ -115,6 +128,7 @@ export default function AdminNotebookNew() {
         price: formData.price,
         pages: formData.pages ? parseInt(formData.pages) : undefined,
         fileUrl,
+        previewUrl,
         coverImageUrl,
         isFeatured: formData.isFeatured,
         isPublished: true,
@@ -439,13 +453,13 @@ export default function AdminNotebookNew() {
 
                       {/* PDF File */}
                       <div className="space-y-2">
-                        <Label htmlFor="pdfFile">ملف PDF</Label>
+                        <Label htmlFor="pdfFile">ملف PDF الكامل (للمشترين فقط)</Label>
                         <div className="border-2 border-dashed rounded-lg p-6 text-center hover:border-primary transition-colors cursor-pointer"
                           onClick={() => document.getElementById('pdfFile')?.click()}
                         >
                           <Upload className="w-8 h-8 mx-auto mb-2 text-muted-foreground" />
                           <p className="text-sm text-muted-foreground">
-                            {pdfFile ? pdfFile.name : 'اضغط لرفع ملف PDF'}
+                            {pdfFile ? pdfFile.name : 'اضغط لرفع ملف PDF الكامل'}
                           </p>
                           <p className="text-xs text-muted-foreground mt-1">PDF (أقصى 50MB)</p>
                         </div>
@@ -455,6 +469,28 @@ export default function AdminNotebookNew() {
                           accept=".pdf"
                           className="hidden"
                           onChange={(e) => setPdfFile(e.target.files?.[0] || null)}
+                        />
+                      </div>
+
+                      {/* Preview PDF File */}
+                      <div className="space-y-2">
+                        <Label htmlFor="previewFile">نسخة المعاينة (أول صفحتين فقط) *</Label>
+                        <div className="border-2 border-dashed border-yellow-500 rounded-lg p-6 text-center hover:border-yellow-600 transition-colors cursor-pointer bg-yellow-50/50"
+                          onClick={() => document.getElementById('previewFile')?.click()}
+                        >
+                          <Upload className="w-8 h-8 mx-auto mb-2 text-yellow-600" />
+                          <p className="text-sm text-muted-foreground">
+                            {previewFile ? previewFile.name : 'اضغط لرفع نسخة المعاينة'}
+                          </p>
+                          <p className="text-xs text-yellow-700 mt-1 font-medium">ملف PDF يحتوي على أول صفحتين فقط</p>
+                          <p className="text-xs text-muted-foreground mt-1">PDF (أقصى 10MB)</p>
+                        </div>
+                        <Input
+                          id="previewFile"
+                          type="file"
+                          accept=".pdf"
+                          className="hidden"
+                          onChange={(e) => setPreviewFile(e.target.files?.[0] || null)}
                         />
                       </div>
                     </div>

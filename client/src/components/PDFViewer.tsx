@@ -1,10 +1,6 @@
-import { useEffect, useRef, useState } from "react";
-import { X, Lock, Loader2 } from "lucide-react";
+import { useEffect } from "react";
+import { X, Lock } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import * as pdfjsLib from 'pdfjs-dist';
-
-// تكوين PDF.js worker
-pdfjsLib.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.mjs`;
 
 interface PDFViewerProps {
   fileUrl: string;
@@ -13,11 +9,6 @@ interface PDFViewerProps {
 }
 
 export function PDFViewer({ fileUrl, title, onClose }: PDFViewerProps) {
-  const canvasRefs = [useRef<HTMLCanvasElement>(null), useRef<HTMLCanvasElement>(null)];
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [totalPages, setTotalPages] = useState(0);
-
   useEffect(() => {
     // منع الضغط على زر ESC للإغلاق
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -51,62 +42,8 @@ export function PDFViewer({ fileUrl, title, onClose }: PDFViewerProps) {
     };
   }, [onClose]);
 
-  useEffect(() => {
-    const loadPDF = async () => {
-      try {
-        setLoading(true);
-        setError(null);
-
-        // تحميل PDF
-        const loadingTask = pdfjsLib.getDocument(fileUrl);
-        const pdf = await loadingTask.promise;
-        
-        setTotalPages(pdf.numPages);
-
-        // عرض أول صفحتين فقط
-        const pagesToRender = Math.min(2, pdf.numPages);
-        
-        for (let pageNum = 1; pageNum <= pagesToRender; pageNum++) {
-          const page = await pdf.getPage(pageNum);
-          const canvas = canvasRefs[pageNum - 1].current;
-          
-          if (!canvas) continue;
-
-          const context = canvas.getContext('2d');
-          if (!context) continue;
-
-          // حساب المقياس لملء العرض
-          const viewport = page.getViewport({ scale: 1 });
-          const scale = Math.min(
-            (canvas.parentElement?.clientWidth || 800) / viewport.width,
-            1.5 // حد أقصى للمقياس
-          );
-          
-          const scaledViewport = page.getViewport({ scale });
-
-          canvas.height = scaledViewport.height;
-          canvas.width = scaledViewport.width;
-
-          // رسم الصفحة
-          const renderContext: any = {
-            canvasContext: context,
-            viewport: scaledViewport,
-          };
-          await page.render(renderContext).promise;
-        }
-
-        setLoading(false);
-      } catch (err) {
-        console.error('Error loading PDF:', err);
-        setError('فشل تحميل المعاينة. يرجى المحاولة لاحقاً.');
-        setLoading(false);
-      }
-    };
-
-    if (fileUrl) {
-      loadPDF();
-    }
-  }, [fileUrl]);
+  // استخدام Google Docs Viewer لعرض PDF
+  const googleViewerUrl = `https://docs.google.com/viewer?url=${encodeURIComponent(fileUrl)}&embedded=true`;
 
   return (
     <div 
@@ -124,9 +61,7 @@ export function PDFViewer({ fileUrl, title, onClose }: PDFViewerProps) {
             <Lock className="h-5 w-5 text-yellow-400" />
             <div>
               <h2 className="text-lg font-bold" dir="rtl">{title}</h2>
-              <p className="text-xs text-gray-300" dir="rtl">
-                معاينة محدودة - أول صفحتين فقط {totalPages > 0 && `(من أصل ${totalPages} صفحة)`}
-              </p>
+              <p className="text-xs text-gray-300" dir="rtl">معاينة محدودة - أول صفحتين فقط</p>
             </div>
           </div>
           
@@ -150,72 +85,23 @@ export function PDFViewer({ fileUrl, title, onClose }: PDFViewerProps) {
 
         {/* PDF Viewer */}
         <div 
-          className="flex-1 bg-gray-900 overflow-y-auto p-4" 
+          className="flex-1 bg-gray-900 relative" 
           onContextMenu={(e) => e.preventDefault()}
-          style={{ userSelect: 'none', WebkitUserSelect: 'none' }}
         >
-          {loading && (
-            <div className="flex items-center justify-center h-full">
-              <div className="text-center text-white">
-                <Loader2 className="h-12 w-12 animate-spin mx-auto mb-4" />
-                <p>جاري تحميل المعاينة...</p>
-              </div>
-            </div>
-          )}
-
-          {error && (
-            <div className="flex items-center justify-center h-full">
-              <div className="bg-red-500/20 border border-red-500 rounded-lg p-6 text-center text-white max-w-md">
-                <p className="font-bold mb-2">حدث خطأ</p>
-                <p className="text-sm">{error}</p>
-              </div>
-            </div>
-          )}
-
-          {!loading && !error && (
-            <div className="max-w-4xl mx-auto space-y-6">
-              {canvasRefs.map((ref, index) => (
-                <div key={index} className="bg-white shadow-2xl">
-                  <canvas
-                    ref={ref}
-                    className="w-full h-auto"
-                    onContextMenu={(e) => e.preventDefault()}
-                    style={{ userSelect: 'none', WebkitUserSelect: 'none' }}
-                  />
-                  <div className="bg-gray-800 text-white text-center py-2 text-sm" dir="rtl">
-                    صفحة {index + 1} من 2 (معاينة)
-                  </div>
-                </div>
-              ))}
-              
-              {/* رسالة نهاية المعاينة */}
-              <div className="bg-gradient-to-r from-primary to-primary/80 text-white rounded-lg p-8 text-center shadow-xl" dir="rtl">
-                <Lock className="h-16 w-16 mx-auto mb-4" />
-                <h3 className="text-2xl font-bold mb-2">انتهت المعاينة المجانية</h3>
-                <p className="mb-4">
-                  هذه معاينة محدودة لأول صفحتين فقط.
-                  {totalPages > 2 && ` المذكرة الكاملة تحتوي على ${totalPages} صفحة.`}
-                </p>
-                <p className="text-lg font-bold mb-2">للحصول على المذكرة الكاملة</p>
-                <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                  <a 
-                    href="tel:99457080"
-                    className="bg-white text-primary px-6 py-3 rounded-lg font-bold hover:bg-gray-100 transition"
-                  >
-                    📞 اتصل: 99457080
-                  </a>
-                  <a 
-                    href="https://wa.me/96599457080"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="bg-green-600 text-white px-6 py-3 rounded-lg font-bold hover:bg-green-700 transition"
-                  >
-                    💬 واتساب: 99457080
-                  </a>
-                </div>
-              </div>
-            </div>
-          )}
+          <iframe
+            src={googleViewerUrl}
+            className="w-full h-full border-0"
+            title={title}
+            sandbox="allow-same-origin allow-scripts"
+            onContextMenu={(e) => e.preventDefault()}
+          />
+          
+          {/* طبقة حماية شفافة */}
+          <div 
+            className="absolute inset-0 pointer-events-none select-none"
+            onContextMenu={(e) => e.preventDefault()}
+            style={{ userSelect: 'none', WebkitUserSelect: 'none' }}
+          />
         </div>
 
         {/* Footer */}
