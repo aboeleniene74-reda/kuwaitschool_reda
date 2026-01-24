@@ -24,6 +24,17 @@ import {
 import { Link, useLocation } from "wouter";
 import { getLoginUrl } from "@/const";
 import { toast } from "sonner";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+import { useState } from "react";
 
 export default function AdminNotebooks() {
   const { user, loading } = useAuth();
@@ -37,6 +48,32 @@ export default function AdminNotebooks() {
   const { data: notebooks, refetch } = trpc.notebooks.listAll.useQuery(undefined, {
     enabled: user?.role === "admin" || user?.role === "teacher",
   });
+
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [notebookToDelete, setNotebookToDelete] = useState<number | null>(null);
+
+  const deleteMutation = trpc.notebooks.delete.useMutation({
+    onSuccess: () => {
+      toast.success("تم حذف المذكرة بنجاح");
+      refetch();
+      setDeleteDialogOpen(false);
+      setNotebookToDelete(null);
+    },
+    onError: (error) => {
+      toast.error("فشل حذف المذكرة: " + error.message);
+    },
+  });
+
+  const handleDeleteClick = (notebookId: number) => {
+    setNotebookToDelete(notebookId);
+    setDeleteDialogOpen(true);
+  };
+
+  const handleConfirmDelete = () => {
+    if (notebookToDelete) {
+      deleteMutation.mutate({ id: notebookToDelete });
+    }
+  };
 
   // Redirect if not admin
   if (!loading && (!user || (user.role !== "admin" && user.role !== "teacher"))) {
@@ -74,6 +111,7 @@ export default function AdminNotebooks() {
   }
 
   return (
+    <>
     <div className="min-h-screen bg-gradient-to-br from-background via-primary/5 to-accent/10">
       {/* Header */}
       <header className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50">
@@ -240,9 +278,7 @@ export default function AdminNotebooks() {
                               <Button
                                 variant="ghost"
                                 size="sm"
-                                onClick={() => {
-                                  toast.info("ميزة الحذف قيد التطوير");
-                                }}
+                                onClick={() => handleDeleteClick(notebook.id)}
                               >
                                 <Trash2 className="w-4 h-4 text-destructive" />
                               </Button>
@@ -259,5 +295,27 @@ export default function AdminNotebooks() {
         </div>
       </div>
     </div>
+
+    <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>تأكيد الحذف</AlertDialogTitle>
+          <AlertDialogDescription>
+            هل أنت متأكد من حذف هذه المذكرة؟ لن تتمكن من التراجع عن هذا الإجراء.
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel>إلغاء</AlertDialogCancel>
+          <AlertDialogAction
+            onClick={handleConfirmDelete}
+            disabled={deleteMutation.isPending}
+            className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+          >
+            {deleteMutation.isPending ? "جاري الحذف..." : "حذف"}
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+  </>
   );
 }

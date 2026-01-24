@@ -342,6 +342,17 @@ export const appRouter = router({
       .query(async ({ input }) => {
         return await db.getNotebookRatingStats(input.notebookId);
       }),
+
+    // حذف مذكرة
+    delete: teacherProcedure
+      .input(z.object({ id: z.number() }))
+      .mutation(async ({ input, ctx }) => {
+        if (ctx.user?.role !== 'admin' && ctx.user?.role !== 'teacher') {
+          throw new TRPCError({ code: 'FORBIDDEN' });
+        }
+        await db.deleteNotebook(input.id);
+        return { success: true };
+      }),
   }),
 
   // ============= Purchases (المشتريات) =============

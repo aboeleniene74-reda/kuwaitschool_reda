@@ -1144,3 +1144,11 @@ export async function broadcastNotification(notification: Omit<InsertNotificatio
     userId: null,
   });
 }
+
+
+export async function deleteNotebook(notebookId: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  await db.delete(notebooks).where(eq(notebooks.id, notebookId));
+}
