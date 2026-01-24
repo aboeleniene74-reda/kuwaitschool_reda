@@ -122,7 +122,7 @@ export default function AdminNotebooks() {
                 <GraduationCap className="w-6 h-6 text-primary-foreground" />
               </div>
               <div>
-                <h1 className="text-xl font-bold">علوم ثانوي</h1>
+                <h1 className="text-xl font-bold">منصة ثانوي علمي</h1>
                 <p className="text-xs text-muted-foreground">لوحة تحكم الأدمن</p>
               </div>
             </div>

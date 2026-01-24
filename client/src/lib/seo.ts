@@ -14,7 +14,7 @@ interface SEOConfig {
 
 export function updateSEO(config: SEOConfig) {
   // Update title
-  document.title = `${config.title} | منصة جيولوجيا ثانوي الكويت`;
+  document.title = `${config.title} | منصة ثانوي علمي بالكويت`;
 
   // Update or create meta tags
   updateMetaTag("description", config.description);
@@ -92,19 +92,19 @@ export const defaultSEO: SEOConfig = {
 export const pageSEO = {
   about: {
     title: "من نحن",
-    description: "تعرف على منصة جيولوجيا ثانوي الكويت - نوفر أفضل المذكرات والمراجعات العلمية للطلاب بإشراف فارس العلوم",
+    description: "تعرف على منصة ثانوي علمي بالكويت - نوفر أفضل المذكرات والمراجعات العلمية للطلاب بإشراف فارس العلوم",
     keywords: ["من نحن", "فارس العلوم", "منصة تعليمية", "الكويت"]
   },
   
   privacy: {
     title: "سياسة الخصوصية",
-    description: "سياسة الخصوصية وحماية البيانات في منصة جيولوجيا ثانوي الكويت - نلتزم بحماية معلوماتك الشخصية",
+    description: "سياسة الخصوصية وحماية البيانات في منصة ثانوي علمي بالكويت - نلتزم بحماية معلوماتك الشخصية",
     keywords: ["سياسة الخصوصية", "حماية البيانات", "أمان المعلومات"]
   },
   
   terms: {
     title: "شروط الاستخدام",
-    description: "شروط وأحكام استخدام منصة جيولوجيا ثانوي الكويت - اقرأ الشروط قبل استخدام المنصة",
+    description: "شروط وأحكام استخدام منصة ثانوي علمي بالكويت - اقرأ الشروط قبل استخدام المنصة",
     keywords: ["شروط الاستخدام", "أحكام الاستخدام", "قواعد المنصة"]
   },
   

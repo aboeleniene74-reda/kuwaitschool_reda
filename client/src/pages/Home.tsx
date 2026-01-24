@@ -29,7 +29,7 @@ export default function Home() {
               <GraduationCap className="w-6 h-6 text-primary-foreground" />
             </div>
             <div>
-              <h1 className="text-xl font-bold">علوم ثانوي</h1>
+              <h1 className="text-xl font-bold">منصة ثانوي علمي</h1>
               <p className="text-xs text-muted-foreground">مذكرات علمية للمرحلة الثانوية</p>
             </div>
           </div>
@@ -125,7 +125,7 @@ export default function Home() {
       {/* Features Section */}
       <section className="bg-muted/50 py-16">
         <div className="container">
-          <h3 className="text-3xl font-bold text-center mb-12">لماذا علوم ثانوي؟</h3>
+          <h3 className="text-3xl font-bold text-center mb-12">لماذا منصة ثانوي علمي؟</h3>
           <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
             <Card className="text-center">
               <CardHeader>
@@ -242,7 +242,7 @@ export default function Home() {
       <footer className="border-t py-8">
         <div className="container">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-            <p className="text-muted-foreground">© 2024 علوم ثانوي - جميع الحقوق محفوظة</p>
+            <p className="text-muted-foreground">© 2024 منصة ثانوي علمي - جميع الحقوق محفوظة</p>
             <div className="flex items-center gap-4">
               <Link href="/privacy">
                 <Button variant="link" className="text-muted-foreground hover:text-primary">

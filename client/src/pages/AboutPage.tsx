@@ -24,7 +24,7 @@ export default function AboutPage() {
       <div className="bg-gradient-to-l from-blue-600 to-green-600 text-white py-16">
         <div className="container max-w-4xl">
           <h1 className="text-4xl md:text-5xl font-bold mb-4 text-center">من نحن</h1>
-          <p className="text-xl text-center text-blue-50">منصة جيولوجيا ثانوي الكويت - studygeology.k8</p>
+          <p className="text-xl text-center text-blue-50">منصة ثانوي علمي الكويت - studygeology.k8</p>
         </div>
       </div>
 
@@ -40,7 +40,7 @@ export default function AboutPage() {
           </CardHeader>
           <CardContent className="space-y-4 text-lg leading-relaxed">
             <p>
-              **منصة جيولوجيا ثانوي الكويت** هي منصة تعليمية متخصصة تهدف إلى توفير محتوى تعليمي عالي الجودة لطلاب المرحلة الثانوية في دولة الكويت، مع التركيز بشكل خاص على مادة **الجيولوجيا** للصفوف العاشر والحادي عشر والثاني عشر.
+              **منصة ثانوي علمي الكويت** هي منصة تعليمية متخصصة تهدف إلى توفير محتوى تعليمي عالي الجودة لطلاب المرحلة الثانوية في دولة الكويت، مع التركيز بشكل خاص على مادة **الجيولوجيا** للصفوف العاشر والحادي عشر والثاني عشر.
             </p>
             <p>
               نسعى لتسهيل عملية التعلم من خلال توفير مواد دراسية منظمة ومصنفة بعناية، تشمل الكتب المدرسية، الملخصات، المراجعات، والنماذج الامتحانية المحلولة وغير المحلولة.
