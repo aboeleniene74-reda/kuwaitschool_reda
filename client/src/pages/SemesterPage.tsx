@@ -113,28 +113,43 @@ export default function SemesterPage() {
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               {subjects.map((subject) => (
                 <Link key={subject.id} href={`/grade/${gradeId}/semester/${semesterId}/subject/${subject.id}`}>
-                  <Card className="border-2 hover:border-primary/50 transition-all cursor-pointer group h-full">
-                    <CardHeader className="text-center pb-4">
+                  <Card className="border-0 shadow-lg hover:shadow-2xl transition-all duration-300 cursor-pointer group h-full overflow-hidden relative">
+                    {/* Gradient Background */}
+                    <div 
+                      className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                      style={{
+                        background: subject.color
+                          ? `linear-gradient(135deg, color-mix(in oklch, ${subject.color}, transparent 85%) 0%, color-mix(in oklch, ${subject.color}, transparent 95%) 100%)`
+                          : "linear-gradient(135deg, oklch(0.48 0.18 250 / 0.15) 0%, oklch(0.48 0.18 250 / 0.05) 100%)",
+                      }}
+                    />
+                    
+                    <CardHeader className="text-center pb-4 relative z-10">
                       <div
-                        className="w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform"
+                        className="w-24 h-24 rounded-3xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 group-hover:rotate-6 transition-all duration-300 shadow-lg"
                         style={{
-                          backgroundColor: subject.color
-                            ? `color-mix(in oklch, ${subject.color}, transparent 85%)`
-                            : "oklch(0.48 0.18 250 / 0.15)",
+                          background: subject.color
+                            ? `linear-gradient(135deg, ${subject.color}, color-mix(in oklch, ${subject.color}, black 20%))`
+                            : "linear-gradient(135deg, oklch(0.48 0.18 250), oklch(0.38 0.18 250))",
                         }}
                       >
-                        <BookOpen
-                          className="w-10 h-10"
-                          style={{ color: subject.color || "oklch(0.48 0.18 250)" }}
-                        />
+                        <BookOpen className="w-12 h-12 text-white" />
                       </div>
-                      <CardTitle className="text-2xl">{subject.name}</CardTitle>
+                      <CardTitle className="text-2xl font-bold">{subject.name}</CardTitle>
                       {subject.description && (
-                        <CardDescription className="text-base">{subject.description}</CardDescription>
+                        <CardDescription className="text-base mt-2">{subject.description}</CardDescription>
                       )}
                     </CardHeader>
-                    <CardContent>
-                      <Button className="w-full" variant="outline">
+                    <CardContent className="relative z-10">
+                      <Button 
+                        className="w-full shadow-md hover:shadow-xl transition-all duration-300 font-semibold py-6 text-lg text-white" 
+                        size="lg"
+                        style={{
+                          background: subject.color
+                            ? `linear-gradient(to right, ${subject.color}, color-mix(in oklch, ${subject.color}, black 20%))`
+                            : "linear-gradient(to right, oklch(0.48 0.18 250), oklch(0.38 0.18 250))",
+                        }}
+                      >
                         <ArrowRight className="ml-2 w-5 h-5" />
                         عرض الأقسام
                       </Button>

@@ -106,19 +106,23 @@ export default function Home() {
           ) : (
             grades.map((grade) => (
               <Link key={grade.id} href={`/grade/${grade.id}`}>
-                <Card className="border-2 hover:border-primary/50 transition-all cursor-pointer group">
-                  <CardHeader className="text-center pb-4">
-                    <div className="w-20 h-20 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:bg-primary/20 transition-colors">
-                      <GraduationCap className="w-10 h-10 text-primary" />
+                <Card className="border-0 shadow-lg hover:shadow-2xl transition-all duration-300 cursor-pointer group overflow-hidden relative">
+                  {/* Gradient Background */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-accent/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  
+                  <CardHeader className="text-center pb-4 relative z-10">
+                    <div className="w-24 h-24 bg-gradient-to-br from-primary to-accent rounded-3xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300 shadow-lg">
+                      <GraduationCap className="w-12 h-12 text-white" />
                     </div>
-                    <CardTitle className="text-2xl">{grade.name}</CardTitle>
+                    <CardTitle className="text-2xl font-bold">{grade.name}</CardTitle>
                     {grade.description && (
-                      <CardDescription className="text-base">{grade.description}</CardDescription>
+                      <CardDescription className="text-base mt-2">{grade.description}</CardDescription>
                     )}
                   </CardHeader>
-                  <CardContent>
-                    <Button className="w-full" variant="outline">
+                  <CardContent className="relative z-10">
+                    <Button className="w-full shadow-md hover:shadow-xl transition-all duration-300 bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 text-white font-semibold py-6 text-lg" size="lg">
                       عرض المواد
+                      <GraduationCap className="mr-2 w-5 h-5" />
                     </Button>
                   </CardContent>
                 </Card>
