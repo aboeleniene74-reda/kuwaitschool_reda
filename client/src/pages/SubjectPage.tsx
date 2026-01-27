@@ -143,6 +143,12 @@ export default function SubjectPage() {
                           {category.order}
                         </Badge>
                       </div>
+                      {/* إضافة نص خاص للكتاب المدرسي */}
+                      {category.id === 1 && (
+                        <CardDescription className="text-sm font-medium text-primary mt-1">
+                          بنك أسئلة التوجيه الفني
+                        </CardDescription>
+                      )}
                       {category.nameEn && (
                         <CardDescription className="text-sm">{category.nameEn}</CardDescription>
                       )}
