@@ -254,6 +254,13 @@ export default function CategoryContentPage() {
                           <Eye className="ml-2 w-4 h-4" />
                           معاينة
                         </Button>
+                        
+                        {/* زر توضيحي لقسم ملخصات الشرح فقط */}
+                        {currentCategory?.nameEn === "Summary" && (
+                          <Badge variant="secondary" className="text-xs">
+                            مذكرة مجانية - عليك التوصيل
+                          </Badge>
+                        )}
                       </div>
                     </div>
 
