@@ -78,6 +78,25 @@ export default function AdminNotebookNew() {
       return;
     }
 
+    // فحص حجم الملفات
+    const maxPdfSize = 50 * 1024 * 1024; // 50MB
+    const maxImageSize = 5 * 1024 * 1024; // 5MB
+    
+    if (pdfFile && pdfFile.size > maxPdfSize) {
+      toast.error("حجم ملف PDF يتجاوز الحد المسموح (50MB)");
+      return;
+    }
+    
+    if (previewFile && previewFile.size > maxPdfSize) {
+      toast.error("حجم ملف المعاينة يتجاوز الحد المسموح (50MB)");
+      return;
+    }
+    
+    if (coverImage && coverImage.size > maxImageSize) {
+      toast.error("حجم صورة الغلاف يتجاوز الحد المسموح (5MB)");
+      return;
+    }
+
     setUploading(true);
     let fileUrl: string | undefined;
     let previewUrl: string | undefined;
@@ -86,6 +105,7 @@ export default function AdminNotebookNew() {
     try {
       // رفع ملف PDF الكامل
       if (pdfFile) {
+        toast.info("جاري رفع ملف PDF...");
         const pdfBase64 = await fileToBase64(pdfFile);
         const pdfResult = await uploadFileMutation.mutateAsync({
           file: pdfBase64,
@@ -93,10 +113,12 @@ export default function AdminNotebookNew() {
           contentType: pdfFile.type,
         });
         fileUrl = pdfResult.url;
+        toast.success("تم رفع ملف PDF بنجاح");
       }
 
       // رفع نسخة المعاينة (أول صفحتين)
       if (previewFile) {
+        toast.info("جاري رفع ملف المعاينة...");
         const previewBase64 = await fileToBase64(previewFile);
         const previewResult = await uploadFileMutation.mutateAsync({
           file: previewBase64,
@@ -104,10 +126,12 @@ export default function AdminNotebookNew() {
           contentType: previewFile.type,
         });
         previewUrl = previewResult.url;
+        toast.success("تم رفع ملف المعاينة بنجاح");
       }
 
       // رفع صورة الغلاف
       if (coverImage) {
+        toast.info("جاري رفع صورة الغلاف...");
         const coverBase64 = await fileToBase64(coverImage);
         const coverResult = await uploadFileMutation.mutateAsync({
           file: coverBase64,
@@ -115,6 +139,7 @@ export default function AdminNotebookNew() {
           contentType: coverImage.type,
         });
         coverImageUrl = coverResult.url;
+        toast.success("تم رفع صورة الغلاف بنجاح");
       }
 
       createNotebookMutation.mutate({
@@ -132,8 +157,10 @@ export default function AdminNotebookNew() {
         isFeatured: formData.isFeatured,
         isPublished: true,
       });
-    } catch (error) {
-      toast.error("فشل رفع الملفات");
+    } catch (error: any) {
+      console.error("خطأ في رفع الملفات:", error);
+      const errorMessage = error?.message || error?.toString() || "خطأ غير معروف";
+      toast.error(`فشل رفع الملفات: ${errorMessage}`);
     } finally {
       setUploading(false);
     }

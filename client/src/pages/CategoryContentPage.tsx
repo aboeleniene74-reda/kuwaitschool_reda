@@ -65,9 +65,16 @@ export default function CategoryContentPage() {
   const handleDownload = (notebook: any) => {
     const downloadUrl = notebook.fileUrl || notebook.previewUrl;
     if (downloadUrl) {
-      // فتح رابط التحميل في تبويب جديد
-      window.open(downloadUrl, '_blank');
-      toast.success("تم فتح رابط التحميل في تبويب جديد");
+      // إنشاء عنصر <a> لتحميل الملف
+      const link = document.createElement('a');
+      link.href = downloadUrl;
+      link.download = notebook.title || 'notebook.pdf';
+      link.target = '_blank';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      
+      toast.success("جاري تحميل الملف...");
     } else {
       toast.error("رابط التحميل غير متوفر");
     }
