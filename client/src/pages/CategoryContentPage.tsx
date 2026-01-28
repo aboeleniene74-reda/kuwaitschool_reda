@@ -36,17 +36,17 @@ export default function CategoryContentPage() {
   const isFreeCategory = currentCategory?.nameEn === "Textbook" || 
                          currentCategory?.nameEn === "Question Bank";
 
+  const incrementView = trpc.notebooks.incrementViewCount.useMutation();
+  const incrementDownload = trpc.notebooks.incrementDownloadCount.useMutation();
+
   const handlePreview = (notebook: any) => {
     const pdfUrl = notebook.previewUrl || notebook.fileUrl;
     if (pdfUrl) {
       // فتح PDF في تبويب جديد
       window.open(pdfUrl, '_blank');
       
-      // تتبع مشاهدة المذكرة
-      trackView.mutate({
-        notebookId: notebook.id,
-        ipAddress: undefined,
-      });
+      // زيادة عداد المشاهدات
+      incrementView.mutate({ notebookId: notebook.id });
     } else {
       toast.error("رابط المعاينة غير متوفر");
     }
@@ -73,6 +73,9 @@ export default function CategoryContentPage() {
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
+      
+      // زيادة عداد التحميلات
+      incrementDownload.mutate({ notebookId: notebook.id });
       
       toast.success("جاري تحميل الملف...");
     } else {

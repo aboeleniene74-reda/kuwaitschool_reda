@@ -403,6 +403,22 @@ export const appRouter = router({
         return await db.getNotebookRatingStats(input.notebookId);
       }),
 
+    // زيادة عداد المشاهدات
+    incrementViewCount: publicProcedure
+      .input(z.object({ notebookId: z.number() }))
+      .mutation(async ({ input }) => {
+        await db.incrementNotebookViewCount(input.notebookId);
+        return { success: true };
+      }),
+
+    // زيادة عداد التحميلات
+    incrementDownloadCount: publicProcedure
+      .input(z.object({ notebookId: z.number() }))
+      .mutation(async ({ input }) => {
+        await db.incrementNotebookDownloadCount(input.notebookId);
+        return { success: true };
+      }),
+
     // تعديل مذكرة
     update: teacherProcedure
       .input(z.object({

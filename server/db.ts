@@ -1464,3 +1464,33 @@ export async function getRatingsStatistics() {
     percentages,
   };
 }
+
+/**
+ * زيادة عداد المشاهدات لمذكرة معينة
+ */
+export async function incrementNotebookViewCount(notebookId: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+
+  await db
+    .update(notebooks)
+    .set({ viewCount: sql`${notebooks.viewCount} + 1` })
+    .where(eq(notebooks.id, notebookId));
+
+  return true;
+}
+
+/**
+ * زيادة عداد التحميلات لمذكرة معينة
+ */
+export async function incrementNotebookDownloadCount(notebookId: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+
+  await db
+    .update(notebooks)
+    .set({ downloadCount: sql`${notebooks.downloadCount} + 1` })
+    .where(eq(notebooks.id, notebookId));
+
+  return true;
+}
