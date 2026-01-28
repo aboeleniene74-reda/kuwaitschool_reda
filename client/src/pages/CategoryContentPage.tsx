@@ -202,8 +202,8 @@ export default function CategoryContentPage() {
                       {/* نوع التحميل */}
                       <div className="flex items-center gap-2">
                         <span className="font-semibold">التحميل:</span>
-                        <Badge variant={notebook.isFreeDownload ? "default" : "secondary"}>
-                          {notebook.isFreeDownload ? "مجاني" : "معاينة فقط"}
+                        <Badge variant={(notebook.price === "0" || !notebook.price) ? "default" : "secondary"}>
+                          {(notebook.price === "0" || !notebook.price) ? "مجاني" : "معاينة فقط"}
                         </Badge>
                       </div>
 
@@ -232,8 +232,8 @@ export default function CategoryContentPage() {
                         <span className="text-muted-foreground">{notebook.viewCount || 0}</span>
                       </div>
 
-                      {/* رقم التواصل (للأقسام المدفوعة فقط) */}
-                      {!isFreeCategory && (
+                      {/* رقم التواصل (فقط للمذكرات المدفوعة) */}
+                      {notebook.price && notebook.price !== "0" && (
                         <div className="flex items-center gap-2">
                           <Phone className="w-4 h-4 text-muted-foreground" />
                           <span className="font-semibold">للحصول على المذكرة:</span>
@@ -259,8 +259,8 @@ export default function CategoryContentPage() {
 
                     {/* أزرار الإجراءات */}
                     <div className="flex gap-3">
-                      {/* زر التحميل المجاني (للكتاب المدرسي فقط) */}
-                      {currentCategory?.nameEn === "Textbook" && (
+                      {/* زر التحميل المجاني (للمذكرات بدون سعر) */}
+                      {(notebook.price === "0" || !notebook.price) && (
                         <Button
                           className="bg-blue-600 hover:bg-blue-700"
                           onClick={() => handleDownload(notebook)}
@@ -271,8 +271,8 @@ export default function CategoryContentPage() {
                         </Button>
                       )}
 
-                      {/* أزرار التواصل (للأقسام المدفوعة فقط) */}
-                      {!isFreeCategory && (
+                      {/* أزرار التواصل (للمذكرات المدفوعة فقط) */}
+                      {notebook.price && notebook.price !== "0" && (
                         <>
                           <Button
                             variant="outline"
