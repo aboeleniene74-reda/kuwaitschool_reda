@@ -84,12 +84,12 @@ export default function Home() {
       </header>
 
       {/* Hero Section */}
-      <section className="container py-12">
-        <div className="text-center max-w-3xl mx-auto mb-12">
-          <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-l from-primary to-accent bg-clip-text text-transparent">
+      <section className="container py-8">
+        <div className="text-center max-w-3xl mx-auto mb-8">
+          <h2 className="text-3xl md:text-4xl font-bold mb-3 bg-gradient-to-l from-primary to-accent bg-clip-text text-transparent">
             مذكرات علمية شاملة
           </h2>
-          <p className="text-lg text-muted-foreground leading-relaxed mb-6">
+          <p className="text-base text-muted-foreground leading-relaxed mb-4">
             أفضل المذكرات الدراسية في الكيمياء والأحياء والفيزياء والجيولوجيا للمرحلة الثانوية بالكويت
           </p>
           
@@ -98,31 +98,30 @@ export default function Home() {
         </div>
 
         {/* Grades Grid */}
-        <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto mb-8">
+        <div className="grid md:grid-cols-3 gap-4 max-w-4xl mx-auto mb-6">
           {!grades || grades.length === 0 ? (
-            <div className="col-span-3 text-center py-8">
-              <BookOpen className="w-12 h-12 text-muted-foreground mx-auto mb-3" />
-              <h3 className="text-xl font-semibold mb-2">قريباً</h3>
-              <p className="text-muted-foreground">سيتم إضافة المذكرات الدراسية قريباً</p>
+            <div className="col-span-3 text-center py-6">
+              <BookOpen className="w-10 h-10 text-muted-foreground mx-auto mb-2" />
+              <h3 className="text-lg font-semibold mb-1">قريباً</h3>
+              <p className="text-sm text-muted-foreground">سيتم إضافة المذكرات الدراسية قريباً</p>
             </div>
           ) : (
             grades.map((grade) => (
               <Link key={grade.id} href={`/grade/${grade.id}`}>
-                <Card className="border-0 shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer group overflow-hidden relative h-full">
-                  {/* Gradient Background */}
+                <Card className="border-0 shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer group overflow-hidden relative h-full">
                   <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-accent/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   
-                  <CardHeader className="text-center pb-3 relative z-10">
-                    <div className="w-16 h-16 bg-gradient-to-br from-primary to-accent rounded-2xl flex items-center justify-center mx-auto mb-3 group-hover:scale-110 transition-transform duration-300 shadow-md">
-                      <GraduationCap className="w-8 h-8 text-white" />
+                  <CardHeader className="text-center pb-2 relative z-10">
+                    <div className="w-14 h-14 bg-gradient-to-br from-primary to-accent rounded-2xl flex items-center justify-center mx-auto mb-2 group-hover:scale-110 transition-transform duration-300 shadow-md">
+                      <GraduationCap className="w-7 h-7 text-white" />
                     </div>
-                    <CardTitle className="text-xl font-bold">{grade.name}</CardTitle>
+                    <CardTitle className="text-lg font-bold">{grade.name}</CardTitle>
                     {grade.description && (
-                      <CardDescription className="text-sm mt-1">{grade.description}</CardDescription>
+                      <CardDescription className="text-xs mt-1">{grade.description}</CardDescription>
                     )}
                   </CardHeader>
-                  <CardContent className="relative z-10 pb-4">
-                    <Button className="w-full shadow-sm hover:shadow-md transition-all duration-300 bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 text-white font-semibold py-4 text-base" size="default">
+                  <CardContent className="relative z-10 pb-3">
+                    <Button className="w-full shadow-sm hover:shadow-md transition-all duration-300 bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 text-white font-semibold py-3 text-sm">
                       عرض المواد
                       <GraduationCap className="mr-2 w-4 h-4" />
                     </Button>
@@ -134,21 +133,21 @@ export default function Home() {
         </div>
 
         {/* Contact Section - Compact */}
-        <div className="max-w-2xl mx-auto mb-8">
+        <div className="max-w-2xl mx-auto mb-6">
           <Card className="border-2 shadow-lg bg-gradient-to-br from-blue-50 to-amber-50">
-            <CardContent className="p-4">
-              <div className="flex flex-col sm:flex-row items-center justify-center gap-4 text-center sm:text-right">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-primary/20 rounded-full flex items-center justify-center">
-                    <Phone className="w-5 h-5 text-primary" />
+            <CardContent className="p-3">
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-3 text-center sm:text-right">
+                <div className="flex items-center gap-2">
+                  <div className="w-9 h-9 bg-primary/20 rounded-full flex items-center justify-center">
+                    <Phone className="w-4 h-4 text-primary" />
                   </div>
                   <div>
                     <p className="text-xs text-muted-foreground">تواصل معنا</p>
-                    <p className="font-bold">فارس العلوم</p>
+                    <p className="text-sm font-bold">فارس العلوم</p>
                   </div>
                 </div>
-                <a href="tel:99457080" className="flex items-center gap-2 bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-lg transition-colors font-semibold">
-                  <Phone className="w-4 h-4" />
+                <a href="tel:99457080" className="flex items-center gap-2 bg-primary hover:bg-primary/90 text-white px-3 py-1.5 rounded-lg transition-colors font-semibold text-sm">
+                  <Phone className="w-3.5 h-3.5" />
                   99457080
                 </a>
               </div>
@@ -157,49 +156,49 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Features Section - Compact */}
-      <section className="bg-muted/50 py-12">
+      {/* Features Section - Very Compact */}
+      <section className="bg-muted/50 py-6">
         <div className="container">
-          <h3 className="text-2xl font-bold text-center mb-8">لماذا منصة K8 للعلوم؟</h3>
-          <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+          <h3 className="text-lg font-bold text-center mb-4">لماذا منصة K8 للعلوم؟</h3>
+          <div className="grid md:grid-cols-3 gap-3 max-w-3xl mx-auto">
             <Card className="text-center">
-              <CardHeader className="pb-3">
-                <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mx-auto mb-3">
-                  <BookOpen className="w-6 h-6 text-primary" />
+              <CardHeader className="pb-2 pt-3">
+                <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center mx-auto mb-2">
+                  <BookOpen className="w-5 h-5 text-primary" />
                 </div>
-                <CardTitle className="text-lg">محتوى شامل</CardTitle>
+                <CardTitle className="text-sm">محتوى شامل</CardTitle>
               </CardHeader>
-              <CardContent className="pb-4">
-                <p className="text-sm text-muted-foreground">
-                  مذكرات مفصلة تغطي جميع موضوعات المنهج بأسلوب واضح ومبسط
+              <CardContent className="pb-3">
+                <p className="text-xs text-muted-foreground">
+                  مذكرات مفصلة تغطي جميع موضوعات المنهج
                 </p>
               </CardContent>
             </Card>
 
             <Card className="text-center">
-              <CardHeader className="pb-3">
-                <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mx-auto mb-3">
-                  <GraduationCap className="w-6 h-6 text-primary" />
+              <CardHeader className="pb-2 pt-3">
+                <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center mx-auto mb-2">
+                  <GraduationCap className="w-5 h-5 text-primary" />
                 </div>
-                <CardTitle className="text-lg">معلمون متخصصون</CardTitle>
+                <CardTitle className="text-sm">معلمون متخصصون</CardTitle>
               </CardHeader>
-              <CardContent className="pb-4">
-                <p className="text-sm text-muted-foreground">
-                  مذكرات معدة من قبل معلمين ذوي خبرة طويلة في التدريس
+              <CardContent className="pb-3">
+                <p className="text-xs text-muted-foreground">
+                  مذكرات معدة من قبل معلمين ذوي خبرة
                 </p>
               </CardContent>
             </Card>
 
             <Card className="text-center">
-              <CardHeader className="pb-3">
-                <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mx-auto mb-3">
-                  <BookOpen className="w-6 h-6 text-primary" />
+              <CardHeader className="pb-2 pt-3">
+                <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center mx-auto mb-2">
+                  <BookOpen className="w-5 h-5 text-primary" />
                 </div>
-                <CardTitle className="text-lg">سهولة الوصول</CardTitle>
+                <CardTitle className="text-sm">سهولة الوصول</CardTitle>
               </CardHeader>
-              <CardContent className="pb-4">
-                <p className="text-sm text-muted-foreground">
-                  تصفح واشترِ المذكرات بسهولة وحملها فوراً بصيغة PDF
+              <CardContent className="pb-3">
+                <p className="text-xs text-muted-foreground">
+                  تصفح واشترِ المذكرات بسهولة
                 </p>
               </CardContent>
             </Card>
@@ -207,81 +206,81 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Testimonials Section - Compact */}
-      <section className="py-12 bg-gradient-to-br from-blue-50 via-white to-amber-50">
+      {/* Testimonials Section - Very Compact */}
+      <section className="py-6 bg-gradient-to-br from-blue-50 via-white to-amber-50">
         <div className="container">
-          <div className="text-center mb-8">
-            <h3 className="text-2xl font-bold mb-2">ماذا يقول طلابنا</h3>
-            <p className="text-muted-foreground">
-              شهادات حقيقية من طلاب استفادوا من مذكراتنا التعليمية
+          <div className="text-center mb-4">
+            <h3 className="text-lg font-bold mb-1">ماذا يقول طلابنا</h3>
+            <p className="text-xs text-muted-foreground">
+              شهادات حقيقية من طلاب استفادوا من مذكراتنا
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-4 max-w-4xl mx-auto">
+          <div className="grid md:grid-cols-3 gap-3 max-w-3xl mx-auto">
             {/* Testimonial 1 */}
-            <Card className="border hover:shadow-lg transition-all duration-300">
-              <CardContent className="p-4">
-                <div className="flex items-center gap-2 mb-3">
-                  <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center">
-                    <GraduationCap className="w-5 h-5 text-primary" />  
+            <Card className="border hover:shadow-md transition-all duration-300">
+              <CardContent className="p-3">
+                <div className="flex items-center gap-2 mb-2">
+                  <div className="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center">
+                    <GraduationCap className="w-4 h-4 text-primary" />  
                   </div>
                   <div>
-                    <p className="font-bold text-sm">أحمد الكندري</p>
+                    <p className="font-bold text-xs">أحمد الكندري</p>
                     <p className="text-xs text-muted-foreground">الصف الثاني عشر</p>
                   </div>
                 </div>
-                <p className="text-sm text-muted-foreground leading-relaxed">
-                  "المذكرات ساعدتني كثيراً في فهم الكيمياء. حصلت على 95% في الاختبار النهائي!"
+                <p className="text-xs text-muted-foreground leading-relaxed">
+                  "المذكرات ساعدتني كثيراً في فهم الكيمياء. حصلت على 95%!"
                 </p>
-                <div className="flex gap-1 mt-3">
+                <div className="flex gap-0.5 mt-2">
                   {[...Array(5)].map((_, i) => (
-                    <span key={i} className="text-yellow-500 text-sm">★</span>
+                    <span key={i} className="text-yellow-500 text-xs">★</span>
                   ))}
                 </div>
               </CardContent>
             </Card>
 
             {/* Testimonial 2 */}
-            <Card className="border hover:shadow-lg transition-all duration-300">
-              <CardContent className="p-4">
-                <div className="flex items-center gap-2 mb-3">
-                  <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center">
-                    <GraduationCap className="w-5 h-5 text-primary" />
+            <Card className="border hover:shadow-md transition-all duration-300">
+              <CardContent className="p-3">
+                <div className="flex items-center gap-2 mb-2">
+                  <div className="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center">
+                    <GraduationCap className="w-4 h-4 text-primary" />
                   </div>
                   <div>
-                    <p className="font-bold text-sm">فاطمة العتيبي</p>
+                    <p className="font-bold text-xs">فاطمة العتيبي</p>
                     <p className="text-xs text-muted-foreground">الصف الحادي عشر</p>
                   </div>
                 </div>
-                <p className="text-sm text-muted-foreground leading-relaxed">
-                  "أفضل مذكرات جيولوجيا! المراجعات النهائية كانت شاملة وساعدتني أفهم المادة بسهولة."
+                <p className="text-xs text-muted-foreground leading-relaxed">
+                  "أفضل مذكرات جيولوجيا! المراجعات النهائية كانت شاملة."
                 </p>
-                <div className="flex gap-1 mt-3">
+                <div className="flex gap-0.5 mt-2">
                   {[...Array(5)].map((_, i) => (
-                    <span key={i} className="text-yellow-500 text-sm">★</span>
+                    <span key={i} className="text-yellow-500 text-xs">★</span>
                   ))}
                 </div>
               </CardContent>
             </Card>
 
             {/* Testimonial 3 */}
-            <Card className="border hover:shadow-lg transition-all duration-300">
-              <CardContent className="p-4">
-                <div className="flex items-center gap-2 mb-3">
-                  <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center">
-                    <GraduationCap className="w-5 h-5 text-primary" />
+            <Card className="border hover:shadow-md transition-all duration-300">
+              <CardContent className="p-3">
+                <div className="flex items-center gap-2 mb-2">
+                  <div className="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center">
+                    <GraduationCap className="w-4 h-4 text-primary" />
                   </div>
                   <div>
-                    <p className="font-bold text-sm">خالد المطيري</p>
+                    <p className="font-bold text-xs">خالد المطيري</p>
                     <p className="text-xs text-muted-foreground">الصف العاشر</p>
                   </div>
                 </div>
-                <p className="text-sm text-muted-foreground leading-relaxed">
-                  "نماذج الاختبارات المحلولة ساعدتني أتدرب قبل الامتحان. جودة عالية!"
+                <p className="text-xs text-muted-foreground leading-relaxed">
+                  "نماذج الاختبارات المحلولة ساعدتني قبل الامتحان!"
                 </p>
-                <div className="flex gap-1 mt-3">
+                <div className="flex gap-0.5 mt-2">
                   {[...Array(5)].map((_, i) => (
-                    <span key={i} className="text-yellow-500 text-sm">★</span>
+                    <span key={i} className="text-yellow-500 text-xs">★</span>
                   ))}
                 </div>
               </CardContent>
@@ -290,19 +289,19 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Rating Section - Compact */}
-      <section className="bg-muted/30 py-12">
+      {/* Rating Section - Very Compact */}
+      <section className="bg-muted/30 py-6">
         <div className="container">
-          <div className="max-w-2xl mx-auto">
+          <div className="max-w-xl mx-auto">
             <SiteRatingForm />
           </div>
         </div>
       </section>
 
-      {/* Ratings List - Compact */}
-      <section className="py-12 bg-muted/30">
+      {/* Ratings List - Very Compact */}
+      <section className="py-6 bg-muted/30">
         <div className="container">
-          <div className="max-w-3xl mx-auto space-y-6">
+          <div className="max-w-2xl mx-auto space-y-4">
             <RatingsStatistics />
             <SiteRatingsList />
           </div>
@@ -310,25 +309,25 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="border-t py-6">
+      <footer className="border-t py-4">
         <div className="container">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-            <p className="text-sm text-muted-foreground">© 2024 منصة K8 للعلوم - جميع الحقوق محفوظة</p>
-            <div className="flex items-center gap-3 text-sm">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-3">
+            <p className="text-xs text-muted-foreground">© 2024 منصة K8 للعلوم - جميع الحقوق محفوظة</p>
+            <div className="flex items-center gap-2 text-xs">
               <Link href="/faq">
-                <Button variant="link" size="sm" className="text-muted-foreground hover:text-primary h-auto p-0">
+                <Button variant="link" size="sm" className="text-muted-foreground hover:text-primary h-auto p-0 text-xs">
                   الأسئلة الشائعة
                 </Button>
               </Link>
               <span className="text-muted-foreground">|</span>
               <Link href="/privacy">
-                <Button variant="link" size="sm" className="text-muted-foreground hover:text-primary h-auto p-0">
+                <Button variant="link" size="sm" className="text-muted-foreground hover:text-primary h-auto p-0 text-xs">
                   سياسة الخصوصية
                 </Button>
               </Link>
               <span className="text-muted-foreground">|</span>
               <Link href="/terms">
-                <Button variant="link" size="sm" className="text-muted-foreground hover:text-primary h-auto p-0">
+                <Button variant="link" size="sm" className="text-muted-foreground hover:text-primary h-auto p-0 text-xs">
                   شروط الاستخدام
                 </Button>
               </Link>
