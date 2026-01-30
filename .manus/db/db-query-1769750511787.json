@@ -1,0 +1,64 @@
+{
+  "query": "SELECT TABLE_NAME FROM information_schema.TABLES WHERE TABLE_SCHEMA = DATABASE();",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user ocoPq9UKt9MVUJb.root --database cF5vY7QXosm6HAcTf29xyM --execute SELECT TABLE_NAME FROM information_schema.TABLES WHERE TABLE_SCHEMA = DATABASE();",
+  "rows": [
+    {
+      "TABLE_NAME": "__drizzle_migrations"
+    },
+    {
+      "TABLE_NAME": "users"
+    },
+    {
+      "TABLE_NAME": "grades"
+    },
+    {
+      "TABLE_NAME": "subjects"
+    },
+    {
+      "TABLE_NAME": "notebooks"
+    },
+    {
+      "TABLE_NAME": "purchases"
+    },
+    {
+      "TABLE_NAME": "reviews"
+    },
+    {
+      "TABLE_NAME": "statistics"
+    },
+    {
+      "TABLE_NAME": "comments"
+    },
+    {
+      "TABLE_NAME": "sessions"
+    },
+    {
+      "TABLE_NAME": "session_bookings"
+    },
+    {
+      "TABLE_NAME": "site_ratings"
+    },
+    {
+      "TABLE_NAME": "session_ratings"
+    },
+    {
+      "TABLE_NAME": "live_comments"
+    },
+    {
+      "TABLE_NAME": "semesters"
+    },
+    {
+      "TABLE_NAME": "content_categories"
+    },
+    {
+      "TABLE_NAME": "blog_posts"
+    },
+    {
+      "TABLE_NAME": "rating_reports"
+    }
+  ],
+  "messages": [],
+  "stdout": "TABLE_NAME\n__drizzle_migrations\nusers\ngrades\nsubjects\nnotebooks\npurchases\nreviews\nstatistics\ncomments\nsessions\nsession_bookings\nsite_ratings\nsession_ratings\nlive_comments\nsemesters\ncontent_categories\nblog_posts\nrating_reports\n",
+  "stderr": "",
+  "execution_time_ms": 1526
+}

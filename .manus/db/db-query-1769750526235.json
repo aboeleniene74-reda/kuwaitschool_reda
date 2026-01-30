@@ -1,0 +1,38 @@
+{
+  "query": "SELECT id, email, name, role, password FROM users;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user ocoPq9UKt9MVUJb.root --database cF5vY7QXosm6HAcTf29xyM --execute SELECT id, email, name, role, password FROM users;",
+  "rows": [
+    {
+      "id": "1",
+      "email": "aboeleniene74@gmail.com",
+      "name": "Abouelenin M",
+      "role": "admin",
+      "password": "Reda99450890"
+    },
+    {
+      "id": "1290001",
+      "email": "farisreda9945@gmail.com",
+      "name": "Fares Reda",
+      "role": "user",
+      "password": "Rere99450890"
+    },
+    {
+      "id": "1890001",
+      "email": "redalibic74@yahoo.com",
+      "name": "Reda",
+      "role": "user",
+      "password": "Ra99450890"
+    },
+    {
+      "id": "1890014",
+      "email": "admin@k8-school.com",
+      "name": "Admin K8",
+      "role": "admin",
+      "password": "Admin123!"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\temail\tname\trole\tpassword\n1\taboeleniene74@gmail.com\tAbouelenin M\tadmin\tReda99450890\n1290001\tfarisreda9945@gmail.com\tFares Reda\tuser\tRere99450890\n1890001\tredalibic74@yahoo.com\tReda\tuser\tRa99450890\n1890014\tadmin@k8-school.com\tAdmin K8\tadmin\tAdmin123!\n",
+  "stderr": "",
+  "execution_time_ms": 1565
+}
