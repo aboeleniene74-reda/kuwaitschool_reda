@@ -1,0 +1,49 @@
+{
+  "query": "SELECT * FROM users;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user ocoPq9UKt9MVUJb.root --database cF5vY7QXosm6HAcTf29xyM --execute SELECT * FROM users;",
+  "rows": [
+    {
+      "id": "1",
+      "openId": "nSunUcxcLspVZkqgUkypN9",
+      "name": "Abouelenin M",
+      "email": "aboeleniene74@gmail.com",
+      "loginMethod": "google",
+      "role": "admin",
+      "createdAt": "2025-12-30 10:15:48",
+      "updatedAt": "2026-01-29 17:12:02",
+      "lastSignedIn": "2026-01-29 17:12:03",
+      "password": "Reda99450890",
+      "phone": "99457080"
+    },
+    {
+      "id": "1290001",
+      "openId": "NULL",
+      "name": "Fares Reda",
+      "email": "farisreda9945@gmail.com",
+      "loginMethod": "NULL",
+      "role": "user",
+      "createdAt": "2026-01-26 23:18:19",
+      "updatedAt": "2026-01-26 23:18:19",
+      "lastSignedIn": "2026-01-26 23:18:19",
+      "password": "Rere99450890",
+      "phone": "NULL"
+    },
+    {
+      "id": "1890001",
+      "openId": "NULL",
+      "name": "Reda",
+      "email": "redalibic74@yahoo.com",
+      "loginMethod": "NULL",
+      "role": "user",
+      "createdAt": "2026-01-30 04:10:35",
+      "updatedAt": "2026-01-30 04:10:35",
+      "lastSignedIn": "2026-01-30 04:10:35",
+      "password": "Ra99450890",
+      "phone": "60007193"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\topenId\tname\temail\tloginMethod\trole\tcreatedAt\tupdatedAt\tlastSignedIn\tpassword\tphone\n1\tnSunUcxcLspVZkqgUkypN9\tAbouelenin M\taboeleniene74@gmail.com\tgoogle\tadmin\t2025-12-30 10:15:48\t2026-01-29 17:12:02\t2026-01-29 17:12:03\tReda99450890\t99457080\n1290001\tNULL\tFares Reda\tfarisreda9945@gmail.com\tNULL\tuser\t2026-01-26 23:18:19\t2026-01-26 23:18:19\t2026-01-26 23:18:19\tRere99450890\tNULL\n1890001\tNULL\tReda\tredalibic74@yahoo.com\tNULL\tuser\t2026-01-30 04:10:35\t2026-01-30 04:10:35\t2026-01-30 04:10:35\tRa99450890\t60007193\n",
+  "stderr": "",
+  "execution_time_ms": 1499
+}

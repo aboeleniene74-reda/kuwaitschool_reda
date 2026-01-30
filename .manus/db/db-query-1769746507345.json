@@ -1,0 +1,31 @@
+{
+  "query": "SELECT id, email, name, role, openId FROM users LIMIT 10;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user ocoPq9UKt9MVUJb.root --database cF5vY7QXosm6HAcTf29xyM --execute SELECT id, email, name, role, openId FROM users LIMIT 10;",
+  "rows": [
+    {
+      "id": "1",
+      "email": "aboeleniene74@gmail.com",
+      "name": "Abouelenin M",
+      "role": "admin",
+      "openId": "nSunUcxcLspVZkqgUkypN9"
+    },
+    {
+      "id": "1290001",
+      "email": "farisreda9945@gmail.com",
+      "name": "Fares Reda",
+      "role": "user",
+      "openId": "NULL"
+    },
+    {
+      "id": "1890001",
+      "email": "redalibic74@yahoo.com",
+      "name": "Reda",
+      "role": "user",
+      "openId": "NULL"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\temail\tname\trole\topenId\n1\taboeleniene74@gmail.com\tAbouelenin M\tadmin\tnSunUcxcLspVZkqgUkypN9\n1290001\tfarisreda9945@gmail.com\tFares Reda\tuser\tNULL\n1890001\tredalibic74@yahoo.com\tReda\tuser\tNULL\n",
+  "stderr": "",
+  "execution_time_ms": 1549
+}
