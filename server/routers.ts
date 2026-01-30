@@ -1,4 +1,4 @@
-import { COOKIE_NAME } from "@shared/const";
+import { COOKIE_NAME, ONE_YEAR_MS } from "@shared/const";
 import { getSessionCookieOptions } from "./_core/cookies";
 import { systemRouter } from "./_core/systemRouter";
 import { publicProcedure, protectedProcedure, router } from "./_core/trpc";
@@ -7,6 +7,8 @@ import { z } from "zod";
 import { sql } from "drizzle-orm";
 import { notebooks as notebooksTable, subjects as subjectsTable, purchases as purchasesTable } from "../drizzle/schema";
 import * as db from "./db";
+import { SignJWT } from "jose";
+import { ENV } from "./_core/env";
 
 const teacherProcedure = publicProcedure.use(({ ctx, next }) => {
   if (!ctx.user) {
@@ -187,7 +189,25 @@ export const appRouter = router({
             message: "البريد الإلكتروني أو كلمة المرور غير صحيحة",
           });
         }
-        // TODO: Set session cookie
+        
+        // إنشاء session token
+        const secretKey = new TextEncoder().encode(ENV.cookieSecret);
+        const sessionToken = await new SignJWT({
+          openId: `local_${user.id}`,
+          appId: ENV.appId,
+          name: user.name || "",
+          userId: user.id,
+          email: user.email,
+          role: user.role,
+        })
+          .setProtectedHeader({ alg: "HS256", typ: "JWT" })
+          .setExpirationTime(Math.floor((Date.now() + ONE_YEAR_MS) / 1000))
+          .sign(secretKey);
+        
+        // تعيين الكوكي
+        const cookieOptions = getSessionCookieOptions(ctx.req);
+        ctx.res.cookie(COOKIE_NAME, sessionToken, { ...cookieOptions, maxAge: ONE_YEAR_MS });
+        
         return { success: true, user };
       }),
     register: publicProcedure
@@ -206,7 +226,31 @@ export const appRouter = router({
           });
         }
         const user = await db.createUser(input);
-        // TODO: Set session cookie
+        if (!user) {
+          throw new TRPCError({
+            code: "INTERNAL_SERVER_ERROR",
+            message: "فشل إنشاء الحساب",
+          });
+        }
+        
+        // إنشاء session token
+        const secretKey = new TextEncoder().encode(ENV.cookieSecret);
+        const sessionToken = await new SignJWT({
+          openId: `local_${user.id}`,
+          appId: ENV.appId,
+          name: user.name || "",
+          userId: user.id,
+          email: user.email,
+          role: user.role,
+        })
+          .setProtectedHeader({ alg: "HS256", typ: "JWT" })
+          .setExpirationTime(Math.floor((Date.now() + ONE_YEAR_MS) / 1000))
+          .sign(secretKey);
+        
+        // تعيين الكوكي
+        const cookieOptions = getSessionCookieOptions(ctx.req);
+        ctx.res.cookie(COOKIE_NAME, sessionToken, { ...cookieOptions, maxAge: ONE_YEAR_MS });
+        
         return { success: true, user };
       }),
   }),
