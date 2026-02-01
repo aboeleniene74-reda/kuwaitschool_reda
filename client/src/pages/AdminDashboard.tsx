@@ -160,6 +160,15 @@ export default function AdminDashboard() {
                     إدارة الحصص
                   </Button>
                 </Link>
+                <Link href="/admin/notebook-counters">
+                  <Button
+                    variant={location === "/admin/notebook-counters" ? "default" : "ghost"}
+                    className="w-full justify-start"
+                  >
+                    <BarChart3 className="ml-2 w-5 h-5" />
+                    عدادات المذكرات
+                  </Button>
+                </Link>
                 <Link href="/">
                   <Button variant="ghost" className="w-full justify-start">
                     <GraduationCap className="ml-2 w-5 h-5" />

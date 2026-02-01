@@ -25,6 +25,7 @@ import TermsOfService from "./pages/TermsOfService";
 import AdminDashboardNew from "./pages/AdminDashboardNew";
 import AdminContentManagement from "./pages/AdminContentManagement";
 import AdminNotificationsManagement from "./pages/AdminNotificationsManagement";
+import AdminNotebookCounters from "./pages/AdminNotebookCounters";
 import Sitemap from "./pages/Sitemap";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
@@ -56,6 +57,7 @@ function Router() {
       <Route path="/admin/comments" component={AdminComments} />
       <Route path="/admin/sessions" component={AdminSessions} />
       <Route path="/admin/sessions/new" component={AdminSessionNew} />
+      <Route path="/admin/notebook-counters" component={AdminNotebookCounters} />
       <Route path="/sessions" component={Sessions} />
       <Route path="/session/:slug" component={SessionPage} />
       <Route path={"/404"} component={NotFound} />

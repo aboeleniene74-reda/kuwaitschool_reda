@@ -1,4 +1,4 @@
-import { eq, and, desc, or, like, sql, isNull } from "drizzle-orm";
+import { eq, and, desc, or, like, sql, isNull, gte } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
 import { 
   InsertUser, 
@@ -1493,4 +1493,125 @@ export async function incrementNotebookDownloadCount(notebookId: number) {
     .where(eq(notebooks.id, notebookId));
 
   return true;
+}
+
+
+/**
+ * تحديث عدادات المذكرة يدويًا
+ * للتحكم الكامل في أرقام المشاهدات والتحميلات
+ */
+export async function updateNotebookCounters(
+  notebookId: number,
+  viewCount?: number,
+  downloadCount?: number
+) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+
+  const updates: any = {};
+  if (viewCount !== undefined) updates.viewCount = viewCount;
+  if (downloadCount !== undefined) updates.downloadCount = downloadCount;
+
+  if (Object.keys(updates).length === 0) {
+    throw new Error("يجب تحديد قيمة واحدة على الأقل");
+  }
+
+  await db
+    .update(notebooks)
+    .set(updates)
+    .where(eq(notebooks.id, notebookId));
+
+  return true;
+}
+
+/**
+ * إضافة قيمة محددة إلى عدادات المذكرة
+ */
+export async function addToNotebookCounters(
+  notebookId: number,
+  viewsToAdd?: number,
+  downloadsToAdd?: number
+) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+
+  const updates: any = {};
+  if (viewsToAdd && viewsToAdd > 0) {
+    updates.viewCount = sql`${notebooks.viewCount} + ${viewsToAdd}`;
+  }
+  if (downloadsToAdd && downloadsToAdd > 0) {
+    updates.downloadCount = sql`${notebooks.downloadCount} + ${downloadsToAdd}`;
+  }
+
+  if (Object.keys(updates).length === 0) {
+    throw new Error("يجب تحديد قيمة موجبة واحدة على الأقل");
+  }
+
+  await db
+    .update(notebooks)
+    .set(updates)
+    .where(eq(notebooks.id, notebookId));
+
+  return true;
+}
+
+/**
+ * التحديث الأسبوعي التلقائي لجميع المذكرات
+ * إضافة 700 مشاهدة و 30 تحميل لكل مذكرة
+ */
+export async function weeklyUpdateAllNotebookCounters() {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+
+  // تحديث جميع المذكرات المنشورة
+  const result = await db
+    .update(notebooks)
+    .set({
+      viewCount: sql`${notebooks.viewCount} + 700`,
+      downloadCount: sql`${notebooks.downloadCount} + 30`,
+    })
+    .where(eq(notebooks.isPublished, true));
+
+  return result;
+}
+
+/**
+ * الحصول على جميع المذكرات مع عدادات معينة
+ */
+export async function getNotebooksWithCounters(filters?: {
+  minViews?: number;
+  minDownloads?: number;
+  subjectId?: number;
+  gradeId?: number;
+}) {
+  const db = await getDb();
+  if (!db) return [];
+
+  const conditions = [];
+
+  if (filters?.minViews) {
+    conditions.push(gte(notebooks.viewCount, filters.minViews));
+  }
+  if (filters?.minDownloads) {
+    conditions.push(gte(notebooks.downloadCount, filters.minDownloads));
+  }
+  if (filters?.subjectId) {
+    conditions.push(eq(notebooks.subjectId, filters.subjectId));
+  }
+  if (filters?.gradeId) {
+    conditions.push(eq(notebooks.gradeId, filters.gradeId));
+  }
+
+  if (conditions.length > 0) {
+    return await db
+      .select()
+      .from(notebooks)
+      .where(and(...conditions))
+      .orderBy(desc(notebooks.viewCount));
+  }
+
+  return await db
+    .select()
+    .from(notebooks)
+    .orderBy(desc(notebooks.viewCount));
 }

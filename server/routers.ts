@@ -1142,6 +1142,66 @@ export const appRouter = router({
       
       return [...staticPages, ...notebookPages];
     }),
+    
+    // إدارة عدادات المذكرات
+    updateNotebookCounters: protectedProcedure
+      .input(z.object({
+        notebookId: z.number(),
+        viewCount: z.number().optional(),
+        downloadCount: z.number().optional(),
+      }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user?.role !== 'admin') {
+          throw new TRPCError({ code: 'FORBIDDEN', message: 'غير مصرح' });
+        }
+        return await db.updateNotebookCounters(
+          input.notebookId,
+          input.viewCount,
+          input.downloadCount
+        );
+      }),
+    
+    // إضافة قيمة إلى عدادات المذكرة
+    addToNotebookCounters: protectedProcedure
+      .input(z.object({
+        notebookId: z.number(),
+        viewsToAdd: z.number().optional(),
+        downloadsToAdd: z.number().optional(),
+      }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user?.role !== 'admin') {
+          throw new TRPCError({ code: 'FORBIDDEN', message: 'غير مصرح' });
+        }
+        return await db.addToNotebookCounters(
+          input.notebookId,
+          input.viewsToAdd,
+          input.downloadsToAdd
+        );
+      }),
+    
+    // التحديث الأسبوعي التلقائي
+    weeklyUpdateCounters: protectedProcedure
+      .mutation(async ({ ctx }) => {
+        if (ctx.user?.role !== 'admin') {
+          throw new TRPCError({ code: 'FORBIDDEN', message: 'غير مصرح' });
+        }
+        return await db.weeklyUpdateAllNotebookCounters();
+      }),
+    
+    // الحصول على المذكرات مع عدادات معينة
+    getNotebooksWithCounters: protectedProcedure
+      .input(z.object({
+        minViews: z.number().optional(),
+        minDownloads: z.number().optional(),
+        subjectId: z.number().optional(),
+        gradeId: z.number().optional(),
+      }))
+      .query(async ({ ctx, input }) => {
+        if (ctx.user?.role !== 'admin') {
+          throw new TRPCError({ code: 'FORBIDDEN', message: 'غير مصرح' });
+        }
+        return await db.getNotebooksWithCounters(input);
+      }),
   }),
 });
 
