@@ -1,0 +1,60 @@
+{
+  "query": "SELECT n.id, n.title, n.gradeId, n.subjectId, n.semesterId, n.categoryId, g.name as gradeName, s.name as subjectName \nFROM notebooks n \nLEFT JOIN grades g ON n.gradeId = g.id \nLEFT JOIN subjects s ON n.subjectId = s.id \nWHERE n.fileUrl IS NOT NULL \nLIMIT 5;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user ocoPq9UKt9MVUJb.root --database cF5vY7QXosm6HAcTf29xyM --execute SELECT n.id, n.title, n.gradeId, n.subjectId, n.semesterId, n.categoryId, g.name as gradeName, s.name as subjectName \nFROM notebooks n \nLEFT JOIN grades g ON n.gradeId = g.id \nLEFT JOIN subjects s ON n.subjectId = s.id \nWHERE n.fileUrl IS NOT NULL \nLIMIT 5;",
+  "rows": [
+    {
+      "id": "270002",
+      "title": "خطة توزيع منهج الكيمياء صف11 فصل2 لسنة 2025/2026",
+      "gradeId": "2",
+      "subjectId": "4",
+      "semesterId": "2",
+      "categoryId": "1",
+      "gradeName": "الصف الحادي عشر",
+      "subjectName": "الكيمياء"
+    },
+    {
+      "id": "330002",
+      "title": "أحياء كتاب الطالب صف11 فصل2",
+      "gradeId": "2",
+      "subjectId": "5",
+      "semesterId": "2",
+      "categoryId": "1",
+      "gradeName": "الصف الحادي عشر",
+      "subjectName": "الأحياء"
+    },
+    {
+      "id": "270001",
+      "title": "خطة توزيع منهج الأحياء صف11 فصل2 لسنة 2025/2026",
+      "gradeId": "2",
+      "subjectId": "5",
+      "semesterId": "2",
+      "categoryId": "1",
+      "gradeName": "الصف الحادي عشر",
+      "subjectName": "الأحياء"
+    },
+    {
+      "id": "330003",
+      "title": "جيولوجيا كتاب الطالب الفصل الثاني",
+      "gradeId": "2",
+      "subjectId": "7",
+      "semesterId": "2",
+      "categoryId": "1",
+      "gradeName": "الصف الحادي عشر",
+      "subjectName": "الجيولوجيا"
+    },
+    {
+      "id": "270003",
+      "title": "خطة توزيع منهج الجيولوجيا الفصل2 لسنة 2025/2026 ",
+      "gradeId": "2",
+      "subjectId": "7",
+      "semesterId": "2",
+      "categoryId": "1",
+      "gradeName": "الصف الحادي عشر",
+      "subjectName": "الجيولوجيا"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\ttitle\tgradeId\tsubjectId\tsemesterId\tcategoryId\tgradeName\tsubjectName\n270002\tخطة توزيع منهج الكيمياء صف11 فصل2 لسنة 2025/2026\t2\t4\t2\t1\tالصف الحادي عشر\tالكيمياء\n330002\tأحياء كتاب الطالب صف11 فصل2\t2\t5\t2\t1\tالصف الحادي عشر\tالأحياء\n270001\tخطة توزيع منهج الأحياء صف11 فصل2 لسنة 2025/2026\t2\t5\t2\t1\tالصف الحادي عشر\tالأحياء\n330003\tجيولوجيا كتاب الطالب الفصل الثاني\t2\t7\t2\t1\tالصف الحادي عشر\tالجيولوجيا\n270003\tخطة توزيع منهج الجيولوجيا الفصل2 لسنة 2025/2026 \t2\t7\t2\t1\tالصف الحادي عشر\tالجيولوجيا\n",
+  "stderr": "",
+  "execution_time_ms": 1504
+}

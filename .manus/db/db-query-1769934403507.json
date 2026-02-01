@@ -1,0 +1,100 @@
+{
+  "query": "SELECT id, title, gradeId, subjectId, semesterId, categoryId, fileUrl FROM notebooks WHERE fileUrl IS NOT NULL AND fileUrl != '' LIMIT 10;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user ocoPq9UKt9MVUJb.root --database cF5vY7QXosm6HAcTf29xyM --execute SELECT id, title, gradeId, subjectId, semesterId, categoryId, fileUrl FROM notebooks WHERE fileUrl IS NOT NULL AND fileUrl != '' LIMIT 10;",
+  "rows": [
+    {
+      "id": "270001",
+      "title": "خطة توزيع منهج الأحياء صف11 فصل2 لسنة 2025/2026",
+      "gradeId": "2",
+      "subjectId": "5",
+      "semesterId": "2",
+      "categoryId": "1",
+      "fileUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310519663268166641/cF5vY7QXosm6HAcTf29xyM/notebooks/1769323727607-aj96t-توزيع الأحياء صف 11 الفصل 2 لسنة 2025 - 2026.pdf"
+    },
+    {
+      "id": "270002",
+      "title": "خطة توزيع منهج الكيمياء صف11 فصل2 لسنة 2025/2026",
+      "gradeId": "2",
+      "subjectId": "4",
+      "semesterId": "2",
+      "categoryId": "1",
+      "fileUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310519663268166641/cF5vY7QXosm6HAcTf29xyM/notebooks/1769323849303-t3bz0h-خطة توزيع الكيمياء صف 11 فصل 2 لسنة 2025- 2026.pdf"
+    },
+    {
+      "id": "270003",
+      "title": "خطة توزيع منهج الجيولوجيا الفصل2 لسنة 2025/2026 ",
+      "gradeId": "2",
+      "subjectId": "7",
+      "semesterId": "2",
+      "categoryId": "1",
+      "fileUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310519663268166641/cF5vY7QXosm6HAcTf29xyM/notebooks/1769323961108-ayfey-توزيع جيولوجيا ف 2.pdf"
+    },
+    {
+      "id": "330002",
+      "title": "أحياء كتاب الطالب صف11 فصل2",
+      "gradeId": "2",
+      "subjectId": "5",
+      "semesterId": "2",
+      "categoryId": "1",
+      "fileUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310519663268166641/cF5vY7QXosm6HAcTf29xyM/notebooks/1769418832834-4iumkg-الاحياء-كتاب-الطالب-للصف-الحادي-عشر-الفصل-الثاني.pdf"
+    },
+    {
+      "id": "330003",
+      "title": "جيولوجيا كتاب الطالب الفصل الثاني",
+      "gradeId": "2",
+      "subjectId": "7",
+      "semesterId": "2",
+      "categoryId": "1",
+      "fileUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310519663268166641/cF5vY7QXosm6HAcTf29xyM/notebooks/1769418920620-xaca8g-جيولوجيا-كتاب-الطالب-للصف-الحادي-عشر-الفصل-الثاني.pdf"
+    },
+    {
+      "id": "330004",
+      "title": "كيمياء كتاب الطالب الصف الحادي عشر الفصل الثاني",
+      "gradeId": "2",
+      "subjectId": "4",
+      "semesterId": "2",
+      "categoryId": "1",
+      "fileUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310519663268166641/cF5vY7QXosm6HAcTf29xyM/notebooks/1769419053820-dzfdka-كيمياء-كتاب-الطالب-للصف-الحادي-عشر-الفصل-الثاني.pdf"
+    },
+    {
+      "id": "420001",
+      "title": "بنك الأسئلة محلول - جيولوجيا الفصل 2",
+      "gradeId": "2",
+      "subjectId": "7",
+      "semesterId": "2",
+      "categoryId": "1",
+      "fileUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310519663268166641/cF5vY7QXosm6HAcTf29xyM/notebooks/1769498467523-21w235-بنك أسئلة جيولوجيا الفصل2 محلول.pdf"
+    },
+    {
+      "id": "420002",
+      "title": "بنك الأسئلة محلول - كيمياء الصف 11 الفصل الثاني",
+      "gradeId": "2",
+      "subjectId": "4",
+      "semesterId": "2",
+      "categoryId": "1",
+      "fileUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310519663268166641/cF5vY7QXosm6HAcTf29xyM/notebooks/1769500007966-6fwozs-بنك الأسئلة محلول - كيمياء الصف 11 - الفصل 2.pdf"
+    },
+    {
+      "id": "420003",
+      "title": "بنك الأسئلة محلول أحياء الصف 11 الفصل 2",
+      "gradeId": "2",
+      "subjectId": "5",
+      "semesterId": "2",
+      "categoryId": "1",
+      "fileUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310519663268166641/cF5vY7QXosm6HAcTf29xyM/notebooks/1769500534603-s7kv3s-بنك الأسئلة محلول - أحياء الصف 11 الفصل 2.pdf"
+    },
+    {
+      "id": "450002",
+      "title": "بنك الاسئلة  محلول- أحياء - الصف العاشر- الفصل2",
+      "gradeId": "1",
+      "subjectId": "2",
+      "semesterId": "2",
+      "categoryId": "1",
+      "fileUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310519663268166641/cF5vY7QXosm6HAcTf29xyM/notebooks/1769581164355-dsc2xe-بنك الاسئلة  محلول- أحياء - الصف العاشر- الفصل2.pdf"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\ttitle\tgradeId\tsubjectId\tsemesterId\tcategoryId\tfileUrl\n270001\tخطة توزيع منهج الأحياء صف11 فصل2 لسنة 2025/2026\t2\t5\t2\t1\thttps://d2xsxph8kpxj0f.cloudfront.net/310519663268166641/cF5vY7QXosm6HAcTf29xyM/notebooks/1769323727607-aj96t-توزيع الأحياء صف 11 الفصل 2 لسنة 2025 - 2026.pdf\n270002\tخطة توزيع منهج الكيمياء صف11 فصل2 لسنة 2025/2026\t2\t4\t2\t1\thttps://d2xsxph8kpxj0f.cloudfront.net/310519663268166641/cF5vY7QXosm6HAcTf29xyM/notebooks/1769323849303-t3bz0h-خطة توزيع الكيمياء صف 11 فصل 2 لسنة 2025- 2026.pdf\n270003\tخطة توزيع منهج الجيولوجيا الفصل2 لسنة 2025/2026 \t2\t7\t2\t1\thttps://d2xsxph8kpxj0f.cloudfront.net/310519663268166641/cF5vY7QXosm6HAcTf29xyM/notebooks/1769323961108-ayfey-توزيع جيولوجيا ف 2.pdf\n330002\tأحياء كتاب الطالب صف11 فصل2\t2\t5\t2\t1\thttps://d2xsxph8kpxj0f.cloudfront.net/310519663268166641/cF5vY7QXosm6HAcTf29xyM/notebooks/1769418832834-4iumkg-الاحياء-كتاب-الطالب-للصف-الحادي-عشر-الفصل-الثاني.pdf\n330003\tجيولوجيا كتاب الطالب الفصل الثاني\t2\t7\t2\t1\thttps://d2xsxph8kpxj0f.cloudfront.net/310519663268166641/cF5vY7QXosm6HAcTf29xyM/notebooks/1769418920620-xaca8g-جيولوجيا-كتاب-الطالب-للصف-الحادي-عشر-الفصل-الثاني.pdf\n330004\tكيمياء كتاب الطالب الصف الحادي عشر الفصل الثاني\t2\t4\t2\t1\thttps://d2xsxph8kpxj0f.cloudfront.net/310519663268166641/cF5vY7QXosm6HAcTf29xyM/notebooks/1769419053820-dzfdka-كيمياء-كتاب-الطالب-للصف-الحادي-عشر-الفصل-الثاني.pdf\n420001\tبنك الأسئلة محلول - جيولوجيا الفصل 2\t2\t7\t2\t1\thttps://d2xsxph8kpxj0f.cloudfront.net/310519663268166641/cF5vY7QXosm6HAcTf29xyM/notebooks/1769498467523-21w235-بنك أسئلة جيولوجيا الفصل2 محلول.pdf\n420002\tبنك الأسئلة محلول - كيمياء الصف 11 الفصل الثاني\t2\t4\t2\t1\thttps://d2xsxph8kpxj0f.cloudfront.net/310519663268166641/cF5vY7QXosm6HAcTf29xyM/notebooks/1769500007966-6fwozs-بنك الأسئلة محلول - كيمياء الصف 11 - الفصل 2.pdf\n420003\tبنك الأسئلة محلول أحياء الصف 11 الفصل 2\t2\t5\t2\t1\thttps://d2xsxph8kpxj0f.cloudfront.net/310519663268166641/cF5vY7QXosm6HAcTf29xyM/notebooks/1769500534603-s7kv3s-بنك الأسئلة محلول - أحياء الصف 11 الفصل 2.pdf\n450002\tبنك الاسئلة  محلول- أحياء - الصف العاشر- الفصل2\t1\t2\t2\t1\thttps://d2xsxph8kpxj0f.cloudfront.net/310519663268166641/cF5vY7QXosm6HAcTf29xyM/notebooks/1769581164355-dsc2xe-بنك الاسئلة  محلول- أحياء - الصف العاشر- الفصل2.pdf\n",
+  "stderr": "",
+  "execution_time_ms": 1517
+}

@@ -1,0 +1,9 @@
+{
+  "query": "SELECT id, title, gradeId, subjectId, semesterId, categoryId FROM notebooks WHERE gradeId = 3 AND subjectId = 1 LIMIT 10;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user ocoPq9UKt9MVUJb.root --database cF5vY7QXosm6HAcTf29xyM --execute SELECT id, title, gradeId, subjectId, semesterId, categoryId FROM notebooks WHERE gradeId = 3 AND subjectId = 1 LIMIT 10;",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 1529
+}

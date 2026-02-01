@@ -1,0 +1,34 @@
+{
+  "query": "SELECT id, title, subjectId, semesterId, categoryId, fileUrl FROM notebooks WHERE fileUrl IS NOT NULL LIMIT 3;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user ocoPq9UKt9MVUJb.root --database cF5vY7QXosm6HAcTf29xyM --execute SELECT id, title, subjectId, semesterId, categoryId, fileUrl FROM notebooks WHERE fileUrl IS NOT NULL LIMIT 3;",
+  "rows": [
+    {
+      "id": "270001",
+      "title": "خطة توزيع منهج الأحياء صف11 فصل2 لسنة 2025/2026",
+      "subjectId": "5",
+      "semesterId": "2",
+      "categoryId": "1",
+      "fileUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310519663268166641/cF5vY7QXosm6HAcTf29xyM/notebooks/1769323727607-aj96t-توزيع الأحياء صف 11 الفصل 2 لسنة 2025 - 2026.pdf"
+    },
+    {
+      "id": "270002",
+      "title": "خطة توزيع منهج الكيمياء صف11 فصل2 لسنة 2025/2026",
+      "subjectId": "4",
+      "semesterId": "2",
+      "categoryId": "1",
+      "fileUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310519663268166641/cF5vY7QXosm6HAcTf29xyM/notebooks/1769323849303-t3bz0h-خطة توزيع الكيمياء صف 11 فصل 2 لسنة 2025- 2026.pdf"
+    },
+    {
+      "id": "270003",
+      "title": "خطة توزيع منهج الجيولوجيا الفصل2 لسنة 2025/2026 ",
+      "subjectId": "7",
+      "semesterId": "2",
+      "categoryId": "1",
+      "fileUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310519663268166641/cF5vY7QXosm6HAcTf29xyM/notebooks/1769323961108-ayfey-توزيع جيولوجيا ف 2.pdf"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\ttitle\tsubjectId\tsemesterId\tcategoryId\tfileUrl\n270001\tخطة توزيع منهج الأحياء صف11 فصل2 لسنة 2025/2026\t5\t2\t1\thttps://d2xsxph8kpxj0f.cloudfront.net/310519663268166641/cF5vY7QXosm6HAcTf29xyM/notebooks/1769323727607-aj96t-توزيع الأحياء صف 11 الفصل 2 لسنة 2025 - 2026.pdf\n270002\tخطة توزيع منهج الكيمياء صف11 فصل2 لسنة 2025/2026\t4\t2\t1\thttps://d2xsxph8kpxj0f.cloudfront.net/310519663268166641/cF5vY7QXosm6HAcTf29xyM/notebooks/1769323849303-t3bz0h-خطة توزيع الكيمياء صف 11 فصل 2 لسنة 2025- 2026.pdf\n270003\tخطة توزيع منهج الجيولوجيا الفصل2 لسنة 2025/2026 \t7\t2\t1\thttps://d2xsxph8kpxj0f.cloudfront.net/310519663268166641/cF5vY7QXosm6HAcTf29xyM/notebooks/1769323961108-ayfey-توزيع جيولوجيا ف 2.pdf\n",
+  "stderr": "",
+  "execution_time_ms": 1515
+}

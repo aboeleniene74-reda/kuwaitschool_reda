@@ -1,0 +1,15 @@
+{
+  "query": "SELECT MIN(id), MAX(id), COUNT(*) FROM notebooks;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user ocoPq9UKt9MVUJb.root --database cF5vY7QXosm6HAcTf29xyM --execute SELECT MIN(id), MAX(id), COUNT(*) FROM notebooks;",
+  "rows": [
+    {
+      "MIN(id)": "210002",
+      "MAX(id)": "570001",
+      "COUNT(*)": "38"
+    }
+  ],
+  "messages": [],
+  "stdout": "MIN(id)\tMAX(id)\tCOUNT(*)\n210002\t570001\t38\n",
+  "stderr": "",
+  "execution_time_ms": 1540
+}

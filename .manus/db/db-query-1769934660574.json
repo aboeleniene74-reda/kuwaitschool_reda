@@ -1,0 +1,143 @@
+{
+  "query": "SELECT DISTINCT gradeId, subjectId, semesterId, categoryId, COUNT(*) as count FROM notebooks WHERE fileUrl IS NOT NULL GROUP BY gradeId, subjectId, semesterId, categoryId;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user ocoPq9UKt9MVUJb.root --database cF5vY7QXosm6HAcTf29xyM --execute SELECT DISTINCT gradeId, subjectId, semesterId, categoryId, COUNT(*) as count FROM notebooks WHERE fileUrl IS NOT NULL GROUP BY gradeId, subjectId, semesterId, categoryId;",
+  "rows": [
+    {
+      "gradeId": "2",
+      "subjectId": "4",
+      "semesterId": "2",
+      "categoryId": "6",
+      "count": "1"
+    },
+    {
+      "gradeId": "2",
+      "subjectId": "7",
+      "semesterId": "2",
+      "categoryId": "3",
+      "count": "2"
+    },
+    {
+      "gradeId": "3",
+      "subjectId": "9",
+      "semesterId": "2",
+      "categoryId": "2",
+      "count": "1"
+    },
+    {
+      "gradeId": "1",
+      "subjectId": "1",
+      "semesterId": "2",
+      "categoryId": "1",
+      "count": "2"
+    },
+    {
+      "gradeId": "2",
+      "subjectId": "5",
+      "semesterId": "2",
+      "categoryId": "4",
+      "count": "1"
+    },
+    {
+      "gradeId": "2",
+      "subjectId": "7",
+      "semesterId": "2",
+      "categoryId": "1",
+      "count": "3"
+    },
+    {
+      "gradeId": "2",
+      "subjectId": "5",
+      "semesterId": "2",
+      "categoryId": "5",
+      "count": "1"
+    },
+    {
+      "gradeId": "2",
+      "subjectId": "5",
+      "semesterId": "2",
+      "categoryId": "3",
+      "count": "1"
+    },
+    {
+      "gradeId": "2",
+      "subjectId": "7",
+      "semesterId": "2",
+      "categoryId": "4",
+      "count": "1"
+    },
+    {
+      "gradeId": "1",
+      "subjectId": "1",
+      "semesterId": "2",
+      "categoryId": "5",
+      "count": "2"
+    },
+    {
+      "gradeId": "1",
+      "subjectId": "1",
+      "semesterId": "2",
+      "categoryId": "6",
+      "count": "1"
+    },
+    {
+      "gradeId": "1",
+      "subjectId": "1",
+      "semesterId": "2",
+      "categoryId": "3",
+      "count": "1"
+    },
+    {
+      "gradeId": "1",
+      "subjectId": "2",
+      "semesterId": "2",
+      "categoryId": "1",
+      "count": "2"
+    },
+    {
+      "gradeId": "2",
+      "subjectId": "4",
+      "semesterId": "2",
+      "categoryId": "1",
+      "count": "4"
+    },
+    {
+      "gradeId": "1",
+      "subjectId": "2",
+      "semesterId": "2",
+      "categoryId": "2",
+      "count": "1"
+    },
+    {
+      "gradeId": "2",
+      "subjectId": "4",
+      "semesterId": "2",
+      "categoryId": "5",
+      "count": "2"
+    },
+    {
+      "gradeId": "2",
+      "subjectId": "5",
+      "semesterId": "2",
+      "categoryId": "1",
+      "count": "4"
+    },
+    {
+      "gradeId": "1",
+      "subjectId": "1",
+      "semesterId": "2",
+      "categoryId": "2",
+      "count": "1"
+    },
+    {
+      "gradeId": "1",
+      "subjectId": "2",
+      "semesterId": "2",
+      "categoryId": "5",
+      "count": "2"
+    }
+  ],
+  "messages": [],
+  "stdout": "gradeId\tsubjectId\tsemesterId\tcategoryId\tcount\n2\t4\t2\t6\t1\n2\t7\t2\t3\t2\n3\t9\t2\t2\t1\n1\t1\t2\t1\t2\n2\t5\t2\t4\t1\n2\t7\t2\t1\t3\n2\t5\t2\t5\t1\n2\t5\t2\t3\t1\n2\t7\t2\t4\t1\n1\t1\t2\t5\t2\n1\t1\t2\t6\t1\n1\t1\t2\t3\t1\n1\t2\t2\t1\t2\n2\t4\t2\t1\t4\n1\t2\t2\t2\t1\n2\t4\t2\t5\t2\n2\t5\t2\t1\t4\n1\t1\t2\t2\t1\n1\t2\t2\t5\t2\n",
+  "stderr": "",
+  "execution_time_ms": 1519
+}

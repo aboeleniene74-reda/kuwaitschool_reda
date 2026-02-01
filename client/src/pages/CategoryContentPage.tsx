@@ -11,6 +11,7 @@ import { useState } from "react";
 
 export default function CategoryContentPage() {
   const { user, loading } = useAuth();
+  const utils = trpc.useUtils();
   const trackView = trpc.statistics.trackView.useMutation();
   const params = useParams();
   const gradeId = parseInt(params.gradeId || "0");
@@ -42,7 +43,7 @@ export default function CategoryContentPage() {
   const handlePreview = async (notebook: any) => {
     try {
       // الحصول على presigned URL من الخادم
-      const downloadData = await (trpc.notebooks as any).getDownloadUrl.query({ id: notebook.id });
+      const downloadData = await utils.notebooks.getDownloadUrl.fetch({ id: notebook.id });
       const pdfUrl = downloadData?.url || notebook.previewUrl || notebook.fileUrl;
       
       if (pdfUrl) {
@@ -72,7 +73,7 @@ export default function CategoryContentPage() {
 
   const handleDownload = async (notebook: any) => {
     try {
-      const downloadUrlData = await (trpc.notebooks as any).getDownloadUrl.query({ id: notebook.id });
+      const downloadUrlData = await utils.notebooks.getDownloadUrl.fetch({ id: notebook.id });
       const downloadUrl = downloadUrlData?.url || notebook.fileUrl || notebook.previewUrl;
       
       if (downloadUrl) {

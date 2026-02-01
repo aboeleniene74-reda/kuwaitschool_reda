@@ -1,0 +1,19 @@
+{
+  "query": "SELECT id FROM notebooks ORDER BY id ASC LIMIT 3;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user ocoPq9UKt9MVUJb.root --database cF5vY7QXosm6HAcTf29xyM --execute SELECT id FROM notebooks ORDER BY id ASC LIMIT 3;",
+  "rows": [
+    {
+      "id": "210002"
+    },
+    {
+      "id": "210005"
+    },
+    {
+      "id": "240003"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\n210002\n210005\n240003\n",
+  "stderr": "",
+  "execution_time_ms": 1514
+}
