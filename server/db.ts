@@ -207,13 +207,14 @@ export async function getNotebookDownloadUrl(id: number) {
   const result = await db.select().from(notebooks).where(eq(notebooks.id, id)).limit(1);
   if (result.length === 0 || !result[0].fileUrl) return undefined;
   
-  // Extract the file key from the URL
+  // Extract the full file path from the URL (remove domain)
   const fileUrl = result[0].fileUrl;
-  const urlObj = new URL(fileUrl);
-  const fileKey = urlObj.pathname.split('/').pop() || fileUrl;
-  
-  // Use storageGet to get a presigned URL
   try {
+    const urlObj = new URL(fileUrl);
+    // Get full path without leading slash
+    const fileKey = urlObj.pathname.substring(1);
+    
+    // Use storageGet to get a presigned URL
     const { storageGet } = await import('./storage');
     const { url } = await storageGet(fileKey);
     return { url, fileName: result[0].title };

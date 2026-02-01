@@ -39,16 +39,24 @@ export default function CategoryContentPage() {
   const incrementView = trpc.notebooks.incrementViewCount.useMutation();
   const incrementDownload = trpc.notebooks.incrementDownloadCount.useMutation();
 
-  const handlePreview = (notebook: any) => {
-    const pdfUrl = notebook.previewUrl || notebook.fileUrl;
-    if (pdfUrl) {
-      // فتح PDF في تبويب جديد
-      window.open(pdfUrl, '_blank');
+  const handlePreview = async (notebook: any) => {
+    try {
+      // الحصول على presigned URL من الخادم
+      const downloadData = await (trpc.notebooks as any).getDownloadUrl.query({ id: notebook.id });
+      const pdfUrl = downloadData?.url || notebook.previewUrl || notebook.fileUrl;
       
-      // زيادة عداد المشاهدات
-      incrementView.mutate({ notebookId: notebook.id });
-    } else {
-      toast.error("رابط المعاينة غير متوفر");
+      if (pdfUrl) {
+        // فتح PDF في تبويب جديد
+        window.open(pdfUrl, '_blank');
+        
+        // زيادة عداد المشاهدات
+        incrementView.mutate({ notebookId: notebook.id });
+      } else {
+        toast.error("رابط المعاينة غير متوفر");
+      }
+    } catch (error) {
+      console.error('Error getting preview URL:', error);
+      toast.error("خطأ في تحميل المعاينة");
     }
   };
 
