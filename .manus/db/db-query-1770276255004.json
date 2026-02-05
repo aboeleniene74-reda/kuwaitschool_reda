@@ -1,0 +1,160 @@
+{
+  "query": "SELECT n.id, n.title, n.viewCount, n.downloadCount, n.categoryId, c.name as categoryName, n.subjectId, s.name as subjectName FROM notebooks n LEFT JOIN content_categories c ON n.categoryId = c.id LEFT JOIN subjects s ON n.subjectId = s.id WHERE n.isPublished = 1 AND (n.previewUrl IS NOT NULL OR n.fileUrl IS NOT NULL) ORDER BY n.viewCount DESC LIMIT 15;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user ocoPq9UKt9MVUJb.root --database cF5vY7QXosm6HAcTf29xyM --execute SELECT n.id, n.title, n.viewCount, n.downloadCount, n.categoryId, c.name as categoryName, n.subjectId, s.name as subjectName FROM notebooks n LEFT JOIN content_categories c ON n.categoryId = c.id LEFT JOIN subjects s ON n.subjectId = s.id WHERE n.isPublished = 1 AND (n.previewUrl IS NOT NULL OR n.fileUrl IS NOT NULL) ORDER BY n.viewCount DESC LIMIT 15;",
+  "rows": [
+    {
+      "id": "450016",
+      "title": "مراجعة نهائية - فاينل -كيمياء - الصف الحادي عشر - الفصل2",
+      "viewCount": "475",
+      "downloadCount": "20",
+      "categoryId": "5",
+      "categoryName": "مراجعات الفاينل",
+      "subjectId": "4",
+      "subjectName": "الكيمياء"
+    },
+    {
+      "id": "450004",
+      "title": "ملخص التعريفات- أحياء - الصف العاشر- الفصل2",
+      "viewCount": "473",
+      "downloadCount": "13",
+      "categoryId": "5",
+      "categoryName": "مراجعات الفاينل",
+      "subjectId": "2",
+      "subjectName": "الأحياء"
+    },
+    {
+      "id": "540001",
+      "title": "مذكرة أحياء الصف الثاني عشر الفصل الثاني",
+      "viewCount": "450",
+      "downloadCount": "26",
+      "categoryId": "2",
+      "categoryName": "ملخصات الشرح",
+      "subjectId": "9",
+      "subjectName": "الأحياء"
+    },
+    {
+      "id": "450011",
+      "title": "مراجعة نهائية محلولة - الفاينل - كيمياء - الصف العاشر- الفصل2",
+      "viewCount": "447",
+      "downloadCount": "84",
+      "categoryId": "5",
+      "categoryName": "مراجعات الفاينل",
+      "subjectId": "1",
+      "subjectName": "الكيمياء"
+    },
+    {
+      "id": "480004",
+      "title": "نماذج اختبار القصير(1) جيولوجيا حادي عشر علمي الفصل2",
+      "viewCount": "446",
+      "downloadCount": "49",
+      "categoryId": "3",
+      "categoryName": "مراجعات قصير 1",
+      "subjectId": "7",
+      "subjectName": "الجيولوجيا"
+    },
+    {
+      "id": "450006",
+      "title": "كتاب الطالب - أحياء - الصف العاشر- الفصل2",
+      "viewCount": "444",
+      "downloadCount": "94",
+      "categoryId": "1",
+      "categoryName": "الكتاب المدرسي",
+      "subjectId": "2",
+      "subjectName": "الأحياء"
+    },
+    {
+      "id": "450017",
+      "title": "بنك الأسئلة غير محلول- كيمياء - الصف الحادي عشر- الفصل2",
+      "viewCount": "387",
+      "downloadCount": "43",
+      "categoryId": "1",
+      "categoryName": "الكتاب المدرسي",
+      "subjectId": "4",
+      "subjectName": "الكيمياء"
+    },
+    {
+      "id": "210002",
+      "title": "مذكرة الزبدة كيمياء 11 ف 2",
+      "viewCount": "364",
+      "downloadCount": "37",
+      "categoryId": "2",
+      "categoryName": "ملخصات الشرح",
+      "subjectId": "4",
+      "subjectName": "الكيمياء"
+    },
+    {
+      "id": "480003",
+      "title": "مراجعة الفاينل محلول- أحياء - الصف الحادي عشر - الفصل الثاني",
+      "viewCount": "357",
+      "downloadCount": "98",
+      "categoryId": "5",
+      "categoryName": "مراجعات الفاينل",
+      "subjectId": "5",
+      "subjectName": "الأحياء"
+    },
+    {
+      "id": "450014",
+      "title": "نماذج اجابة اختبارات سابقة - كيمياء - الصف 11 الفصل2",
+      "viewCount": "355",
+      "downloadCount": "21",
+      "categoryId": "6",
+      "categoryName": "نماذج اختبارات سابقة محلولة",
+      "subjectId": "4",
+      "subjectName": "الكيمياء"
+    },
+    {
+      "id": "420001",
+      "title": "بنك الأسئلة محلول - جيولوجيا الفصل 2",
+      "viewCount": "347",
+      "downloadCount": "36",
+      "categoryId": "1",
+      "categoryName": "الكتاب المدرسي",
+      "subjectId": "7",
+      "subjectName": "الجيولوجيا"
+    },
+    {
+      "id": "450018",
+      "title": "بنك الأسئلة غير محلول - أحياء - الصف الحادي عشر - الفصل2",
+      "viewCount": "344",
+      "downloadCount": "18",
+      "categoryId": "1",
+      "categoryName": "الكتاب المدرسي",
+      "subjectId": "5",
+      "subjectName": "الأحياء"
+    },
+    {
+      "id": "420003",
+      "title": "بنك الأسئلة محلول أحياء الصف 11 الفصل 2",
+      "viewCount": "338",
+      "downloadCount": "34",
+      "categoryId": "1",
+      "categoryName": "الكتاب المدرسي",
+      "subjectId": "5",
+      "subjectName": "الأحياء"
+    },
+    {
+      "id": "510002",
+      "title": "نماذج اختبار القصير الثاني - جيولوجيا الصف الحادي عشر - الفصل الثاني",
+      "viewCount": "333",
+      "downloadCount": "77",
+      "categoryId": "4",
+      "categoryName": "مراجعات قصير 2",
+      "subjectId": "7",
+      "subjectName": "الجيولوجيا"
+    },
+    {
+      "id": "450015",
+      "title": "ملخص المصطلحات - كيمياء -الصف 11 -الفصل2",
+      "viewCount": "312",
+      "downloadCount": "58",
+      "categoryId": "5",
+      "categoryName": "مراجعات الفاينل",
+      "subjectId": "4",
+      "subjectName": "الكيمياء"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\ttitle\tviewCount\tdownloadCount\tcategoryId\tcategoryName\tsubjectId\tsubjectName\n450016\tمراجعة نهائية - فاينل -كيمياء - الصف الحادي عشر - الفصل2\t475\t20\t5\tمراجعات الفاينل\t4\tالكيمياء\n450004\tملخص التعريفات- أحياء - الصف العاشر- الفصل2\t473\t13\t5\tمراجعات الفاينل\t2\tالأحياء\n540001\tمذكرة أحياء الصف الثاني عشر الفصل الثاني\t450\t26\t2\tملخصات الشرح\t9\tالأحياء\n450011\tمراجعة نهائية محلولة - الفاينل - كيمياء - الصف العاشر- الفصل2\t447\t84\t5\tمراجعات الفاينل\t1\tالكيمياء\n480004\tنماذج اختبار القصير(1) جيولوجيا حادي عشر علمي الفصل2\t446\t49\t3\tمراجعات قصير 1\t7\tالجيولوجيا\n450006\tكتاب الطالب - أحياء - الصف العاشر- الفصل2\t444\t94\t1\tالكتاب المدرسي\t2\tالأحياء\n450017\tبنك الأسئلة غير محلول- كيمياء - الصف الحادي عشر- الفصل2\t387\t43\t1\tالكتاب المدرسي\t4\tالكيمياء\n210002\tمذكرة الزبدة كيمياء 11 ف 2\t364\t37\t2\tملخصات الشرح\t4\tالكيمياء\n480003\tمراجعة الفاينل محلول- أحياء - الصف الحادي عشر - الفصل الثاني\t357\t98\t5\tمراجعات الفاينل\t5\tالأحياء\n450014\tنماذج اجابة اختبارات سابقة - كيمياء - الصف 11 الفصل2\t355\t21\t6\tنماذج اختبارات سابقة محلولة\t4\tالكيمياء\n420001\tبنك الأسئلة محلول - جيولوجيا الفصل 2\t347\t36\t1\tالكتاب المدرسي\t7\tالجيولوجيا\n450018\tبنك الأسئلة غير محلول - أحياء - الصف الحادي عشر - الفصل2\t344\t18\t1\tالكتاب المدرسي\t5\tالأحياء\n420003\tبنك الأسئلة محلول أحياء الصف 11 الفصل 2\t338\t34\t1\tالكتاب المدرسي\t5\tالأحياء\n510002\tنماذج اختبار القصير الثاني - جيولوجيا الصف الحادي عشر - الفصل الثاني\t333\t77\t4\tمراجعات قصير 2\t7\tالجيولوجيا\n450015\tملخص المصطلحات - كيمياء -الصف 11 -الفصل2\t312\t58\t5\tمراجعات الفاينل\t4\tالكيمياء\n",
+  "stderr": "",
+  "execution_time_ms": 1541
+}

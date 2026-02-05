@@ -1,0 +1,210 @@
+{
+  "query": "SELECT id, title, viewCount, downloadCount, subjectId, categoryId, semesterId, isPublished FROM notebooks WHERE isPublished = 1 ORDER BY id LIMIT 20;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user ocoPq9UKt9MVUJb.root --database cF5vY7QXosm6HAcTf29xyM --execute SELECT id, title, viewCount, downloadCount, subjectId, categoryId, semesterId, isPublished FROM notebooks WHERE isPublished = 1 ORDER BY id LIMIT 20;",
+  "rows": [
+    {
+      "id": "210002",
+      "title": "مذكرة الزبدة كيمياء 11 ف 2",
+      "viewCount": "364",
+      "downloadCount": "37",
+      "subjectId": "4",
+      "categoryId": "2",
+      "semesterId": "2",
+      "isPublished": "1"
+    },
+    {
+      "id": "210005",
+      "title": "مذكرة الزبدة جيولوجيا 11 ف 2",
+      "viewCount": "261",
+      "downloadCount": "46",
+      "subjectId": "7",
+      "categoryId": "2",
+      "semesterId": "2",
+      "isPublished": "1"
+    },
+    {
+      "id": "270001",
+      "title": "خطة توزيع منهج الأحياء صف11 فصل2 لسنة 2025/2026",
+      "viewCount": "172",
+      "downloadCount": "27",
+      "subjectId": "5",
+      "categoryId": "1",
+      "semesterId": "2",
+      "isPublished": "1"
+    },
+    {
+      "id": "270002",
+      "title": "خطة توزيع منهج الكيمياء صف11 فصل2 لسنة 2025/2026",
+      "viewCount": "139",
+      "downloadCount": "43",
+      "subjectId": "4",
+      "categoryId": "1",
+      "semesterId": "2",
+      "isPublished": "1"
+    },
+    {
+      "id": "270003",
+      "title": "خطة توزيع منهج الجيولوجيا الفصل2 لسنة 2025/2026 ",
+      "viewCount": "166",
+      "downloadCount": "26",
+      "subjectId": "7",
+      "categoryId": "1",
+      "semesterId": "2",
+      "isPublished": "1"
+    },
+    {
+      "id": "330002",
+      "title": "أحياء كتاب الطالب صف11 فصل2",
+      "viewCount": "118",
+      "downloadCount": "28",
+      "subjectId": "5",
+      "categoryId": "1",
+      "semesterId": "2",
+      "isPublished": "1"
+    },
+    {
+      "id": "330003",
+      "title": "جيولوجيا كتاب الطالب الفصل الثاني",
+      "viewCount": "298",
+      "downloadCount": "22",
+      "subjectId": "7",
+      "categoryId": "1",
+      "semesterId": "2",
+      "isPublished": "1"
+    },
+    {
+      "id": "330004",
+      "title": "كيمياء كتاب الطالب الصف الحادي عشر الفصل الثاني",
+      "viewCount": "75",
+      "downloadCount": "87",
+      "subjectId": "4",
+      "categoryId": "1",
+      "semesterId": "2",
+      "isPublished": "1"
+    },
+    {
+      "id": "390001",
+      "title": "أهم تعريفات جيولوجيا الفصل الثاني",
+      "viewCount": "102",
+      "downloadCount": "99",
+      "subjectId": "7",
+      "categoryId": "5",
+      "semesterId": "2",
+      "isPublished": "1"
+    },
+    {
+      "id": "420001",
+      "title": "بنك الأسئلة محلول - جيولوجيا الفصل 2",
+      "viewCount": "347",
+      "downloadCount": "36",
+      "subjectId": "7",
+      "categoryId": "1",
+      "semesterId": "2",
+      "isPublished": "1"
+    },
+    {
+      "id": "420002",
+      "title": "بنك الأسئلة محلول - كيمياء الصف 11 الفصل الثاني",
+      "viewCount": "279",
+      "downloadCount": "66",
+      "subjectId": "4",
+      "categoryId": "1",
+      "semesterId": "2",
+      "isPublished": "1"
+    },
+    {
+      "id": "420003",
+      "title": "بنك الأسئلة محلول أحياء الصف 11 الفصل 2",
+      "viewCount": "338",
+      "downloadCount": "34",
+      "subjectId": "5",
+      "categoryId": "1",
+      "semesterId": "2",
+      "isPublished": "1"
+    },
+    {
+      "id": "450002",
+      "title": "بنك الاسئلة  محلول- أحياء - الصف العاشر- الفصل2",
+      "viewCount": "267",
+      "downloadCount": "60",
+      "subjectId": "2",
+      "categoryId": "1",
+      "semesterId": "2",
+      "isPublished": "1"
+    },
+    {
+      "id": "450003",
+      "title": "السهل الميسر_أحياء_عاشر_الفصل2",
+      "viewCount": "228",
+      "downloadCount": "29",
+      "subjectId": "2",
+      "categoryId": "2",
+      "semesterId": "2",
+      "isPublished": "1"
+    },
+    {
+      "id": "450004",
+      "title": "ملخص التعريفات- أحياء - الصف العاشر- الفصل2",
+      "viewCount": "473",
+      "downloadCount": "13",
+      "subjectId": "2",
+      "categoryId": "5",
+      "semesterId": "2",
+      "isPublished": "1"
+    },
+    {
+      "id": "450005",
+      "title": "ملخص المقارنات - أحياء الصف العاشر- الفصل2",
+      "viewCount": "224",
+      "downloadCount": "82",
+      "subjectId": "2",
+      "categoryId": "5",
+      "semesterId": "2",
+      "isPublished": "1"
+    },
+    {
+      "id": "450006",
+      "title": "كتاب الطالب - أحياء - الصف العاشر- الفصل2",
+      "viewCount": "444",
+      "downloadCount": "94",
+      "subjectId": "2",
+      "categoryId": "1",
+      "semesterId": "2",
+      "isPublished": "1"
+    },
+    {
+      "id": "450007",
+      "title": "كتاب الطالب- كيمياء - الصف العاشر- الفصل2",
+      "viewCount": "79",
+      "downloadCount": "54",
+      "subjectId": "1",
+      "categoryId": "1",
+      "semesterId": "2",
+      "isPublished": "1"
+    },
+    {
+      "id": "450008",
+      "title": "بنك الأسئلة محلول-كيمياء-  الصف العاشر- الفصل2",
+      "viewCount": "184",
+      "downloadCount": "98",
+      "subjectId": "1",
+      "categoryId": "1",
+      "semesterId": "2",
+      "isPublished": "1"
+    },
+    {
+      "id": "450010",
+      "title": "مراجعة نهائية غير محلول- فاينل - كيمياء- الصف العاشر- الفصل2",
+      "viewCount": "65",
+      "downloadCount": "27",
+      "subjectId": "1",
+      "categoryId": "5",
+      "semesterId": "2",
+      "isPublished": "1"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\ttitle\tviewCount\tdownloadCount\tsubjectId\tcategoryId\tsemesterId\tisPublished\n210002\tمذكرة الزبدة كيمياء 11 ف 2\t364\t37\t4\t2\t2\t1\n210005\tمذكرة الزبدة جيولوجيا 11 ف 2\t261\t46\t7\t2\t2\t1\n270001\tخطة توزيع منهج الأحياء صف11 فصل2 لسنة 2025/2026\t172\t27\t5\t1\t2\t1\n270002\tخطة توزيع منهج الكيمياء صف11 فصل2 لسنة 2025/2026\t139\t43\t4\t1\t2\t1\n270003\tخطة توزيع منهج الجيولوجيا الفصل2 لسنة 2025/2026 \t166\t26\t7\t1\t2\t1\n330002\tأحياء كتاب الطالب صف11 فصل2\t118\t28\t5\t1\t2\t1\n330003\tجيولوجيا كتاب الطالب الفصل الثاني\t298\t22\t7\t1\t2\t1\n330004\tكيمياء كتاب الطالب الصف الحادي عشر الفصل الثاني\t75\t87\t4\t1\t2\t1\n390001\tأهم تعريفات جيولوجيا الفصل الثاني\t102\t99\t7\t5\t2\t1\n420001\tبنك الأسئلة محلول - جيولوجيا الفصل 2\t347\t36\t7\t1\t2\t1\n420002\tبنك الأسئلة محلول - كيمياء الصف 11 الفصل الثاني\t279\t66\t4\t1\t2\t1\n420003\tبنك الأسئلة محلول أحياء الصف 11 الفصل 2\t338\t34\t5\t1\t2\t1\n450002\tبنك الاسئلة  محلول- أحياء - الصف العاشر- الفصل2\t267\t60\t2\t1\t2\t1\n450003\tالسهل الميسر_أحياء_عاشر_الفصل2\t228\t29\t2\t2\t2\t1\n450004\tملخص التعريفات- أحياء - الصف العاشر- الفصل2\t473\t13\t2\t5\t2\t1\n450005\tملخص المقارنات - أحياء الصف العاشر- الفصل2\t224\t82\t2\t5\t2\t1\n450006\tكتاب الطالب - أحياء - الصف العاشر- الفصل2\t444\t94\t2\t1\t2\t1\n450007\tكتاب الطالب- كيمياء - الصف العاشر- الفصل2\t79\t54\t1\t1\t2\t1\n450008\tبنك الأسئلة محلول-كيمياء-  الصف العاشر- الفصل2\t184\t98\t1\t1\t2\t1\n450010\tمراجعة نهائية غير محلول- فاينل - كيمياء- الصف العاشر- الفصل2\t65\t27\t1\t5\t2\t1\n",
+  "stderr": "",
+  "execution_time_ms": 1477
+}
