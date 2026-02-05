@@ -205,14 +205,24 @@ export async function getNotebookDownloadUrl(id: number) {
   if (!db) return undefined;
   
   const result = await db.select().from(notebooks).where(eq(notebooks.id, id)).limit(1);
-  if (result.length === 0 || !result[0].fileUrl) return undefined;
+  if (result.length === 0) return undefined;
   
-  // Extract the full file path from the URL (remove domain)
-  const fileUrl = result[0].fileUrl;
+  // Use fileUrl if available, otherwise use previewUrl
+  const fileUrl = result[0].fileUrl || result[0].previewUrl;
+  if (!fileUrl) return undefined;
   try {
     const urlObj = new URL(fileUrl);
     // Get full path without leading slash
-    const fileKey = urlObj.pathname.substring(1);
+    let fileKey = urlObj.pathname.substring(1);
+    
+    // Remove the prefix (appId/appSecret) from the path since storageGet adds it automatically
+    // Path format: 310519663268166641/cF5vY7QXosm6HAcTf29xyM/notebooks/...
+    // We need just: notebooks/...
+    const pathParts = fileKey.split('/');
+    if (pathParts.length > 2) {
+      // Skip first two parts (appId and appSecret)
+      fileKey = pathParts.slice(2).join('/');
+    }
     
     // Use storageGet to get a presigned URL
     const { storageGet } = await import('./storage');

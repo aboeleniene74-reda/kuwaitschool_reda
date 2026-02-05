@@ -1,0 +1,40 @@
+{
+  "query": "SELECT id FROM notebooks LIMIT 10;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user ocoPq9UKt9MVUJb.root --database cF5vY7QXosm6HAcTf29xyM --execute SELECT id FROM notebooks LIMIT 10;",
+  "rows": [
+    {
+      "id": "450007"
+    },
+    {
+      "id": "450008"
+    },
+    {
+      "id": "450010"
+    },
+    {
+      "id": "450011"
+    },
+    {
+      "id": "450012"
+    },
+    {
+      "id": "450013"
+    },
+    {
+      "id": "570001"
+    },
+    {
+      "id": "690002"
+    },
+    {
+      "id": "450002"
+    },
+    {
+      "id": "450003"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\n450007\n450008\n450010\n450011\n450012\n450013\n570001\n690002\n450002\n450003\n",
+  "stderr": "",
+  "execution_time_ms": 1535
+}

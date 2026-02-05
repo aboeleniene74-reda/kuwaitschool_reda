@@ -1,0 +1,18 @@
+{
+  "query": "SELECT id, title FROM notebooks WHERE subjectId = 7 AND semesterId = 2 AND categoryId = 2;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user ocoPq9UKt9MVUJb.root --database cF5vY7QXosm6HAcTf29xyM --execute SELECT id, title FROM notebooks WHERE subjectId = 7 AND semesterId = 2 AND categoryId = 2;",
+  "rows": [
+    {
+      "id": "210005",
+      "title": "مذكرة الزبدة جيولوجيا 11 ف 2"
+    },
+    {
+      "id": "540003",
+      "title": "مذكرة زبدة الزبدة- جيولوجيا الصف 11- الفصل 2"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\ttitle\n210005\tمذكرة الزبدة جيولوجيا 11 ف 2\n540003\tمذكرة زبدة الزبدة- جيولوجيا الصف 11- الفصل 2\n",
+  "stderr": "",
+  "execution_time_ms": 1494
+}

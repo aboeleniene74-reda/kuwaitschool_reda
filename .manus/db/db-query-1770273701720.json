@@ -1,0 +1,22 @@
+{
+  "query": "SELECT id, title, previewUrl, fileUrl FROM notebooks WHERE subjectId = 7 AND semesterId = 2 AND categoryId = 2 LIMIT 5;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user ocoPq9UKt9MVUJb.root --database cF5vY7QXosm6HAcTf29xyM --execute SELECT id, title, previewUrl, fileUrl FROM notebooks WHERE subjectId = 7 AND semesterId = 2 AND categoryId = 2 LIMIT 5;",
+  "rows": [
+    {
+      "id": "210005",
+      "title": "مذكرة الزبدة جيولوجيا 11 ف 2",
+      "previewUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310519663268166641/cF5vY7QXosm6HAcTf29xyM/notebooks/1769417326889-ojht9l-تلخيص الزبده  جيولوجيا 11 ف 2.pdf",
+      "fileUrl": "NULL"
+    },
+    {
+      "id": "540003",
+      "title": "مذكرة زبدة الزبدة- جيولوجيا الصف 11- الفصل 2",
+      "previewUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310519663268166641/cF5vY7QXosm6HAcTf29xyM/notebooks/1769595321545-23xmys-مذكرة زبدة الزبدة- جيولوجيا الصف 11- الفصل 2.pdf",
+      "fileUrl": "NULL"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\ttitle\tpreviewUrl\tfileUrl\n210005\tمذكرة الزبدة جيولوجيا 11 ف 2\thttps://d2xsxph8kpxj0f.cloudfront.net/310519663268166641/cF5vY7QXosm6HAcTf29xyM/notebooks/1769417326889-ojht9l-تلخيص الزبده  جيولوجيا 11 ف 2.pdf\tNULL\n540003\tمذكرة زبدة الزبدة- جيولوجيا الصف 11- الفصل 2\thttps://d2xsxph8kpxj0f.cloudfront.net/310519663268166641/cF5vY7QXosm6HAcTf29xyM/notebooks/1769595321545-23xmys-مذكرة زبدة الزبدة- جيولوجيا الصف 11- الفصل 2.pdf\tNULL\n",
+  "stderr": "",
+  "execution_time_ms": 1532
+}
