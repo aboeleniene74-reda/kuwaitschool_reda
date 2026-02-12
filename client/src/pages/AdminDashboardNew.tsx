@@ -11,7 +11,8 @@ import {
   Activity,
   Megaphone,
   Settings,
-  Bell
+  Bell,
+  Download
 } from "lucide-react";
 import { Link, useLocation } from "wouter";
 
@@ -62,68 +63,84 @@ export default function AdminDashboardNew() {
 
       <div className="container py-8">
         {/* Stats Cards */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div className="grid grid-cols-2 lg:grid-cols-5 gap-4 sm:gap-6 mb-8">
           {/* Total Visits */}
           <Card className="border-l-4 border-l-blue-500">
-            <CardHeader className="pb-3">
-              <CardTitle className="text-sm font-medium text-slate-600 flex items-center gap-2">
-                <Activity className="h-4 w-4" />
-                إجمالي الزيارات
+            <CardHeader className="pb-2 sm:pb-3">
+              <CardTitle className="text-xs sm:text-sm font-medium text-slate-600 flex items-center gap-2">
+                <Activity className="h-4 w-4 flex-shrink-0" />
+                <span className="truncate">إجمالي الزيارات</span>
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold text-slate-900">
-                {detailedStats?.totalVisits.toLocaleString() || 0}
+              <div className="text-2xl sm:text-3xl font-bold text-slate-900">
+                {detailedStats?.totalVisits?.toLocaleString() || 0}
               </div>
-              <p className="text-xs text-slate-500 mt-1">زيارة للمنصة</p>
+              <p className="text-[10px] sm:text-xs text-slate-500 mt-1">زيارة للمنصة</p>
             </CardContent>
           </Card>
 
           {/* Total Views */}
           <Card className="border-l-4 border-l-green-500">
-            <CardHeader className="pb-3">
-              <CardTitle className="text-sm font-medium text-slate-600 flex items-center gap-2">
-                <Eye className="h-4 w-4" />
-                إجمالي المشاهدات
+            <CardHeader className="pb-2 sm:pb-3">
+              <CardTitle className="text-xs sm:text-sm font-medium text-slate-600 flex items-center gap-2">
+                <Eye className="h-4 w-4 flex-shrink-0" />
+                <span className="truncate">إجمالي المشاهدات</span>
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold text-slate-900">
-                {detailedStats?.totalViews.toLocaleString() || 0}
+              <div className="text-2xl sm:text-3xl font-bold text-slate-900">
+                {detailedStats?.totalViews?.toLocaleString() || 0}
               </div>
-              <p className="text-xs text-slate-500 mt-1">مشاهدة للمذكرات</p>
+              <p className="text-[10px] sm:text-xs text-slate-500 mt-1">مشاهدة للمذكرات</p>
+            </CardContent>
+          </Card>
+
+          {/* Total Downloads */}
+          <Card className="border-l-4 border-l-teal-500">
+            <CardHeader className="pb-2 sm:pb-3">
+              <CardTitle className="text-xs sm:text-sm font-medium text-slate-600 flex items-center gap-2">
+                <Download className="h-4 w-4 flex-shrink-0" />
+                <span className="truncate">إجمالي التحميلات</span>
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl sm:text-3xl font-bold text-slate-900">
+                {detailedStats?.totalDownloads?.toLocaleString() || 0}
+              </div>
+              <p className="text-[10px] sm:text-xs text-slate-500 mt-1">تحميل للمذكرات</p>
             </CardContent>
           </Card>
 
           {/* Total Users */}
           <Card className="border-l-4 border-l-purple-500">
-            <CardHeader className="pb-3">
-              <CardTitle className="text-sm font-medium text-slate-600 flex items-center gap-2">
-                <Users className="h-4 w-4" />
-                المستخدمون
+            <CardHeader className="pb-2 sm:pb-3">
+              <CardTitle className="text-xs sm:text-sm font-medium text-slate-600 flex items-center gap-2">
+                <Users className="h-4 w-4 flex-shrink-0" />
+                <span className="truncate">المستخدمون</span>
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold text-slate-900">
+              <div className="text-2xl sm:text-3xl font-bold text-slate-900">
                 {users?.length || 0}
               </div>
-              <p className="text-xs text-slate-500 mt-1">مستخدم مسجل</p>
+              <p className="text-[10px] sm:text-xs text-slate-500 mt-1">مستخدم مسجل</p>
             </CardContent>
           </Card>
 
           {/* Total Reviews */}
           <Card className="border-l-4 border-l-yellow-500">
-            <CardHeader className="pb-3">
-              <CardTitle className="text-sm font-medium text-slate-600 flex items-center gap-2">
-                <Star className="h-4 w-4" />
-                التقييمات
+            <CardHeader className="pb-2 sm:pb-3">
+              <CardTitle className="text-xs sm:text-sm font-medium text-slate-600 flex items-center gap-2">
+                <Star className="h-4 w-4 flex-shrink-0" />
+                <span className="truncate">التقييمات</span>
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold text-slate-900">
+              <div className="text-2xl sm:text-3xl font-bold text-slate-900">
                 {detailedStats?.totalReviews || 0}
               </div>
-              <p className="text-xs text-slate-500 mt-1">
+              <p className="text-[10px] sm:text-xs text-slate-500 mt-1">
                 متوسط {detailedStats?.averageRating || 0} ⭐
               </p>
             </CardContent>
@@ -219,13 +236,18 @@ export default function AdminDashboardNew() {
                         {index + 1}
                       </div>
                       <div>
-                        <p className="font-medium">مذكرة #{item.notebookId}</p>
+                        <p className="font-medium text-sm sm:text-base">{item.title || `مذكرة #${item.notebookId}`}</p>
                       </div>
                     </div>
-                    <div className="flex items-center gap-2 text-slate-600">
-                      <Eye className="h-4 w-4" />
-                      <span className="font-bold">{item.views}</span>
-                      <span className="text-sm">مشاهدة</span>
+                    <div className="flex items-center gap-3 text-slate-600 text-xs sm:text-sm">
+                      <div className="flex items-center gap-1">
+                        <Eye className="h-3.5 w-3.5" />
+                        <span className="font-bold">{item.views}</span>
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <Download className="h-3.5 w-3.5" />
+                        <span className="font-bold">{item.downloads}</span>
+                      </div>
                     </div>
                   </div>
                 ))}

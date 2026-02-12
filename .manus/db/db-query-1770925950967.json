@@ -1,0 +1,18 @@
+{
+  "query": "SELECT type, COUNT(*) as count FROM statistics GROUP BY type",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user ocoPq9UKt9MVUJb.root --database cF5vY7QXosm6HAcTf29xyM --execute SELECT type, COUNT(*) as count FROM statistics GROUP BY type",
+  "rows": [
+    {
+      "type": "view",
+      "count": "74"
+    },
+    {
+      "type": "visit",
+      "count": "1185"
+    }
+  ],
+  "messages": [],
+  "stdout": "type\tcount\nview\t74\nvisit\t1185\n",
+  "stderr": "",
+  "execution_time_ms": 1532
+}

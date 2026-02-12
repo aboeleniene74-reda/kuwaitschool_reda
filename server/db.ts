@@ -867,22 +867,26 @@ export async function getDetailedStatistics() {
     .from(statistics)
     .where(eq(statistics.type, "visit"));
   
-  // إحصائيات المشاهدات
-  const totalViews = await db
-    .select({ count: sql<number>`count(*)` })
-    .from(statistics)
-    .where(eq(statistics.type, "view"));
+  // إحصائيات المشاهدات من جدول notebooks (العدادات الحقيقية)
+  const totalViewsResult = await db
+    .select({ total: sql<number>`COALESCE(SUM(viewCount), 0)` })
+    .from(notebooks);
   
-  // أكثر المذكرات مشاهدة
+  // إجمالي التحميلات من جدول notebooks
+  const totalDownloadsResult = await db
+    .select({ total: sql<number>`COALESCE(SUM(downloadCount), 0)` })
+    .from(notebooks);
+  
+  // أكثر المذكرات مشاهدة مع أسمائها
   const topNotebooks = await db
     .select({
-      notebookId: statistics.notebookId,
-      views: sql<number>`count(*)`,
+      notebookId: notebooks.id,
+      title: notebooks.title,
+      views: notebooks.viewCount,
+      downloads: notebooks.downloadCount,
     })
-    .from(statistics)
-    .where(eq(statistics.type, "view"))
-    .groupBy(statistics.notebookId)
-    .orderBy(desc(sql`count(*)`))
+    .from(notebooks)
+    .orderBy(desc(notebooks.viewCount))
     .limit(10);
   
   // إحصائيات التقييمات
@@ -896,7 +900,8 @@ export async function getDetailedStatistics() {
   
   return {
     totalVisits: Number(totalVisits[0]?.count || 0),
-    totalViews: Number(totalViews[0]?.count || 0),
+    totalViews: Number(totalViewsResult[0]?.total || 0),
+    totalDownloads: Number(totalDownloadsResult[0]?.total || 0),
     totalReviews: Number(totalReviews[0]?.count || 0),
     averageRating: Number(avgRating[0]?.avg || 0).toFixed(1),
     topNotebooks,

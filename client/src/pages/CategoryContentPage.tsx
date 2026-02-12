@@ -148,20 +148,20 @@ export default function CategoryContentPage() {
     <div className="min-h-screen bg-gradient-to-br from-background via-primary/5 to-accent/10">
       {/* Header */}
       <header className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50">
-        <div className="container flex h-16 items-center justify-between">
+        <div className="container flex h-14 sm:h-16 items-center justify-between gap-2">
           <Link href="/">
             <div className="flex items-center gap-3 cursor-pointer">
-              <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center">
-                <GraduationCap className="w-6 h-6 text-primary-foreground" />
+              <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full overflow-hidden flex-shrink-0">
+                <img src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663268166641/OnCTfKKmyCezjhPb.png" alt="مذكرة و مدرس" className="w-full h-full object-cover" />
               </div>
-              <div>
-                <h1 className="text-xl font-bold">مذكرة و مدرس</h1>
-                <p className="text-xs text-muted-foreground">مذكرات المرحلة الثانوية بالكويت</p>
+              <div className="min-w-0">
+                <h1 className="text-sm sm:text-xl font-bold truncate">مذكرة و مدرس</h1>
+                <p className="text-[10px] sm:text-xs text-muted-foreground truncate">مذكرات المرحلة الثانوية بالكويت</p>
               </div>
             </div>
           </Link>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-1 sm:gap-3 flex-shrink-0">
             {loading ? (
               <div className="w-8 h-8 rounded-full bg-muted animate-pulse" />
             ) : user ? (
