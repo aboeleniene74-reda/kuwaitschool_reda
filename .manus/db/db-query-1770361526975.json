@@ -1,0 +1,38 @@
+{
+  "query": "SELECT id, name FROM content_categories ORDER BY `order`;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user ocoPq9UKt9MVUJb.root --database cF5vY7QXosm6HAcTf29xyM --execute SELECT id, name FROM content_categories ORDER BY `order`;",
+  "rows": [
+    {
+      "id": "1",
+      "name": "الكتاب المدرسي"
+    },
+    {
+      "id": "2",
+      "name": "ملخصات الشرح"
+    },
+    {
+      "id": "3",
+      "name": "مراجعات قصير 1"
+    },
+    {
+      "id": "4",
+      "name": "مراجعات قصير 2"
+    },
+    {
+      "id": "5",
+      "name": "مراجعات الفاينل"
+    },
+    {
+      "id": "6",
+      "name": "نماذج اختبارات سابقة"
+    },
+    {
+      "id": "7",
+      "name": "نماذج اختبارات سابقة غير محلولة"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\n1\tالكتاب المدرسي\n2\tملخصات الشرح\n3\tمراجعات قصير 1\n4\tمراجعات قصير 2\n5\tمراجعات الفاينل\n6\tنماذج اختبارات سابقة\n7\tنماذج اختبارات سابقة غير محلولة\n",
+  "stderr": "",
+  "execution_time_ms": 1496
+}

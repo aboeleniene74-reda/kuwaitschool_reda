@@ -19,7 +19,7 @@ export default function PrivacyPolicy() {
             <Shield className="h-12 w-12" />
             <h1 className="text-4xl md:text-5xl font-bold">سياسة الخصوصية</h1>
           </div>
-          <p className="text-xl text-blue-50">منصة ثانوي علمي الكويت - studygeology.k8</p>
+          <p className="text-xl text-blue-50">مذكرة و مدرس - مذكرات المرحلة الثانوية بالكويت</p>
           <p className="text-sm text-blue-100 mt-2">آخر تحديث: {new Date().toLocaleDateString("ar-KW")}</p>
         </div>
       </div>
@@ -36,7 +36,7 @@ export default function PrivacyPolicy() {
           </CardHeader>
           <CardContent className="space-y-4 text-lg leading-relaxed">
             <p>
-              نحن في **منصة ثانوي علمي الكويت** نلتزم بحماية خصوصيتك وأمان بياناتك الشخصية. توضح هذه السياسة كيفية جمع واستخدام وحماية المعلومات التي تقدمها عند استخدام منصتنا التعليمية.
+              نحن في **مذكرة و مدرس** نلتزم بحماية خصوصيتك وأمان بياناتك الشخصية. توضح هذه السياسة كيفية جمع واستخدام وحماية المعلومات التي تقدمها عند استخدام منصتنا التعليمية.
             </p>
             <p>
               باستخدامك لهذه المنصة، فإنك توافق على جمع واستخدام المعلومات وفقاً لهذه السياسة.

@@ -19,7 +19,7 @@ export default function TermsOfService() {
             <FileText className="h-12 w-12" />
             <h1 className="text-4xl md:text-5xl font-bold">شروط الاستخدام</h1>
           </div>
-          <p className="text-xl text-purple-50">منصة ثانوي علمي الكويت - studygeology.k8</p>
+          <p className="text-xl text-purple-50">مذكرة و مدرس - مذكرات المرحلة الثانوية بالكويت</p>
           <p className="text-sm text-purple-100 mt-2">آخر تحديث: {new Date().toLocaleDateString("ar-KW")}</p>
         </div>
       </div>

@@ -37,8 +37,8 @@ export default function Home() {
               <GraduationCap className="w-6 h-6 text-primary-foreground" />
             </div>
             <div>
-              <h1 className="text-xl font-bold">منصة K8 للعلوم</h1>
-              <p className="text-xs text-muted-foreground">مذكرات علمية للمرحلة الثانوية</p>
+              <h1 className="text-xl font-bold">مذكرة و مدرس</h1>
+              <p className="text-xs text-muted-foreground">مذكرات المرحلة الثانوية بالكويت</p>
             </div>
           </div>
 
@@ -159,7 +159,7 @@ export default function Home() {
       {/* Features Section - Very Compact */}
       <section className="bg-muted/50 py-6">
         <div className="container">
-          <h3 className="text-lg font-bold text-center mb-4">لماذا منصة K8 للعلوم؟</h3>
+          <h3 className="text-lg font-bold text-center mb-4">لماذا مذكرة و مدرس؟</h3>
           <div className="grid md:grid-cols-3 gap-3 max-w-3xl mx-auto">
             <Card className="text-center">
               <CardHeader className="pb-2 pt-3">
@@ -312,7 +312,7 @@ export default function Home() {
       <footer className="border-t py-4">
         <div className="container">
           <div className="flex flex-col md:flex-row items-center justify-between gap-3">
-            <p className="text-xs text-muted-foreground">© 2024 منصة K8 للعلوم - جميع الحقوق محفوظة</p>
+            <p className="text-xs text-muted-foreground">© 2024 مذكرة و مدرس - جميع الحقوق محفوظة</p>
             <div className="flex items-center gap-2 text-xs">
               <Link href="/faq">
                 <Button variant="link" size="sm" className="text-muted-foreground hover:text-primary h-auto p-0 text-xs">

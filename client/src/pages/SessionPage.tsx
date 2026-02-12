@@ -125,7 +125,7 @@ export default function SessionPage() {
                 العودة للحصص
               </Button>
             </Link>
-            <h1 className="text-2xl font-bold text-slate-900">منصة ثانوي علمي</h1>
+            <h1 className="text-2xl font-bold text-slate-900">مذكرة و مدرس</h1>
           </div>
         </div>
       </header>

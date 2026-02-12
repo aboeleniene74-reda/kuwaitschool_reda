@@ -44,8 +44,8 @@ export default function SemesterPage() {
                 <GraduationCap className="w-6 h-6 text-primary-foreground" />
               </div>
               <div>
-                <h1 className="text-xl font-bold">منصة ثانوي علمي</h1>
-                <p className="text-xs text-muted-foreground">مذكرات علمية للمرحلة الثانوية</p>
+                <h1 className="text-xl font-bold">مذكرة و مدرس</h1>
+                <p className="text-xs text-muted-foreground">مذكرات المرحلة الثانوية بالكويت</p>
               </div>
             </div>
           </Link>
@@ -175,7 +175,7 @@ export default function SemesterPage() {
       {/* Footer */}
       <footer className="border-t py-8 mt-16">
         <div className="container text-center text-muted-foreground">
-          <p>© 2024 منصة ثانوي علمي - جميع الحقوق محفوظة</p>
+          <p>© 2024 مذكرة و مدرس - جميع الحقوق محفوظة</p>
         </div>
       </footer>
     </div>

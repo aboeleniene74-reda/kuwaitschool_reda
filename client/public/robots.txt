@@ -1,4 +1,4 @@
-# robots.txt for منصة ثانوي علمي بالكويت
+# robots.txt for مذكرة و مدرس
 
 User-agent: *
 Allow: /

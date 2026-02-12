@@ -41,7 +41,11 @@ export default function CategoryContentPage() {
   const isSimplifiedCategory = currentCategory?.name === "الكتاب المدرسي" || 
                                currentCategory?.name === "مراجعات قصير 1" ||
                                currentCategory?.name === "مراجعات قصير 2" ||
-                               currentCategory?.name === "مراجعات الفاينل";
+                               currentCategory?.name === "مراجعات الفاينل" ||
+                               currentCategory?.name === "نماذج اختبارات سابقة";
+
+  // قسم ملخصات الشرح: معاينة فقط بدون تحميل
+  const isSummaryCategory = currentCategory?.name === "ملخصات الشرح";
 
   const incrementView = trpc.notebooks.incrementViewCount.useMutation();
   const incrementDownload = trpc.notebooks.incrementDownloadCount.useMutation();
@@ -151,8 +155,8 @@ export default function CategoryContentPage() {
                 <GraduationCap className="w-6 h-6 text-primary-foreground" />
               </div>
               <div>
-                <h1 className="text-xl font-bold">منصة ثانوي علمي</h1>
-                <p className="text-xs text-muted-foreground">مذكرات علمية للمرحلة الثانوية</p>
+                <h1 className="text-xl font-bold">مذكرة و مدرس</h1>
+                <p className="text-xs text-muted-foreground">مذكرات المرحلة الثانوية بالكويت</p>
               </div>
             </div>
           </Link>
@@ -271,17 +275,10 @@ export default function CategoryContentPage() {
                             معاينة وتحميل
                           </Button>
                         </div>
-                      ) : (
+                      ) : isSummaryCategory ? (
+                        /* قسم ملخصات الشرح: معاينة فقط بدون تحميل */
                         <>
-                          {/* نوع التحميل - للأقسام الأخرى فقط */}
-                          <div className="flex items-center gap-2">
-                            <span className="font-semibold">التحميل:</span>
-                            <Badge variant={(notebook.price === "0" || !notebook.price) ? "default" : "secondary"}>
-                              {(notebook.price === "0" || !notebook.price) ? "مجاني" : "معاينة فقط"}
-                            </Badge>
-                          </div>
-
-                          {/* التقييم - للأقسام الأخرى فقط */}
+                          {/* التقييم */}
                           <div className="flex items-center gap-2">
                             <span className="font-semibold">التقييم:</span>
                             <div className="flex items-center gap-1">
@@ -292,7 +289,7 @@ export default function CategoryContentPage() {
                             </div>
                           </div>
 
-                          {/* رقم التواصل (فقط للمذكرات المدفوعة) - للأقسام الأخرى فقط */}
+                          {/* رقم التواصل (فقط للمذكرات المدفوعة) */}
                           {notebook.price && notebook.price !== "0" && (
                             <div className="flex items-center gap-2">
                               <Phone className="w-4 h-4 text-muted-foreground" />
@@ -303,7 +300,7 @@ export default function CategoryContentPage() {
                             </div>
                           )}
 
-                          {/* زر المعاينة (في نفس السطر) - للأقسام الأخرى فقط */}
+                          {/* زر المعاينة فقط */}
                           <div className="flex items-center gap-2">
                             <Button
                               variant="outline"
@@ -315,19 +312,61 @@ export default function CategoryContentPage() {
                               معاينة
                             </Button>
                             
-                            {/* زر توضيحي لقسم ملخصات الشرح فقط */}
-                            {currentCategory?.name === "ملخصات الشرح" && (
-                              <Badge variant="secondary" className="text-xs px-3 py-1">
-                                مذكرة مجانية - عليك التوصيل
-                              </Badge>
-                            )}
+                            <Badge variant="secondary" className="text-xs px-3 py-1">
+                              مذكرة مجانية - عليك التوصيل
+                            </Badge>
+                          </div>
+                        </>
+                      ) : (
+                        <>
+                          {/* نوع التحميل - للأقسام الأخرى فقط */}
+                          <div className="flex items-center gap-2">
+                            <span className="font-semibold">التحميل:</span>
+                            <Badge variant={(notebook.price === "0" || !notebook.price) ? "default" : "secondary"}>
+                              {(notebook.price === "0" || !notebook.price) ? "مجاني" : "معاينة فقط"}
+                            </Badge>
+                          </div>
+
+                          {/* التقييم */}
+                          <div className="flex items-center gap-2">
+                            <span className="font-semibold">التقييم:</span>
+                            <div className="flex items-center gap-1">
+                              <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                              <span className="text-muted-foreground">
+                                {notebook.rating ? Number(notebook.rating).toFixed(1) : 'لا يوجد'}
+                              </span>
+                            </div>
+                          </div>
+
+                          {/* رقم التواصل (فقط للمذكرات المدفوعة) */}
+                          {notebook.price && notebook.price !== "0" && (
+                            <div className="flex items-center gap-2">
+                              <Phone className="w-4 h-4 text-muted-foreground" />
+                              <span className="font-semibold">للحصول على المذكرة:</span>
+                              <span className="text-primary font-bold">
+                                {notebook.contactPhone || "99457080"}
+                              </span>
+                            </div>
+                          )}
+
+                          {/* زر المعاينة */}
+                          <div className="flex items-center gap-2">
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={() => handlePreview(notebook)}
+                              disabled={!notebook.previewUrl && !notebook.fileUrl}
+                            >
+                              <Eye className="ml-2 w-4 h-4" />
+                              معاينة
+                            </Button>
                           </div>
                         </>
                       )}
                     </div>
 
-                    {/* أزرار الإجراءات - للأقسام غير المبسطة فقط */}
-                    {!isSimplifiedCategory && (
+                    {/* أزرار الإجراءات - للأقسام غير المبسطة وغير ملخصات الشرح */}
+                    {!isSimplifiedCategory && !isSummaryCategory && (
                       <div className="flex gap-3">
                         {/* زر التحميل المجاني (للمذكرات بدون سعر) */}
                         {(notebook.price === "0" || !notebook.price) && (

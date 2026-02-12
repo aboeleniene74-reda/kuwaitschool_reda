@@ -76,7 +76,7 @@ export default function AdminDashboard() {
                 <GraduationCap className="w-6 h-6 text-primary-foreground" />
               </div>
               <div>
-                <h1 className="text-xl font-bold">منصة ثانوي علمي</h1>
+                <h1 className="text-xl font-bold">مذكرة و مدرس</h1>
                 <p className="text-xs text-muted-foreground">لوحة تحكم الأدمن</p>
               </div>
             </div>
@@ -186,7 +186,7 @@ export default function AdminDashboard() {
               <CardHeader>
                 <CardTitle className="text-2xl">مرحباً، {user?.name}!</CardTitle>
                 <CardDescription>
-                  إليك نظرة عامة على موقع منصة ثانوي علمي
+                  إليك نظرة عامة على موقع مذكرة و مدرس
                 </CardDescription>
               </CardHeader>
             </Card>
