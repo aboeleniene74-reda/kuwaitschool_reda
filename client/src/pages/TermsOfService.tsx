@@ -19,7 +19,7 @@ export default function TermsOfService() {
             <FileText className="h-12 w-12" />
             <h1 className="text-4xl md:text-5xl font-bold">شروط الاستخدام</h1>
           </div>
-          <p className="text-xl text-purple-50">مذكرة و مدرس - مذكرات المرحلة الثانوية بالكويت</p>
+          <p className="text-xl text-purple-50">مذكرة و مدرس - مدرس كيمياء - أحياء - جيولوجيا</p>
           <p className="text-sm text-purple-100 mt-2">آخر تحديث: {new Date().toLocaleDateString("ar-KW")}</p>
         </div>
       </div>
@@ -33,7 +33,7 @@ export default function TermsOfService() {
           </CardHeader>
           <CardContent className="space-y-4 text-lg leading-relaxed">
             <p>
-              باستخدامك لمنصة **ثانوي علمي الكويت**، فإنك توافق على الالتزام بهذه الشروط والأحكام. يرجى قراءتها بعناية قبل استخدام المنصة.
+              باستخدامك لمنصة **مذكرة و مدرس**، فإنك توافق على الالتزام بهذه الشروط والأحكام. يرجى قراءتها بعناية قبل استخدام المنصة.
             </p>
             <p>
               إذا كنت لا توافق على أي من هذه الشروط، يرجى عدم استخدام المنصة.

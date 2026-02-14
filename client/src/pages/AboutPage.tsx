@@ -24,7 +24,7 @@ export default function AboutPage() {
       <div className="bg-gradient-to-l from-blue-600 to-green-600 text-white py-16">
         <div className="container max-w-4xl">
           <h1 className="text-4xl md:text-5xl font-bold mb-4 text-center">من نحن</h1>
-          <p className="text-xl text-center text-blue-50">مذكرة و مدرس - مذكرات المرحلة الثانوية بالكويت</p>
+          <p className="text-xl text-center text-blue-50">مذكرة و مدرس - مدرس كيمياء - أحياء - جيولوجيا</p>
         </div>
       </div>
 

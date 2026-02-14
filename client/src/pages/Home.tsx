@@ -39,7 +39,7 @@ export default function Home() {
               </div>
               <div className="min-w-0">
                 <h1 className="text-sm sm:text-xl font-bold truncate">مذكرة و مدرس</h1>
-                <p className="text-[10px] sm:text-xs text-muted-foreground truncate">مذكرات المرحلة الثانوية بالكويت</p>
+                <p className="text-[10px] sm:text-xs text-muted-foreground truncate">مدرس كيمياء - أحياء - جيولوجيا</p>
               </div>
             </div>
           </Link>

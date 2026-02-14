@@ -19,7 +19,7 @@ export default function PrivacyPolicy() {
             <Shield className="h-12 w-12" />
             <h1 className="text-4xl md:text-5xl font-bold">سياسة الخصوصية</h1>
           </div>
-          <p className="text-xl text-blue-50">مذكرة و مدرس - مذكرات المرحلة الثانوية بالكويت</p>
+          <p className="text-xl text-blue-50">مذكرة و مدرس - مدرس كيمياء - أحياء - جيولوجيا</p>
           <p className="text-sm text-blue-100 mt-2">آخر تحديث: {new Date().toLocaleDateString("ar-KW")}</p>
         </div>
       </div>
