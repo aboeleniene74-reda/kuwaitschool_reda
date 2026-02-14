@@ -13,7 +13,7 @@ interface SEOConfig {
 }
 
 const SITE_NAME = "مذكرة و مدرس";
-const LOGO_URL = "https://files.manuscdn.com/user_upload_by_module/session_file/310519663268166641/OnCTfKKmyCezjhPb.png";
+const LOGO_URL = "https://files.manuscdn.com/user_upload_by_module/session_file/310519663268166641/tHLPNnKQWHaTsRgR.png";
 
 export function updateSEO(config: SEOConfig) {
   // Update title - format: Page Title | Site Name

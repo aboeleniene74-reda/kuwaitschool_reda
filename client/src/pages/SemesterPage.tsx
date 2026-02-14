@@ -49,7 +49,7 @@ export default function SemesterPage() {
           <Link href="/">
             <div className="flex items-center gap-3 cursor-pointer">
               <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full overflow-hidden flex-shrink-0">
-                <img src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663268166641/OnCTfKKmyCezjhPb.png" alt="مذكرة و مدرس" className="w-full h-full object-cover" />
+                <img src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663268166641/tHLPNnKQWHaTsRgR.png" alt="مذكرة و مدرس" className="w-full h-full object-cover" />
               </div>
               <div className="min-w-0">
                 <h1 className="text-sm sm:text-xl font-bold truncate">مذكرة و مدرس</h1>
